@@ -259,6 +259,7 @@ nodejs:
     install: '1'
     npm_packages:
         - express@4.10.4
+        - socket.io@1.3.7
 hhvm:
     install: '0'
     nightly: 0
@@ -380,4 +381,3 @@ solr:
     settings:
         version: 4.10.2
         port: '8984'
-

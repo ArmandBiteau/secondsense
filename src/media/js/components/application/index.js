@@ -37,6 +37,16 @@ new Vue({
 
         console.log('Application ready !');
 
+        var socket = io('http://secondsense.dev:8000');
+
+        socket.on('news', function(data) {
+
+            console.log(data);
+
+            socket.emit('my other event', {my: 'data'});
+
+        });
+
 	},
 
 	watch: {

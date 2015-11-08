@@ -26,6 +26,5 @@
 		<script src="/media/js/libs.js"></script>
 		<script src="/media/js/vendors.bundle.js"></script>
 		<script src="/media/js/bundle.js"></script>
-
 	</body>
 </html>

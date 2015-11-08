@@ -8,6 +8,7 @@
 		"Expo": true,
 		"Power2": true,
 		"Power3": true,
+		"io": true,
 		"__DEVELOPMENT__": true,
 		"__PRODUCTION__": true
 	},
