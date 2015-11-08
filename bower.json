@@ -1,0 +1,22 @@
+{
+  "name": "secondsense",
+  "version": "0.0.1",
+  "homepage": "https://github.com/ArmandBiteau/secondsense",
+  "authors": [
+    "Armand <armandbiteau@gmail.com>"
+  ],
+  "description": "VR game",
+  "keywords": [
+    "VR",
+    "game",
+    "webGL"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

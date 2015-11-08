@@ -1,0 +1,69 @@
+{
+    "name": "secondsense",
+    "version": "0.0.1",
+    "description": "VR game",
+    "main": "client/main.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ArmandBiteau/secondsense.git"
+    },
+    "keywords": [
+        "VR",
+        "game",
+        "webGL"
+    ],
+    "author": "Armand <armandbiteau@gmail.com>",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/ArmandBiteau/secondsense/issues"
+    },
+    "homepage": "https://github.com/ArmandBiteau/secondsense#readme",
+    "dependencies": {
+        "component-emitter": "^1.2.0",
+        "vue": "^1.0.7",
+        "vue-i18n": "^2.1.0"
+    },
+    "devDependencies": {
+        "browser-sync": "^2.8.1",
+        "browserify": "^9.0.8",
+        "browserify-shim": "^3.8.5",
+        "del": "^1.2.0",
+        "gulp": "^3.9.0",
+        "gulp-autoprefixer": "^2.3.1",
+        "gulp-base64": "^0.1.2",
+        "gulp-concat": "^2.6.0",
+        "gulp-filter": "^3.0.0",
+        "gulp-jscs": "^2.0.0",
+        "gulp-jshint": "^1.11.2",
+        "gulp-livereload": "^3.8.0",
+        "gulp-minify-css": "^1.2.0",
+        "gulp-notify": "^2.2.0",
+        "gulp-sass": "^1.0.5",
+        "gulp-sourcemaps": "^1.5.2",
+        "gulp-uglify": "^1.2.0",
+        "remapify": "^2.0.0",
+        "stringify": "^3.1.0",
+        "vinyl-buffer": "^1.0.0",
+        "vinyl-source-stream": "^1.1.0",
+        "watchify": "^3.1.1"
+    },
+    "browser": {
+        "preloadjs": "./src/media/vendor/preloadjs-0.6.0.min.js",
+        "three": "./src/media/vendor/three.min.js"
+    },
+    "browserify": {
+        "transform": [
+            "browserify-shim",
+            "stringify"
+        ]
+    },
+    "browserify-shim": {
+        "three": "global:THREE",
+        "timelinemax": "global:TimelineMax",
+        "tweenmax": "global:TweenMax",
+        "preloadjs": "createjs"
+    }
+}

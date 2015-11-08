@@ -47,8 +47,8 @@ class puphpet::params {
   }
 
   $nginx_webroot_location = $::osfamily ? {
-    'Debian' => '/var/www/html',
-    'Redhat' => '/var/www/html'
+    'Debian' => '/var/www',
+    'Redhat' => '/var/www'
   }
 
   #########################################################

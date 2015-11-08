@@ -10,9 +10,9 @@ vagrantfile:
         network:
             private_network: 192.168.56.101
             forwarded_port:
-                vflnp_yu0isti6y6uv:
-                    host: '6470'
-                    guest: '22'
+                vflnp_umks40t2dgsw:
+                    host: '8080'
+                    guest: '80'
         post_up_message: ''
         provider:
             virtualbox:
@@ -33,7 +33,7 @@ vagrantfile:
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
                     - '--parser future'
         synced_folder:
-            vflsf_rku0i1fk5ysc:
+            vflsf_s4x2lkjx537o:
                 source: ./public
                 target: /var/www
                 sync_type: default
@@ -77,7 +77,7 @@ users_groups:
 locale:
     install: '1'
     settings:
-        default_locale: ''
+        default_locale: en_GB.UTF-8
         locales:
             - en_GB.UTF-8
             - en_US.UTF-8
@@ -95,7 +95,7 @@ nginx:
         proxy_buffers: '4 256k'
     upstreams: {  }
     vhosts:
-        nxv_5986jlqbh458:
+        nxv_0gw76l8kdhjq:
             server_name: secondsense.dev
             server_aliases:
                 - www.secondsense.dev
@@ -115,7 +115,7 @@ nginx:
             rewrite_to_https: '1'
             spdy: '1'
             locations:
-                nxvl_s31zw4x83nmd:
+                nxvl_zex7guiwdd1q:
                     location: /
                     autoindex: 'off'
                     internal: 'false'
@@ -126,7 +126,7 @@ nginx:
                     fastcgi: ''
                     fastcgi_index: ''
                     fastcgi_split_path: ''
-                nxvl_sxrsg694t4ux:
+                nxvl_uag0nmu7ne3b:
                     location: '~ \.php$'
                     autoindex: 'off'
                     internal: 'false'
@@ -140,32 +140,6 @@ nginx:
                     fast_cgi_params_extra:
                         - 'SCRIPT_FILENAME $request_filename'
                         - 'APP_ENV dev'
-        nxv_ofkwpck79v9n:
-            server_name: ''
-            www_root: ''
-            listen_port: '80'
-            client_max_body_size: 1m
-            ssl: '0'
-            ssl_cert: ''
-            ssl_key: ''
-            ssl_port: '443'
-            ssl_protocols: ''
-            ssl_ciphers: ''
-            rewrite_to_https: '1'
-            spdy: '1'
-        nxv_wybom5dcog57:
-            server_name: ''
-            www_root: ''
-            listen_port: '80'
-            client_max_body_size: 1m
-            ssl: '0'
-            ssl_cert: ''
-            ssl_key: ''
-            ssl_port: '443'
-            ssl_protocols: ''
-            ssl_ciphers: ''
-            rewrite_to_https: '1'
-            spdy: '1'
     proxies: {  }
 apache:
     install: '0'
@@ -180,7 +154,7 @@ apache:
         - proxy_fcgi
         - rewrite
     vhosts:
-        av_p9p6g0p2qrkr:
+        av_kw5mfa362b0u:
             servername: awesome.dev
             serveraliases:
                 - www.awesome.dev
@@ -197,7 +171,7 @@ apache:
             ssl_protocol: ''
             ssl_cipher: ''
             directories:
-                avd_q53no8086d8a:
+                avd_v87qm7lkqots:
                     path: /var/www/awesome
                     options:
                         - Indexes
@@ -209,7 +183,7 @@ apache:
                         - 'all granted'
                     custom_fragment: ''
                     files_match:
-                        avdfm_vuge9c7g7i9f:
+                        avdfm_tbfebv4fd4tk:
                             path: \.php$
                             sethandler: 'proxy:fcgi://127.0.0.1:9000'
                             custom_fragment: ''
@@ -234,7 +208,7 @@ php:
     fpm_ini:
         error_log: /var/log/php-fpm.log
     fpm_pools:
-        phpfp_x7ov9lfma82c:
+        phpfp_e7rn76wx1ve0:
             ini:
                 prefix: www
                 listen: '127.0.0.1:9000'
@@ -283,7 +257,8 @@ python:
     versions: {  }
 nodejs:
     install: '1'
-    npm_packages: {  }
+    npm_packages:
+        - express@4.10.4
 hhvm:
     install: '0'
     nightly: 0
@@ -303,20 +278,20 @@ mysql:
     install: '1'
     settings:
         version: '5.6'
-        root_password: '123'
+        root_password: root
         override_options: {  }
     adminer: 0
     users:
-        mysqlnu_tgns1fgieviw:
-            name: root
-            password: root
+        mysqlnu_jdzxxiaud438:
+            name: dbuser
+            password: dbpwd
     databases:
-        mysqlnd_o0t99hqijyv9:
+        mysqlnd_65g7uao6ifq5:
             name: secondsense
             sql: ''
     grants:
-        mysqlng_ktsefpar76yl:
-            user: root
+        mysqlng_fj7gtd35tmzh:
+            user: dbuser
             table: '*.*'
             privileges:
                 - ALL
@@ -328,15 +303,15 @@ mariadb:
         override_options: {  }
     adminer: 0
     users:
-        mariadbnu_fov7kkr00j0g:
+        mariadbnu_uo8vy89frlab:
             name: dbuser
             password: '123'
     databases:
-        mariadbnd_p5of01sztw1t:
+        mariadbnd_90bk33cm81h4:
             name: dbname
             sql: ''
     grants:
-        mariadbng_jighdb332ncm:
+        mariadbng_kxlu9ga5of7e:
             user: dbuser
             table: '*.*'
             privileges:

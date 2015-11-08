@@ -285,7 +285,7 @@ define nginx::resource::location (
   if (($www_root == undef) and ($proxy == undef) and ($location_alias == undef) and ($stub_status == undef) and ($fastcgi == undef) and ($location_custom_cfg == undef)) {
     fail('Cannot create a location reference without a www_root, proxy, location_alias, fastcgi, stub_status, or location_custom_cfg defined')
   }
-  if (($www_root != undef) and ($proxy != undef) and $proxy_redirect != 'off' and $proxy_set_header == undef) {
+  if (($www_root != undef) and ($proxy != undef)) {
     fail('Cannot define both directory and proxy in a virtual host')
   }
 

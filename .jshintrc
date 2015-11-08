@@ -1,0 +1,24 @@
+{
+	"browser": true,
+	"node": true,
+	"globals": {
+		"TimelineMax": true,
+		"TweenMax": true,
+		"createjs": true,
+		"Expo": true,
+		"Power2": true,
+		"Power3": true,
+		"__DEVELOPMENT__": true,
+		"__PRODUCTION__": true
+	},
+	"esnext": true,
+	"camelcase": true,
+	"eqeqeq": true,
+	"latedef": true,
+	"newcap": true,
+	"quotmark": "single",
+	"strict": true,
+	"undef": true,
+	"unused": true,
+	"eqnull": true
+}

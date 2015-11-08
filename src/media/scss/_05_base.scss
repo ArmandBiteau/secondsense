@@ -1,0 +1,73 @@
+html {
+	height: 100%;
+	width: 100%;
+	box-sizing: border-box;
+	overflow: hidden;
+	color: $color-white;
+	font-size: 80%;
+	background: #f6f6f6;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+body {
+	height: 100%;
+	font-family: 'Pier';
+	font-weight: 100;
+}
+
+h1,h2,h3,h4{
+	text-transform: uppercase;
+}
+
+a,a:hover,a:active{
+	text-decoration: none;
+	color: $color-white;
+}
+
+a:hover{
+	color: $color-primary;
+}
+
+p{
+	line-height: 1.4;
+}
+
+button {
+	padding: 0;
+	border: 0;
+	outline: 0;
+	background: none;
+	letter-spacing: inherit;
+	-webkit-font-smoothing: inherit;
+	-moz-osx-font-smoothing: inherit;
+}
+
+img {
+	vertical-align: top;
+}
+
+*,
+*:before,
+*:after,
+input[type="search"] {
+	box-sizing: inherit;
+}
+
+::selection {
+	text-shadow: none;
+	background: $color-primary;
+}
+
+[v-cloak] {
+	display: none;
+}
+
+.cursor--grab {
+
+	cursor: grab;
+}
+.cursor--grabbing {
+
+	cursor: grabbing;
+}
