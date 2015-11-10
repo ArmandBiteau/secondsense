@@ -2,35 +2,29 @@
 
 console.log('Server works !');
 
-var fs = require('fs');
-function handler(req, res) {
-    fs.readFile(__dirname + '/index.php',
-    function(err, data) {
-        if (err) {
-          res.writeHead(500);
-          return res.end('Error loading index.html');
-        }
+var io = require('socket.io').listen(5000);
 
-        res.writeHead(200);
-        res.end(data);
+io.sockets.on('connection', function(socket) {
+
+    console.log('connection !');
+
+    socket.on('set nickname', function(name) {
+
+        socket.set('nickname', name, function() {
+
+            socket.emit('ready');
+
+        });
+
     });
-}
 
-var app = require('http').createServer(handler);
+    socket.on('msg', function() {
 
-var io = require('socket.io')(app);
+        socket.get('nickname', function(err, name) {
 
-app.listen(8000);
+            console.log('Chat message by ', name);
 
-io.on('connection', function(socket) {
-
-    console.log('connection');
-
-    socket.emit('news', { hello: 'world' });
-
-    socket.on('my other event', function(data) {
-
-        console.log(data);
+        });
 
     });
 

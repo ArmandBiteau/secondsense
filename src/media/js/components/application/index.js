@@ -11,6 +11,8 @@ Vue.use(i18n, {
   locales: locales
 });
 
+Vue.use(require('vue-resource'));
+
 new Vue({
 
     el: '#application',
@@ -37,15 +39,19 @@ new Vue({
 
         console.log('Application ready !');
 
-        var socket = io('http://secondsense.dev:8000');
+         this.$http.get('/api/users', function (data, status, request) {
 
-        socket.on('news', function(data) {
+             console.log('/api/users :', data);
 
-            console.log(data);
+          });
 
-            socket.emit('my other event', {my: 'data'});
-
-        });
+        //   this.$http.get('/api/users/2', function (data, status, request) {
+          //
+        //       console.log('/api/users/2 :', data);
+          //
+        //    }).error(function (data, status, request) {
+          //
+        //    });
 
 	},
 

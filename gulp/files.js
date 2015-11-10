@@ -6,7 +6,8 @@ module.exports = {
 		'src/favicon/**',
 		'src/media/img/**',
 		'src/media/fonts/**',
-		'src/server.js'
+		'src/server.js',
+		'src/api/**'
 	],
 
 	delEntry: [
