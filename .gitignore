@@ -1,0 +1,11 @@
+.DS_Store
+.vagrant
+.sass-cache
+/public
+/dist
+/node_modules
+/bower_components
+/npm-debug.log
+/forever.log
+/out.log
+/err.log
