@@ -13,7 +13,6 @@ Beta 0.0.1
 * [Preload.js](http://www.createjs.com/preloadjs) - Assets loader
 * [Gulp.js](http://gulpjs.com/) - Preprocess Scss/Jshint)
 * [Browserify](http://browserify.org/) - Requiring js files
-* [Express.js](http://expressjs.com/) - Node.js server
 * [Socket.io](http://socket.io/) - Node.js real-time engine
 * [Slim](http://www.slimframework.com/) - Php microframework for users api
 * [Vagrant](https://www.vagrantup.com/) - Local server php/nodejs
@@ -64,6 +63,8 @@ You will need to enter the database administrative password that you configured 
 ```sh
 $ sudo php5enmod mcrypt
 $ sudo service php5-fpm restart
+
+$ exit
 ```
 
 With that, our phpMyAdmin installation is now operational. To access the interface, go to your server's domain name or public IP address followed by /phpmyadmin, in your web browser:
@@ -83,7 +84,7 @@ $ cd /vagrant/public
 $ node server.js
 ```
 
-Go to [secondsense.dev](http://secondsense.dev) and have fun !
+Go to [secondsense.local](http://secondsense.local) and have fun !
 
 ### Todos
 
