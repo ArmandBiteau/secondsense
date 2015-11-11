@@ -41,8 +41,6 @@ new Vue({
 
         this.addEventListener();
 
-        this.currentView = 'game';
-
         this.$http.get('/api/users', function(data) {
 
             console.log('/api/users :', data);
