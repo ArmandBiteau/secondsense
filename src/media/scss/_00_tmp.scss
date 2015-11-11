@@ -1,0 +1,17 @@
+.application-wrapper{
+    padding-top: 30px;
+}
+.tmp-routing{
+    position: absolute;
+    top: -30px;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    background: #F9F9F9;
+    a{
+        color: #222;
+        cursor: pointer;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}

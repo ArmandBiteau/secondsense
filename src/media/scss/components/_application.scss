@@ -1,6 +1,6 @@
 .application-wrapper {
-    // @include fullpage-absolute;
-    background: white;
+    @include fullpage-absolute;
+    background: $color-black;
     user-select: none;
 }
 

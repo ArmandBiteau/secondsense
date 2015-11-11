@@ -1,8 +1,8 @@
 .DS_Store
 .vagrant
+Berksfile.lock
 .sass-cache
 /public
-/dist
 /node_modules
 /bower_components
 /npm-debug.log

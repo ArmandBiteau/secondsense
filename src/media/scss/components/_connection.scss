@@ -1,0 +1,11 @@
+.connection-wrapper {
+    @include fullpage-absolute;
+    background: $color-black;
+    user-select: none;
+}
+
+.connection-container {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
