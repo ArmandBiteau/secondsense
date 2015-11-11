@@ -6,6 +6,8 @@ var i18n = require('vue-i18n');
 
 var locales = require('../../core/i18n');
 
+// var config = require('../../config');
+
 Vue.use(i18n, {
   lang: 'en',
   locales: locales
@@ -35,23 +37,21 @@ new Vue({
 
 	ready: function() {
 
-		this.addEventListener();
+        this.addEventListener();
 
-        console.log('Application ready !');
+        this.$http.get('/api/users', function(data) {
 
-         this.$http.get('/api/users', function (data, status, request) {
+            console.log('/api/users :', data);
 
-             console.log('/api/users :', data);
+        });
 
-          });
-
-        //   this.$http.get('/api/users/2', function (data, status, request) {
-          //
-        //       console.log('/api/users/2 :', data);
-          //
-        //    }).error(function (data, status, request) {
-          //
-        //    });
+        // this.$http.get('/api/users/2', function (data, status, request) {
+        //
+        //     console.log('/api/users/2 :', data);
+        //
+        // }).error(function (data, status, request) {
+        //
+        // });
 
 	},
 
@@ -76,6 +76,16 @@ new Vue({
 	},
 
 	components: {
+
+        loadingComponent: require('../loading'),
+
+        introComponent: require('../intro'),
+
+        connectionComponent: require('../connection'),
+
+        roomsComponent: require('../rooms'),
+
+        gameComponent: require('../game')
 
 	}
 

@@ -3,9 +3,9 @@ html {
 	width: 100%;
 	box-sizing: border-box;
 	overflow: hidden;
-	color: $color-black;
+	color: $color-white;
 	font-size: 80%;
-	background: #f6f6f6;
+	background: $color-black;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }

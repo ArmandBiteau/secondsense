@@ -1,0 +1,13 @@
+.game-score-wrapper {
+    position: absolute;
+    background: $color-white;
+    top: 0;
+    right: 0;
+    user-select: none;
+}
+
+.game-score-container {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
