@@ -4,6 +4,8 @@ var Vue = require('vue');
 
 var THREE = require('three');
 
+var Stats = require('stats');
+
 var CubeMixin = require('./cube');
 
 var LightsMixin = require('./lights');
@@ -36,15 +38,21 @@ module.exports = Vue.extend({
 
 			_camera: null,
 
-			cameraPositionZInitial: 10,
-
 			// Clock
 
 			_clock: null,
 
 			_clockElapsedTime: 0,
 
-			_raf: null
+			_stats: null,
+
+			_raf: null,
+
+			// Effect
+
+			_effect: null,
+
+			_manager: null
 
 		};
 
@@ -63,6 +71,14 @@ module.exports = Vue.extend({
 		this.sceneInitialize();
 
         this.addEventListener();
+
+	},
+
+	beforeDestroy: function() {
+
+		this.stop();
+
+		this.destroyStats();
 
 	},
 
@@ -115,13 +131,13 @@ module.exports = Vue.extend({
 
 			// Camera
 
-			this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+			this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
 
-			this._camera.position.set(0, 0, this.cameraPositionZInitial);
+			this._camera.position.set(0, 0, 0);
 
 			// Controls
 
-			// this._controls = new THREE.OrbitControls(this._camera, this.$$.canvas);
+			this._controls = new THREE.VRControls(this._camera);
 
 			// Renderer
 
@@ -134,6 +150,14 @@ module.exports = Vue.extend({
 			this._renderer.setClearColor(0xffffff, 0);
 
 			document.getElementById('game-canvas').appendChild(this._renderer.domElement);
+
+			// Effect
+
+			this._effect = new THREE.VREffect(this._renderer);
+
+			this._effect.setSize(window.innerWidth, window.innerHeight);
+
+			this._manager = new WebVRManager(this._renderer, this._effect, {hideButton: false});
 
 			this.sceneLoad();
 
@@ -183,15 +207,38 @@ module.exports = Vue.extend({
 
 		render: function() {
 
-			// this._stats.begin();
+			this._stats.begin();
 
-			// this._controls.update();
+			this._controls.update();
 
-			this._renderer.render(this._scene, this._camera);
+			this._manager.render(this._scene, this._camera);
+
+			// this._renderer.render(this._scene, this._camera);
 
 			this._renderer.autoClearColor = true;
 
-			// this._stats.end();
+			this._stats.end();
+		},
+
+		initStats: function() {
+
+			this._stats = new Stats();
+
+			this._stats.setMode(0);
+
+			this._stats.domElement.style.position = 'absolute';
+
+			this._stats.domElement.style.left = '0px';
+
+			this._stats.domElement.style.top = '30px';
+
+			document.body.appendChild(this._stats.domElement);
+		},
+
+		destroyStats: function() {
+
+			this._stats.domElement.parentNode.removeChild(this._stats.domElement);
+
 		},
 
 		onWindowResize: function() {
@@ -214,7 +261,7 @@ module.exports = Vue.extend({
 
 				this._raf = window.requestAnimationFrame(this.run);
 
-				// this.initStats();
+				this.initStats();
 			}
 		},
 

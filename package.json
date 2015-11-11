@@ -58,8 +58,10 @@
     },
     "browser": {
         "preloadjs": "./src/media/vendor/preloadjs-0.6.0.min.js",
-        "three": "./src/media/vendor/three.min.js",
-        "io": "./src/media/vendor/socketio.min.js"
+        "three": "./src/media/vendor/athree.min.js",
+        "io": "./src/media/vendor/socketio.min.js",
+        "stats": "./src/media/vendor/stats.min.js"
+
     },
     "browserify": {
         "transform": [
@@ -68,6 +70,7 @@
         ]
     },
     "browserify-shim": {
+        "stats": "global:Stats",
         "io": "global:io",
         "three": "global:THREE",
         "timelinemax": "global:TimelineMax",

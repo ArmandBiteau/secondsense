@@ -12,7 +12,7 @@ module.exports = {
 
 		this._cubeColor = '#FFFFFF';
 
-		this._cubePositionInitial = new THREE.Vector3(0, 0, 0);
+		this._cubePositionInitial = new THREE.Vector3(0, 0, -1);
 
 	},
 
@@ -20,7 +20,7 @@ module.exports = {
 
 		cubeInitialize: function() {
 
-            var geometry = new THREE.BoxGeometry(3, 3, 3);
+            var geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
 
             var material = new THREE.MeshPhongMaterial({ color: 0xdddddd, specular: 0x009900, shininess: 30, shading: THREE.FlatShading });
 
@@ -36,7 +36,7 @@ module.exports = {
 
             this._cube.rotation.y += 0.01;
 
-            this._cube.rotation.z += 0.01;
+            // this._cube.rotation.z += 0.01;
 
 		}
 	}

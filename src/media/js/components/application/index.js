@@ -25,7 +25,7 @@ new Vue({
 
 		return {
 
-            currentView: 'loading'
+            currentView: 'game'
 
 		};
 

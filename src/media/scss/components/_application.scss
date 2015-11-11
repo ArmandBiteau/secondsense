@@ -2,6 +2,7 @@
     @include fullpage-absolute;
     background: $color-black;
     user-select: none;
+    z-index: $index-application;
 }
 
 .application-container {
