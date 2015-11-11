@@ -47,19 +47,14 @@ $ vagrant ssh
 
 Unfortunatly I didn't share my database, that's why you'll need to create yours (into the ssh):
 ```sh
-$ sudo apt-get install php5-mysql
-
 $ sudo apt-get install mysql-server
+```
+> Set "root" password for administrator
 
+```sh
 $ sudo apt-get install phpmyadmin
 ```
-
-During the installation, you will be prompted for some information. It will ask you which web server you would like the software to automatically configure. Since Nginx, the web server we are using, is not one of the available options, you can just hit TAB to bypass this prompt.
-
-The next prompt will ask if you would like dbconfig-common to configure a database for phpmyadmin to use. Select "Yes" to continue.
-
-You will need to enter the database administrative password that you configured during the MySQL installation to allow these changes. Afterward, you will be asked to select and confirm a password for a new database that will hold phpMyAdmin's own data.
-
+> Don't reconfigure automatically web server / db-config : YES / root:root
 
 ```sh
 $ sudo php5enmod mcrypt
