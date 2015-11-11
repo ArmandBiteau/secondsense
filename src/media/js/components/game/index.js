@@ -6,6 +6,8 @@ var THREE = require('three');
 
 var Stats = require('stats');
 
+var SoundEmitterMixin = require('./sound-emitter');
+
 var CubeMixin = require('./cube');
 
 var LightsMixin = require('./lights');
@@ -37,6 +39,8 @@ module.exports = Vue.extend({
 			// Camera
 
 			_camera: null,
+
+			_listener: null,
 
 			// Clock
 
@@ -135,6 +139,10 @@ module.exports = Vue.extend({
 
 			this._camera.position.set(0, 0, 0);
 
+			this._listener = new THREE.AudioListener();
+
+			this._camera.add(this._listener);
+
 			// Controls
 
 			this._controls = new THREE.VRControls(this._camera);
@@ -174,6 +182,8 @@ module.exports = Vue.extend({
 
 			this.isSceneLoaded = true;
 
+			this.soundEmitterInitialize();
+
 			this.lightInitialize();
 
 			this.cubeInitialize();
@@ -194,6 +204,8 @@ module.exports = Vue.extend({
 			this._clockElapsedTime = this._clock.getElapsedTime();
 
 			this.cameraUpdate();
+
+			this.soundEmitterUpdate();
 
 			this.lightsUpdate();
 
@@ -288,7 +300,9 @@ module.exports = Vue.extend({
 
 		CubeMixin,
 
-		LightsMixin
+		LightsMixin,
+
+		SoundEmitterMixin
 
 	],
 

@@ -22,7 +22,7 @@ module.exports = {
 
             var geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
 
-            var material = new THREE.MeshPhongMaterial({ color: 0xdddddd, specular: 0x009900, shininess: 30, shading: THREE.FlatShading });
+            var material = new THREE.MeshPhongMaterial({ color: 0xdddddd, shininess: 30, shading: THREE.FlatShading });
 
             this._cube = new THREE.Mesh(geometry, material);
 

@@ -10,7 +10,7 @@ module.exports = {
 
 		this._spotLight = null;
 
-		this._spotLightColor = '#0000FF';
+		this._spotLightColor = '#FFFFFF';
 
         this.__spotLightIntensity = 10;
 
