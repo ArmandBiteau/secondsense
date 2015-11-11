@@ -65,17 +65,23 @@ new Vue({
 
 	methods: {
 
-		/*
-		 * Binding & Events
-		*/
+        /*
+        * Binding & Events
+        */
 
-		bind: function() {
+        bind: function() {
 
-		},
+        },
 
-		addEventListener: function() {
+        addEventListener: function() {
 
-		}
+        },
+
+        switchView: function(toView) {
+
+            this.currentView = toView;
+
+        }
 
 	},
 
