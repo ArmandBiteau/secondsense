@@ -16,6 +16,8 @@ module.exports = Vue.extend({
 
 		return {
 
+			isGameComplete: false
+
 		};
 
 	},

@@ -5,7 +5,7 @@
         <h1>Game</h1>
 
         <game-score-component></game-score-component>
-        <game-end-component></game-end-component>
+        <game-end-component v-if="isGameComplete"></game-end-component>
 
     </div>
 
