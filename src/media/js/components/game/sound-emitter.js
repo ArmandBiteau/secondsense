@@ -40,6 +40,8 @@ module.exports = {
 
             this._sound.autoplay = true;
 
+            this._sound.loop = true;
+
 			this._soundEmitter.add(this._sound);
 
 		},

@@ -72,6 +72,15 @@ module.exports = Vue.extend({
 
 	ready: function() {
 
+		window.WebVRConfig = {
+			// Forces cardboard distortion in VR mode.
+			//FORCE_DISTORTION: true, // Default: false.
+			// Prevents cardboard distortion in VR mode
+			PREVENT_DISTORTION: true // Default: false.
+			// Override the cardboard distortion background color.
+			//DISTORTION_BGCOLOR: {x: 1, y: 0, z: 0, w: 1}, // Default: (0,0,0,1).
+		};
+
 		this.sceneInitialize();
 
         this.addEventListener();
@@ -117,7 +126,9 @@ module.exports = Vue.extend({
 
 		addEventListener: function() {
 
-			window.addEventListener('resize', this.onWindowResize);
+			document.addEventListener('resize', this.onWindowResize);
+
+			document.getElementsByTagName('canvas')[0].addEventListener('mousedown', this.moveForward, false);
 
 		},
 
@@ -146,6 +157,8 @@ module.exports = Vue.extend({
 			// Controls
 
 			this._controls = new THREE.VRControls(this._camera);
+
+			// this._controls = new THREE.FirstPersonControls(this._camera);
 
 			// Renderer
 
@@ -260,6 +273,15 @@ module.exports = Vue.extend({
 			this._camera.updateProjectionMatrix();
 
 			this._renderer.setSize(window.innerWidth, window.innerHeight);
+
+		},
+
+		moveForward: function() {
+
+			TweenMax.to(this._camera.position, 0.5, {
+				y: 0,
+				z: this._camera.position.z - 0.5
+			});
 
 		},
 
