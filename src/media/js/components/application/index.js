@@ -25,7 +25,7 @@ new Vue({
 
 		return {
 
-            currentView: 'loading'
+            currentView: 'game'
 
 		};
 
@@ -40,8 +40,6 @@ new Vue({
 	ready: function() {
 
         this.addEventListener();
-
-        this.currentView = 'game';
 
         this.$http.get('/api/users', function(data) {
 

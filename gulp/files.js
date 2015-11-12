@@ -5,6 +5,7 @@ module.exports = {
 		'src/.htaccess',
 		'src/favicon/**',
 		'src/media/img/**',
+		'src/media/icons/**',
 		'src/media/sounds/**',
 		'src/media/fonts/**',
 		'src/server.js',

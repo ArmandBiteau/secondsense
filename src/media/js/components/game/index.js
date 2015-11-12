@@ -2,6 +2,16 @@
 
 var Vue = require('vue');
 
+var THREE = require('three');
+
+var Stats = require('stats');
+
+var SoundEmitterMixin = require('./sound-emitter');
+
+var CubeMixin = require('./cube');
+
+var LightsMixin = require('./lights');
+
 // var i18n = require('vue-i18n');
 
 // var locales = require('../../core/i18n');
@@ -16,7 +26,37 @@ module.exports = Vue.extend({
 
 		return {
 
-			isGameComplete: false
+			isGameComplete: false,
+
+			_scene: null,
+
+			isSceneLoaded: false,
+
+			_renderer: null,
+
+			_controls: null,
+
+			// Camera
+
+			_camera: null,
+
+			_listener: null,
+
+			// Clock
+
+			_clock: null,
+
+			_clockElapsedTime: 0,
+
+			_stats: null,
+
+			_raf: null,
+
+			// Effect
+
+			_effect: null,
+
+			_manager: null
 
 		};
 
@@ -24,17 +64,51 @@ module.exports = Vue.extend({
 
 	created: function() {
 
+		this._clock = new THREE.Clock(true);
+
 		this.bind();
 
 	},
 
 	ready: function() {
 
+		window.WebVRConfig = {
+			// Forces cardboard distortion in VR mode.
+			//FORCE_DISTORTION: true, // Default: false.
+			// Prevents cardboard distortion in VR mode
+			PREVENT_DISTORTION: true // Default: false.
+			// Override the cardboard distortion background color.
+			//DISTORTION_BGCOLOR: {x: 1, y: 0, z: 0, w: 1}, // Default: (0,0,0,1).
+		};
+
+		this.sceneInitialize();
+
         this.addEventListener();
 
 	},
 
+	beforeDestroy: function() {
+
+		this.stop();
+
+		this.destroyStats();
+
+	},
+
 	watch: {
+
+		isSceneLoaded: {
+
+			handler: function(value) {
+
+				if (value) {
+
+					this.start();
+				}
+			},
+
+			immediate: true
+		}
 
 	},
 
@@ -46,13 +120,213 @@ module.exports = Vue.extend({
 
 		bind: function() {
 
+			this.run = this.run.bind(this);
+
 		},
 
 		addEventListener: function() {
 
+			document.addEventListener('resize', this.onWindowResize);
+
+			document.getElementsByTagName('canvas')[0].addEventListener('mousedown', this.moveForward, false);
+
+		},
+
+		removeEventListener: function() {
+
+		},
+
+		sceneInitialize: function() {
+
+			// Scene
+
+			this._scene = new THREE.Scene();
+
+			// this._scene.fog = new THREE.Fog(0x000000, 1, 100);
+
+			// Camera
+
+			this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
+
+			this._camera.position.set(0, 0, 0);
+
+			this._listener = new THREE.AudioListener();
+
+			this._camera.add(this._listener);
+
+			// Controls
+
+			this._controls = new THREE.VRControls(this._camera);
+
+			// this._controls = new THREE.FirstPersonControls(this._camera);
+
+			// Renderer
+
+			this._renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true});
+
+			this._renderer.setPixelRatio(window.devicePixelRatio);
+
+			this._renderer.setSize(window.innerWidth, window.innerHeight);
+
+			this._renderer.setClearColor(0xffffff, 0);
+
+			document.getElementById('game-canvas').appendChild(this._renderer.domElement);
+
+			// Effect
+
+			this._effect = new THREE.VREffect(this._renderer);
+
+			this._effect.setSize(window.innerWidth, window.innerHeight);
+
+			this._manager = new WebVRManager(this._renderer, this._effect, {hideButton: false});
+
+			this.sceneLoad();
+
+		},
+
+		sceneLoad: function() {
+
+			// new THREE.JSONLoader().load(PATH_MODELS + '/labyrinthe.json', this.onSceneLoaded);
+
+			this.onSceneLoaded(); //toDelete
+		},
+
+		onSceneLoaded: function() {
+
+			this.isSceneLoaded = true;
+
+			this.soundEmitterInitialize();
+
+			this.lightInitialize();
+
+			this.cubeInitialize();
+
+		},
+
+		run: function() {
+
+			this._raf = window.requestAnimationFrame(this.run);
+
+			this.update();
+
+			this.render();
+		},
+
+		update: function() {
+
+			this._clockElapsedTime = this._clock.getElapsedTime();
+
+			this.cameraUpdate();
+
+			this.soundEmitterUpdate();
+
+			this.lightsUpdate();
+
+			this.cubeUpdate();
+
+		},
+
+		cameraUpdate: function() {
+
+		},
+
+		render: function() {
+
+			this._stats.begin();
+
+			this._controls.update();
+
+			this._manager.render(this._scene, this._camera);
+
+			// this._renderer.render(this._scene, this._camera);
+
+			this._renderer.autoClearColor = true;
+
+			this._stats.end();
+		},
+
+		initStats: function() {
+
+			this._stats = new Stats();
+
+			this._stats.setMode(0);
+
+			this._stats.domElement.style.position = 'absolute';
+
+			this._stats.domElement.style.left = '0px';
+
+			this._stats.domElement.style.top = '30px';
+
+			document.body.appendChild(this._stats.domElement);
+		},
+
+		destroyStats: function() {
+
+			this._stats.domElement.parentNode.removeChild(this._stats.domElement);
+
+		},
+
+		onWindowResize: function() {
+
+			this._camera.aspect = window.innerWidth / window.innerHeight;
+
+			this._camera.updateProjectionMatrix();
+
+			this._renderer.setSize(window.innerWidth, window.innerHeight);
+
+		},
+
+		moveForward: function() {
+
+			TweenMax.to(this._camera.position, 0.5, {
+				y: 0,
+				z: this._camera.position.z - 0.5
+			});
+
+		},
+
+		/*
+		 * Start & stop
+		*/
+
+		start: function() {
+
+			if (!this._raf) {
+
+				this._raf = window.requestAnimationFrame(this.run);
+
+				this.initStats();
+			}
+		},
+
+		stop: function() {
+
+			this.removeEventListener();
+
+			this.cancelAnimationFrame();
+		},
+
+		cancelAnimationFrame: function() {
+
+			if (typeof (this._raf !== 'undefined') && this._raf !== null) {
+
+				window.cancelAnimationFrame(this._raf);
+
+				this._raf = null;
+			}
 		}
 
 	},
+
+	mixins: [
+
+		CubeMixin,
+
+		LightsMixin,
+
+		SoundEmitterMixin
+
+	],
 
 	components: {
 

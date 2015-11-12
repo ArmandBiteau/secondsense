@@ -9,3 +9,13 @@
     height: 100%;
     width: 100%;
 }
+
+#stats{
+    z-index: $index-overlay;
+}
+.webvr-button{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: $index-overlay;
+}
