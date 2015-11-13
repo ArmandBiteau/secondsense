@@ -59,6 +59,7 @@ $ sudo apt-get install phpmyadmin
 > Don't reconfigure automatically web server / db-config : YES / root:root
 
 ```sh
+$ sudo ln -s /usr/share/phpmyadmin /vagrant/public
 $ sudo php5enmod mcrypt
 $ sudo service php5-fpm restart
 
