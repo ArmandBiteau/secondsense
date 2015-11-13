@@ -36,8 +36,11 @@ $ npm install
 $ gulp
 ```
 
+If it's not, install last version of [ChefDK](https://downloads.chef.io/chef-dk/mac/).
+
 Open a new terminal view and run vagrant :
 ```sh
+$ vagrant plugin install vagrant-berkshelf
 $ vagrant up
 $ vagrant ssh
 ```
