@@ -8,6 +8,8 @@ var Stats = require('stats');
 
 var SoundEmitterMixin = require('./sound-emitter');
 
+var TerrainMixin = require('./terrain');
+
 var CubeMixin = require('./cube');
 
 var LightsMixin = require('./lights');
@@ -30,6 +32,8 @@ module.exports = Vue.extend({
 
 			_scene: null,
 
+			_collidableMeshList: [],
+
 			isSceneLoaded: false,
 
 			_renderer: null,
@@ -40,7 +44,11 @@ module.exports = Vue.extend({
 
 			_camera: null,
 
+			_cameraBox: null,
+
 			_listener: null,
+
+			_distanceMove: 0,
 
 			// Clock
 
@@ -73,12 +81,9 @@ module.exports = Vue.extend({
 	ready: function() {
 
 		window.WebVRConfig = {
-			// Forces cardboard distortion in VR mode.
-			//FORCE_DISTORTION: true, // Default: false.
-			// Prevents cardboard distortion in VR mode
+
 			PREVENT_DISTORTION: true // Default: false.
-			// Override the cardboard distortion background color.
-			//DISTORTION_BGCOLOR: {x: 1, y: 0, z: 0, w: 1}, // Default: (0,0,0,1).
+
 		};
 
 		this.sceneInitialize();
@@ -128,7 +133,7 @@ module.exports = Vue.extend({
 
 			document.addEventListener('resize', this.onWindowResize);
 
-			document.getElementsByTagName('canvas')[0].addEventListener('mousedown', this.moveForward, false);
+			// document.getElementsByTagName('canvas')[0].addEventListener('mousedown', this.moveForward, false);
 
 		},
 
@@ -138,27 +143,39 @@ module.exports = Vue.extend({
 
 		sceneInitialize: function() {
 
+			// Parameters
+
+			this._collidableMeshList = [];
+
 			// Scene
 
 			this._scene = new THREE.Scene();
 
-			// this._scene.fog = new THREE.Fog(0x000000, 1, 100);
+			this._scene.fog = new THREE.Fog(0x1c1c1c, 0, 1.5);
 
 			// Camera
 
 			this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
 
-			this._camera.position.set(0, 0, 0);
+			this._camera.position.set(0, 0.5, 0);
 
 			this._listener = new THREE.AudioListener();
 
 			this._camera.add(this._listener);
 
+			var cameraBoxGeometry = new THREE.SphereGeometry(0.3, 5, 5);
+
+            var cameraBoxMaterial = new THREE.MeshBasicMaterial({ color: 0x00FF00});
+
+            this._cameraBox = new THREE.Mesh(cameraBoxGeometry, cameraBoxMaterial);
+
+            this._cameraBox.position.set(this._camera.position.x, this._camera.position.y, this._camera.position.z);
+
+			this._scene.add(this._cameraBox);
+
 			// Controls
 
 			this._controls = new THREE.VRControls(this._camera);
-
-			// this._controls = new THREE.FirstPersonControls(this._camera);
 
 			// Renderer
 
@@ -197,6 +214,8 @@ module.exports = Vue.extend({
 
 			this.soundEmitterInitialize();
 
+			this.terrainInitialize();
+
 			this.lightInitialize();
 
 			this.cubeInitialize();
@@ -220,6 +239,8 @@ module.exports = Vue.extend({
 
 			this.soundEmitterUpdate();
 
+			this.terrainUpdate();
+
 			this.lightsUpdate();
 
 			this.cubeUpdate();
@@ -227,6 +248,8 @@ module.exports = Vue.extend({
 		},
 
 		cameraUpdate: function() {
+
+			this._cameraBox.position.set(this._camera.position.x, this._camera.position.y, this._camera.position.z);
 
 		},
 
@@ -276,12 +299,49 @@ module.exports = Vue.extend({
 
 		},
 
+		canMoveForward: function() {
+
+			var originPoint = this._cameraBox.position.clone();
+
+			for (var vertexIndex = 0; vertexIndex < this._cameraBox.geometry.vertices.length; vertexIndex++) {
+
+				var localVertex = this._cameraBox.geometry.vertices[vertexIndex].clone();
+
+				var globalVertex = localVertex.applyMatrix4(this._cameraBox.matrix);
+
+				var directionVector = globalVertex.sub(this._cameraBox.position);
+
+				var ray = new THREE.Raycaster(originPoint, directionVector.clone().normalize());
+
+				var collisionResults = ray.intersectObjects(this._collidableMeshList);
+
+				if (collisionResults.length > 0 && collisionResults[0].distance < directionVector.length()) {
+
+					return false;
+
+				}
+
+			}
+
+			return true;
+
+		},
+
 		moveForward: function() {
 
-			TweenMax.to(this._camera.position, 0.5, {
-				y: 0,
-				z: this._camera.position.z - 0.5
-			});
+			this._distanceMove = 0.1;
+
+			var canMove = this.canMoveForward();
+
+			console.log(canMove);
+
+			if (canMove) {
+
+				this._camera.translateZ(-this._distanceMove);
+
+				this._camera.position.y = 0;
+
+			}
 
 		},
 
@@ -319,6 +379,8 @@ module.exports = Vue.extend({
 	},
 
 	mixins: [
+
+		TerrainMixin,
 
 		CubeMixin,
 

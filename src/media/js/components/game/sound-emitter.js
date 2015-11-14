@@ -28,7 +28,9 @@ module.exports = {
 
             this._soundEmitter = new THREE.Mesh(geometry, material);
 
-            this._soundEmitter.position.set(this._soundEmitterPositionInitial.x, this._soundEmitterPositionInitial.y, this._soundEmitterPositionInitial.z);
+            var dimensions = new THREE.Box3().setFromObject(this._soundEmitter);
+
+            this._soundEmitter.position.set(this._soundEmitterPositionInitial.x, this._soundEmitterPositionInitial.y + dimensions.max.y, this._soundEmitterPositionInitial.z);
 
 			this._scene.add(this._soundEmitter);
 
