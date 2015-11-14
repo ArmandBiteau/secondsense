@@ -36,7 +36,9 @@ module.exports = {
 
             this._sound = new THREE.Audio(this._listener);
 
-			this._sound.load('/media/sounds/1.mp3');
+            var randomSound = Math.floor(Math.random() * 3) + 1;
+
+			this._sound.load('/media/sounds/'+randomSound+'.ogg');
 
             this._sound.setRefDistance(10);
 

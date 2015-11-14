@@ -133,7 +133,7 @@ module.exports = Vue.extend({
 
 			document.addEventListener('resize', this.onWindowResize);
 
-			// document.getElementsByTagName('canvas')[0].addEventListener('mousedown', this.moveForward, false);
+			document.getElementsByTagName('canvas')[0].addEventListener('mousedown', this.moveForward, false);
 
 		},
 
@@ -151,7 +151,7 @@ module.exports = Vue.extend({
 
 			this._scene = new THREE.Scene();
 
-			this._scene.fog = new THREE.Fog(0x1c1c1c, 0, 1.5);
+			this._scene.fog = new THREE.FogExp2(0x1c1c1c, 1.2);
 
 			// Camera
 
@@ -339,7 +339,7 @@ module.exports = Vue.extend({
 
 				this._camera.translateZ(-this._distanceMove);
 
-				this._camera.position.y = 0;
+				this._camera.position.y = 0.5;
 
 			}
 
@@ -364,6 +364,7 @@ module.exports = Vue.extend({
 			this.removeEventListener();
 
 			this.cancelAnimationFrame();
+
 		},
 
 		cancelAnimationFrame: function() {
@@ -395,6 +396,34 @@ module.exports = Vue.extend({
 		gameScoreComponent: require('../game-score'),
 
 		gameEndComponent: require('../game-end')
+
+	},
+
+	transitions: {
+
+		'game': {
+
+			beforeEnter: function() {
+
+			},
+
+			enter: function() {
+
+			},
+
+			beforeLeave: function() {
+
+				this.stop();
+
+			},
+
+			leave: function() {
+
+				this.stop();
+
+			}
+
+		}
 
 	}
 

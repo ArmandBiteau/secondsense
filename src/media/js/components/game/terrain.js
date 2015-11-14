@@ -22,7 +22,7 @@ module.exports = {
 
             var geometry = new THREE.PlaneGeometry(40, 40);
 
-            var material = new THREE.MeshBasicMaterial({color: 0x4a4a4a});
+            var material = new THREE.MeshBasicMaterial({color: 0x2c2c2c});
 
             this._terrain = new THREE.Mesh(geometry, material);
 
@@ -31,6 +31,16 @@ module.exports = {
             this._terrain.rotation.x = -Math.PI / 2;
 
 			this._scene.add(this._terrain);
+
+            var helper = new THREE.GridHelper(40, 0.25);
+
+			helper.color1.setHex(0x6a6a6a);
+
+			helper.color2.setHex(0x6a6a6a);
+
+			helper.position.y = 0;
+
+			this._scene.add(helper);
 
 		},
 
