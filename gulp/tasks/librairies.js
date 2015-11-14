@@ -14,6 +14,6 @@ gulp.task('librairies', function() {
 		.bundle()
 		.pipe(source('libs.js'))
 		.pipe(buffer())
-		.pipe(uglify())
+		// .pipe(uglify())
 		.pipe(gulp.dest(files.browserifyDest));
 });

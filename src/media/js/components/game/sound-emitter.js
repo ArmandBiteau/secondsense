@@ -28,13 +28,17 @@ module.exports = {
 
             this._soundEmitter = new THREE.Mesh(geometry, material);
 
-            this._soundEmitter.position.set(this._soundEmitterPositionInitial.x, this._soundEmitterPositionInitial.y, this._soundEmitterPositionInitial.z);
+            var dimensions = new THREE.Box3().setFromObject(this._soundEmitter);
+
+            this._soundEmitter.position.set(this._soundEmitterPositionInitial.x, this._soundEmitterPositionInitial.y + dimensions.max.y, this._soundEmitterPositionInitial.z);
 
 			this._scene.add(this._soundEmitter);
 
             this._sound = new THREE.Audio(this._listener);
 
-			this._sound.load('/media/sounds/1.mp3');
+            var randomSound = Math.floor(Math.random() * 3) + 1;
+
+			this._sound.load('/media/sounds/'+randomSound+'.ogg');
 
             this._sound.setRefDistance(10);
 
