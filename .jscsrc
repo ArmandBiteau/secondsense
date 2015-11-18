@@ -31,7 +31,7 @@
 	"requireSpacesInConditionalExpression": true,
 	"requireBlocksOnNewline": 1,
 	"requireCommaBeforeLineBreak": true,
-	"requireCamelCaseOrUpperCaseIdentifiers": true,
+	"requireCamelCaseOrUpperCaseIdentifiers": false,
 	"requireLineFeedAtFileEnd": true,
 	"requireCapitalizedConstructors": true,
 	"requireDotNotation": true,
