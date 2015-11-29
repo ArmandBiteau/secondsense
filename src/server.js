@@ -1,11 +1,52 @@
 'use strict';
 
-console.log('Server works !');
+var http = require('http');
+var fs = require('fs');
 
-var io = require('socket.io').listen(5000);
+// Chargement du fichier index.html affiché au client
+var server = http.createServer(function(req, res) {
 
-io.sockets.on('connection', function() {
+    fs.readFile('./index.html', 'utf-8', function(error, content) {
 
-    console.log('connection !');
+        res.writeHead(200, {'Content-Type': 'text/html'});
+
+        res.end(content);
+
+    });
 
 });
+
+// Chargement de socket.io
+var io = require('socket.io').listen(server);
+
+// Quand on client se connecte, on le note dans la console
+io.sockets.on('connection', function() {
+
+    console.log('Quelqu\'un de nouveau dans le game !');
+
+});
+
+io.sockets.on('connection', function(socket) {
+
+    socket.emit('message', 'T\'es dans le game !');
+
+    socket.broadcast.emit('message', 'Un nouveau gamer est entré !');
+
+    socket.on('nouveau_gamer', function(gamer) {
+
+        socket.gamer = gamer;
+
+    });
+
+    socket.on('message', function(message) {
+
+        // On récupère le pseudo de celui qui a cliqué dans les variables de session
+        console.log(socket.gamer.name + ' est bavard ! ' + message);
+
+    });
+
+});
+
+server.listen(3000);
+
+console.log('Server running at http://192.168.33.10:3000/');

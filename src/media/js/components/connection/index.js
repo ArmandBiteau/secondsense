@@ -72,7 +72,6 @@ module.exports = Vue.extend({
 
 			}.bind(this));
 
-
 			FB.api('/me/friends', 'get', {
 
 				access_token: token
