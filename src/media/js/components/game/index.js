@@ -157,7 +157,7 @@ module.exports = Vue.extend({
 
 	        });
 
-			socket.emit('message', 'Salut serveur, toi aussi t’es dans le game ?');
+			socket.emit('message', 'T’es dans le game ?');
 
 		},
 

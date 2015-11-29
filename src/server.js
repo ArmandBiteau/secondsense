@@ -30,11 +30,11 @@ io.sockets.on('connection', function(socket) {
 
     socket.emit('message', 'T\'es dans le game !');
 
-    socket.broadcast.emit('message', 'Un nouveau gamer est entré !');
-
     socket.on('nouveau_gamer', function(gamer) {
 
         socket.gamer = gamer;
+
+        socket.broadcast.emit('message', socket.gamer.name+' est entré dans le game !');
 
     });
 
