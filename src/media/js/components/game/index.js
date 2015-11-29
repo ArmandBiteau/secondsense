@@ -90,6 +90,8 @@ module.exports = Vue.extend({
 
         this.addEventListener();
 
+		this.openNodeSession();
+
 	},
 
 	beforeDestroy: function() {
@@ -138,6 +140,24 @@ module.exports = Vue.extend({
 		},
 
 		removeEventListener: function() {
+
+		},
+
+		openNodeSession: function() {
+
+			var _this = this;
+
+			var socket = io.connect('http://192.168.33.10:3000');
+
+			socket.emit('nouveau_gamer', {id: _this.$parent.me.id, name: _this.$parent.me.name});
+
+	        socket.on('message', function(message) {
+
+	            console.log('Serveur : ' + message);
+
+	        });
+
+			socket.emit('message', 'T’es dans le game ?');
 
 		},
 

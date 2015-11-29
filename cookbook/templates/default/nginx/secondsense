@@ -7,11 +7,19 @@ server {
     sendfile off;
 
     server_name secondsense.local;
+
     index index.html index.php;
     access_log /var/log/nginx/perso-access.log;
     error_log /var/log/nginx/perso-error.log notice;
 
     location / {
+        proxy_pass http://192.168.33.10:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+        
         index  index.html index.php;
     }
 

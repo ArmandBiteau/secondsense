@@ -15,7 +15,6 @@
 		"__PRODUCTION__": true
 	},
 	"esnext": true,
-	"camelcase": true,
 	"eqeqeq": true,
 	"latedef": true,
 	"newcap": true,
