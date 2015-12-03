@@ -1,21 +1,20 @@
 'use strict';
 
-var Vue = require('vue');
+import loading from '../loading';
 
-var i18n = require('vue-i18n');
+import intro from '../intro';
 
-var locales = require('../../core/i18n');
+import connection from '../connection';
 
-// var config = require('../../config');
+import rooms from '../rooms';
 
-Vue.use(i18n, {
-  lang: 'en',
-  locales: locales
-});
+import game from '../game';
 
-Vue.use(require('vue-resource'));
+// import {
+//     ROOT_URL
+// } from '../../core/config';
 
-new Vue({
+export default {
 
     el: '#application',
 
@@ -130,16 +129,12 @@ new Vue({
 
 	components: {
 
-        loading: require('../loading'),
-
-        intro: require('../intro'),
-
-        connection: require('../connection'),
-
-        rooms: require('../rooms'),
-
-        game: require('../game')
+        loading,
+        intro,
+        connection,
+        rooms,
+        game
 
 	}
 
-});
+};

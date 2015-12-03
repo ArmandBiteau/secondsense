@@ -11,6 +11,8 @@ var	source = require('vinyl-source-stream');
 var	filter = require('gulp-filter');
 var errorHandler = require('../error-handler');
 
+var babelify = require('babelify');
+
 var packageJSON = require('../../package.json');
 var librairies = Object.keys(packageJSON.dependencies);
 
@@ -20,6 +22,7 @@ gulp.task('browserify', function() {
 	function rebundle() {
 		browserifyConfig
 			.external(librairies)
+			.transform(babelify, {presets: ['es2015']})
 			.bundle()
 			.on('error', errorHandler)
 			.pipe(source('bundle.js'))

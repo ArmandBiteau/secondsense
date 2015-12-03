@@ -1,26 +1,24 @@
 'use strict';
 
-var Vue = require('vue');
+import Vue from 'vue';
 
-var THREE = require('three');
+import THREE from 'three';
 
-var Stats = require('stats');
+import Stats from 'stats';
 
-var SoundEmitterMixin = require('./sound-emitter');
+import gameScoreComponent from '../game-score';
 
-var TerrainMixin = require('./terrain');
+import gameEndComponent from '../game-end';
 
-var CubeMixin = require('./cube');
+import SoundEmitterMixin from './mixins/sound-emitter';
 
-var LightsMixin = require('./lights');
+import TerrainMixin from './mixins/terrain';
 
-// var i18n = require('vue-i18n');
+import CubeMixin from './mixins/cube';
 
-// var locales = require('../../core/i18n');
+import LightsMixin from './mixins/lights';
 
-// var config = require('../../config');
-
-module.exports = Vue.extend({
+export default Vue.extend({
 
 	template: require('./template.html'),
 
@@ -413,9 +411,8 @@ module.exports = Vue.extend({
 
 	components: {
 
-		gameScoreComponent: require('../game-score'),
-
-		gameEndComponent: require('../game-end')
+		gameScoreComponent,
+		gameEndComponent
 
 	},
 

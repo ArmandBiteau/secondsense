@@ -5,6 +5,8 @@ module.exports = {
 		'src/.htaccess',
 		'src/favicon/**',
 		'src/media/img/**',
+		'src/media/glsl/**',
+		'src/media/data/**',
 		'src/media/icons/**',
 		'src/media/sounds/**',
 		'src/media/fonts/**',
@@ -38,4 +40,5 @@ module.exports = {
 		'src/server.js'
 	],
 	remapifyEntry: 'src/media/js'
+
 };
