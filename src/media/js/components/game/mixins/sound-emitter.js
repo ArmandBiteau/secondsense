@@ -1,8 +1,8 @@
 'use strict';
 
-var THREE = require('three');
+import THREE from 'three';
 
-module.exports = {
+export default {
 
     created: function() {
 

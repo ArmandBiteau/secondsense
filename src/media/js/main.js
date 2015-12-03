@@ -8,4 +8,62 @@
  * @author: Armand Biteau, hello@armandbiteau.com
  **/
 
-require('./components/application');
+import Vue from 'vue';
+
+import VueResource from 'vue-resource';
+
+import i18n from 'vue-i18n';
+
+import locales from './core/i18n';
+
+import Application from './components/application';
+
+import domready from 'domready';
+
+class Main {
+
+	constructor() {
+
+		this.bind();
+
+		this.addEventListener();
+
+		this.initilizeresources();
+
+		this.start();
+	}
+
+	bind() {}
+
+	addEventListener() {}
+
+	initilizeresources() {
+
+		Vue.use(i18n, {
+			lang: 'en',
+			locales: locales
+		});
+
+        Vue.use(VueResource);
+
+	}
+
+	start() {
+
+		Promise.all([
+			// SoundManager.start()
+		])
+
+		.then(() => {
+
+			new Vue(Application);
+
+		});
+	}
+}
+
+domready(() => {
+
+	new Main();
+
+});

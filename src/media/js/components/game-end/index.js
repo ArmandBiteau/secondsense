@@ -1,14 +1,8 @@
 'use strict';
 
-var Vue = require('vue');
+import Vue from 'vue';
 
-// var i18n = require('vue-i18n');
-
-// var locales = require('../../core/i18n');
-
-// var config = require('../../config');
-
-module.exports = Vue.extend({
+export default Vue.component('game-end-component', {
 
 	template: require('./template.html'),
 

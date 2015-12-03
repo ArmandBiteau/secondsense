@@ -1,6 +1,6 @@
 'use strict';
 
-var locales = {
+export default {
     en: {
         author: {
             name: 'Armand Biteau',
@@ -15,7 +15,4 @@ var locales = {
         },
         try: 'essai'
     }
-
 };
-
-module.exports = locales;

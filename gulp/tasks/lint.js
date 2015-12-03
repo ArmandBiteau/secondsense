@@ -5,7 +5,6 @@ var	jshint = require('gulp-jshint');
 var errorHandler = require('../error-handler');
 var successHandler = require('../success-handler');
 
-
 gulp.task('lint', function() {
 	return gulp.src(files.lintEntry)
 		.pipe(jshint())
