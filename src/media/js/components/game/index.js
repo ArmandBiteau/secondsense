@@ -88,8 +88,6 @@ export default Vue.extend({
 
         this.addEventListener();
 
-		this.openNodeSession();
-
 	},
 
 	beforeDestroy: function() {
@@ -104,7 +102,7 @@ export default Vue.extend({
 
 		isSceneLoaded: {
 
-			handler: function(value) {
+			handler(value) {
 
 				if (value) {
 
@@ -141,24 +139,6 @@ export default Vue.extend({
 
 		},
 
-		openNodeSession: function() {
-
-			var _this = this;
-
-			var socket = io.connect('http://192.168.33.10:3000');
-
-			socket.emit('nouveau_gamer', {id: _this.$parent.me.id, name: _this.$parent.me.name});
-
-	        socket.on('message', function(message) {
-
-	            console.log('Serveur : ' + message);
-
-	        });
-
-			socket.emit('message', 'T’es dans le game ?');
-
-		},
-
 		sceneInitialize: function() {
 
 			// Parameters
@@ -181,9 +161,9 @@ export default Vue.extend({
 
 			this._camera.add(this._listener);
 
-			var cameraBoxGeometry = new THREE.SphereGeometry(0.3, 5, 5);
+			let cameraBoxGeometry = new THREE.SphereGeometry(0.3, 5, 5);
 
-            var cameraBoxMaterial = new THREE.MeshBasicMaterial({ color: 0x00FF00});
+            let cameraBoxMaterial = new THREE.MeshBasicMaterial({ color: 0x00FF00});
 
             this._cameraBox = new THREE.Mesh(cameraBoxGeometry, cameraBoxMaterial);
 
@@ -230,7 +210,7 @@ export default Vue.extend({
 
 			this.isSceneLoaded = true;
 
-			this.soundEmitterInitialize();
+			// this.soundEmitterInitialize();
 
 			this.terrainInitialize();
 
@@ -255,7 +235,7 @@ export default Vue.extend({
 
 			this.cameraUpdate();
 
-			this.soundEmitterUpdate();
+			// this.soundEmitterUpdate();
 
 			this.terrainUpdate();
 
@@ -319,19 +299,19 @@ export default Vue.extend({
 
 		canMoveForward: function() {
 
-			var originPoint = this._cameraBox.position.clone();
+			let originPoint = this._cameraBox.position.clone();
 
-			for (var vertexIndex = 0; vertexIndex < this._cameraBox.geometry.vertices.length; vertexIndex++) {
+			for (let vertexIndex = 0; vertexIndex < this._cameraBox.geometry.vertices.length; vertexIndex++) {
 
-				var localVertex = this._cameraBox.geometry.vertices[vertexIndex].clone();
+				let localVertex = this._cameraBox.geometry.vertices[vertexIndex].clone();
 
-				var globalVertex = localVertex.applyMatrix4(this._cameraBox.matrix);
+				let globalVertex = localVertex.applyMatrix4(this._cameraBox.matrix);
 
-				var directionVector = globalVertex.sub(this._cameraBox.position);
+				let directionVector = globalVertex.sub(this._cameraBox.position);
 
-				var ray = new THREE.Raycaster(originPoint, directionVector.clone().normalize());
+				let ray = new THREE.Raycaster(originPoint, directionVector.clone().normalize());
 
-				var collisionResults = ray.intersectObjects(this._collidableMeshList);
+				let collisionResults = ray.intersectObjects(this._collidableMeshList);
 
 				if (collisionResults.length > 0 && collisionResults[0].distance < directionVector.length()) {
 
@@ -349,7 +329,7 @@ export default Vue.extend({
 
 			this._distanceMove = 0.1;
 
-			var canMove = this.canMoveForward();
+			let canMove = this.canMoveForward();
 
 			console.log(canMove);
 

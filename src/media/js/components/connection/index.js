@@ -52,7 +52,7 @@ export default Vue.extend({
 
 				fields: 'id, name, gender, picture, email'
 
-			}, function(response) {
+			}, (response) => {
 
 				this.$parent.me.id = response.id;
 
@@ -64,17 +64,17 @@ export default Vue.extend({
 
 				this.$parent.me.picture = response.picture.data.url;
 
-			}.bind(this));
+			});
 
 			FB.api('/me/friends', 'get', {
 
 				access_token: token
 
-			}, function(response) {
+			}, (response) => {
 
 				this.$parent.me.friends = response.data;
 
-			}.bind(this));
+			});
 
 			console.log(this.$parent.me);
 
@@ -84,17 +84,17 @@ export default Vue.extend({
 
 			if (response.status === 'connected') {
 
-				var token = response.authResponse.accessToken;
+				let token = response.authResponse.accessToken;
 
 				this.getFBInfos(token);
 
 			} else {
 
-				FB.login(function(response) {
+				FB.login((response) => {
 
 					this.statusChangeCallback(response);
 
-				}.bind(this), {scope: 'public_profile, email, user_friends'});
+				}, {scope: 'public_profile, email, user_friends'});
 
 			}
 
@@ -102,11 +102,11 @@ export default Vue.extend({
 
 		checkLoginState: function() {
 
-			FB.getLoginStatus(function(response) {
+			FB.getLoginStatus((response) => {
 
 				this.statusChangeCallback(response);
 
-			}.bind(this));
+			});
 
 		}
 

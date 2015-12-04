@@ -58,11 +58,11 @@ export default {
 
         this.createFbSDK();
 
-        this.$http.get('/api/users', function(data) {
+        this.$http.get('/api/users', (data) => {
 
             console.log('/api/users :', data);
 
-        }).error(function(data, status, request) {
+        }).error((data, status, request) => {
 
             console.log(data, status, request);
 
@@ -90,7 +90,7 @@ export default {
 
         createFbSDK: function() {
 
-            window.fbAsyncInit = function() {
+            window.fbAsyncInit = () => {
 
                 FB.init({
                     appId: '1653645381585414',
@@ -103,9 +103,9 @@ export default {
 
             (function(d, s, id) {
 
-                var js;
+                let js;
 
-                var fjs = d.getElementsByTagName(s)[0];
+                let fjs = d.getElementsByTagName(s)[0];
 
                 if (d.getElementById(id)) {return;}
 

@@ -22,13 +22,13 @@ export default {
 
 		soundEmitterInitialize: function() {
 
-            var geometry = new THREE.SphereGeometry(0.1, 7, 7);
+            let geometry = new THREE.SphereGeometry(0.1, 7, 7);
 
-            var material = new THREE.MeshPhongMaterial({ color: 0xFF0000, shininess: 30, shading: THREE.FlatShading });
+            let material = new THREE.MeshPhongMaterial({ color: 0xFF0000, shininess: 30, shading: THREE.FlatShading });
 
             this._soundEmitter = new THREE.Mesh(geometry, material);
 
-            var dimensions = new THREE.Box3().setFromObject(this._soundEmitter);
+            let dimensions = new THREE.Box3().setFromObject(this._soundEmitter);
 
             this._soundEmitter.position.set(this._soundEmitterPositionInitial.x, this._soundEmitterPositionInitial.y + dimensions.max.y, this._soundEmitterPositionInitial.z);
 
@@ -36,7 +36,7 @@ export default {
 
             this._sound = new THREE.Audio(this._listener);
 
-            var randomSound = Math.floor(Math.random() * 3) + 1;
+            let randomSound = Math.floor(Math.random() * 3) + 1;
 
 			this._sound.load('/media/sounds/'+randomSound+'.ogg');
 

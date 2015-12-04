@@ -24,6 +24,8 @@ export default Vue.extend({
 
         this.addEventListener();
 
+		this.openNodeSession();
+
 	},
 
 	watch: {
@@ -41,6 +43,22 @@ export default Vue.extend({
 		},
 
 		addEventListener: function() {
+
+		},
+
+		openNodeSession: function() {
+
+			let socket = io.connect('http://192.168.33.10:3000');
+
+			socket.emit('nouveau_gamer', {id: this.$parent.me.id, name: this.$parent.me.name});
+
+	        socket.on('message', (message) => {
+
+	            console.log('Serveur : ' + message);
+
+	        });
+
+			socket.emit('message', 'Je suis dans le game ?');
 
 		}
 

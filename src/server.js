@@ -41,7 +41,7 @@ io.sockets.on('connection', function(socket) {
     socket.on('message', function(message) {
 
         // On récupère le pseudo de celui qui a cliqué dans les variables de session
-        console.log(socket.gamer.name + ' est bavard ! ' + message);
+        console.log(socket.gamer.name + ' : ' + message);
 
     });
 
