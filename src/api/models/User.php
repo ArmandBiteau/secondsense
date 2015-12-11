@@ -1,5 +1,7 @@
 <?php
 
+require_once 'Db.php';
+
 class User
 {
 
@@ -8,16 +10,10 @@ class User
   private $_update = "UPDATE secondsense_users SET name = :name, score = :score WHERE id = :id";
   private $_delete = "DELETE FROM secondsense_users WHERE id = :id";
 
-
-  private function getDBConn()
+  public function __construct()
   {
-    $dbhost="localhost";
-    $dbuser="root";
-    $dbpass="root";
-    $dbname="secondsense";
-    $dbh = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
-    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    return $dbh;
+    $db = Db::getInstance();
+    $this->_dbh = $db->getConnection();
 
   }
 
@@ -26,10 +22,8 @@ class User
     $sql = $this->_select . " ORDER BY name";
 
     try {
-      $db = $this->getDBConn();
-      $stmt = $db->query($sql);
+      $stmt = $this->_dbh->query($sql);
       $result = $stmt->fetchAll(PDO::FETCH_OBJ);
-      $db = null;
       echo json_encode($result);
 
     } catch(PDOException $e) {
@@ -43,12 +37,10 @@ class User
     $sql = $this->_select . " WHERE id = :id ORDER BY name";
 
     try {
-      $db = $this->getDBConn();
-      $stmt = $db->prepare($sql);
+      $stmt = $this->_dbh->prepare($sql);
       $stmt->bindParam("id", $id);
       $stmt->execute();
       $result = $stmt->fetchObject();
-      $db = null;
       echo json_encode($result);
 
     } catch(PDOException $e) {
@@ -62,13 +54,11 @@ class User
     $sql = $this->_select . " WHERE UPPER(name) LIKE UPPER(:name) ORDER BY name";
 
     try {
-      $db = $this->getDBConn();
-      $stmt = $db->prepare($sql);
+      $stmt = $this->_dbh->prepare($sql);
       $name = "%".$name."%";
       $stmt->bindParam("name", $name);
       $stmt->execute();
       $result = $stmt->fetchAll(PDO::FETCH_OBJ);
-      $db = null;
       echo json_encode($result);
 
     } catch(PDOException $e) {
@@ -81,13 +71,11 @@ class User
   {
 
     try {
-      $db = $this->getDBConn();
-      $stmt = $db->prepare($this->_insert);
+      $stmt = $this->_dbh->prepare($this->_insert);
       $stmt->bindParam("name", $vo->name);
       $stmt->bindParam("score", $vo->score);
       $stmt->execute();
       $vo->id = $db->lastInsertId();
-      $db = null;
       echo json_encode($vo);
 
     } catch(PDOException $e) {
@@ -99,13 +87,11 @@ class User
   public function update($vo)
   {
     try {
-      $db = $this->getDBConn();
-      $stmt = $db->prepare($this->_update);
+      $stmt = $this->_dbh->prepare($this->_update);
       $stmt->bindParam("name", $vo->name);
       $stmt->bindParam("score", $vo->score);
       $stmt->bindParam("id", $vo->id);
       $stmt->execute();
-      $db = null;
       echo json_encode($vo);
 
     } catch(PDOException $e) {
@@ -117,11 +103,9 @@ class User
   public function delete($id)
   {
     try {
-      $db = $this->getDBConn();
-      $stmt = $db->prepare($this->_delete);
+      $stmt = $this->_dbh->prepare($this->_delete);
       $stmt->bindParam("id", $id);
       $stmt->execute();
-      $db = null;
       echo 'ok';
 
     } catch(PDOException $e) {
@@ -131,5 +115,3 @@ class User
   }
 
 }
-
-?>
