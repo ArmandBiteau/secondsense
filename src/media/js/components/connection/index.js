@@ -4,6 +4,8 @@ import Vue from 'vue';
 
 export default Vue.extend({
 
+	inherit: true,
+
 	template: require('./template.html'),
 
 	data: function() {
@@ -11,6 +13,15 @@ export default Vue.extend({
 		return {
 
 		};
+
+	},
+
+	props: {
+
+		me: {
+	      type: Object,
+	      required: true
+	    }
 
 	},
 
@@ -54,15 +65,15 @@ export default Vue.extend({
 
 			}, (response) => {
 
-				this.$parent.me.id = response.id;
+				this.me.id = response.id;
 
-				this.$parent.me.name = response.name;
+				this.me.name = response.name;
 
-				this.$parent.me.email = response.email;
+				this.me.email = response.email;
 
-				this.$parent.me.gender = response.gender;
+				this.me.gender = response.gender;
 
-				this.$parent.me.picture = response.picture.data.url;
+				this.me.picture = response.picture.data.url;
 
 			});
 
@@ -72,11 +83,11 @@ export default Vue.extend({
 
 			}, (response) => {
 
-				this.$parent.me.friends = response.data;
+				this.me.friends = response.data;
 
 			});
 
-			console.log(this.$parent.me);
+			console.log(this.me);
 
 		},
 
