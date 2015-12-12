@@ -40,7 +40,9 @@ export default {
 
                 friends: []
 
-            }
+            },
+
+            socket: null
 
 		};
 
@@ -55,6 +57,8 @@ export default {
 	ready: function() {
 
         this.addEventListener();
+
+        this.createNodeSession();
 
         this.createFbSDK();
 
@@ -85,6 +89,18 @@ export default {
         },
 
         addEventListener: function() {
+
+        },
+
+        createNodeSession: function() {
+
+            this.socket = io.connect('http://192.168.33.10:3000');
+
+            this.socket.on('connect', function() {
+
+                // User connected to the app
+
+            });
 
         },
 

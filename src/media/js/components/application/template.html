@@ -2,7 +2,7 @@
 
     <div class="application-container">
 
-        <component :is="currentView"></component>
+        <component :is="currentView" :socket="socket" :me="me"></component>
 
         <!-- <loading-component></loading-component> -->
         <!-- <intro-component></intro-component> -->

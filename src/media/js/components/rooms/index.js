@@ -12,11 +12,23 @@ export default Vue.extend({
 
 		return {
 
-			rooms: [],
-
-			me: null
+			rooms: []
 
 		};
+
+	},
+
+	props: {
+
+		socket: {
+	      type: Object,
+	      required: true
+	    },
+
+		me: {
+	      type: Object,
+	      required: true
+	    }
 
 	},
 
@@ -30,7 +42,7 @@ export default Vue.extend({
 
         this.addEventListener();
 
-		this.openNodeSession();
+		this.openRoomSession();
 
 	},
 
@@ -52,17 +64,11 @@ export default Vue.extend({
 
 		},
 
-		openNodeSession: function() {
+		openRoomSession: function() {
 
 			let _this = this;
 
-			this.socket = io.connect('http://192.168.33.10:3000');
-
-			this.socket.on('connect', function() {
-
-				_this.socket.emit('new player', {name: _this.$parent.me.name});
-
-			});
+			this.socket.emit('new player', {name: _this.me.name});
 
 			this.socket.on('new player', _this.onNewPlayer);
 

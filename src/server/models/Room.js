@@ -9,6 +9,9 @@ var Player = require('./Player');
 var Room = function(roomName) {
 
 	this.name = roomName;
+
+	this.maxPlayers = 5;
+
 	this.players = [];
 
 };
