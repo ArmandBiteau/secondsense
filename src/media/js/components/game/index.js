@@ -62,7 +62,9 @@ export default Vue.extend({
 
 			_effect: null,
 
-			_manager: null
+			_manager: null,
+
+			_scoreContainer: null
 
 		};
 
@@ -174,6 +176,12 @@ export default Vue.extend({
 			// Controls
 
 			this._controls = new THREE.VRControls(this._camera);
+
+			// Score
+
+			this._scoreContainer = new THREE.CSS3DObject(document.getElementById('game-score-wrapper'));
+
+			this._scene.add(this._scoreContainer);
 
 			// Renderer
 
@@ -330,8 +338,6 @@ export default Vue.extend({
 			this._distanceMove = 0.1;
 
 			let canMove = this.canMoveForward();
-
-			console.log(canMove);
 
 			if (canMove) {
 

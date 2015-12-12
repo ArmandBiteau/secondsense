@@ -4,11 +4,17 @@ import Vue from 'vue';
 
 export default Vue.extend({
 
+	inherit: true,
+
 	template: require('./template.html'),
 
 	data: function() {
 
 		return {
+
+			rooms: [],
+
+			me: null
 
 		};
 
@@ -48,17 +54,43 @@ export default Vue.extend({
 
 		openNodeSession: function() {
 
-			let socket = io.connect('http://192.168.33.10:3000');
+			let _this = this;
 
-			socket.emit('nouveau_gamer', {id: this.$parent.me.id, name: this.$parent.me.name});
+			this.socket = io.connect('http://192.168.33.10:3000');
 
-	        socket.on('message', (message) => {
+			this.socket.on('connect', function() {
 
-	            console.log('Serveur : ' + message);
+				_this.socket.emit('new player', {name: _this.$parent.me.name});
 
-	        });
+			});
 
-			socket.emit('message', 'Je suis dans le game ?');
+			this.socket.on('new player', _this.onNewPlayer);
+
+			this.socket.on('update rooms', _this.onUpdateRoom);
+
+		},
+
+		onNewPlayer: function(data) {
+
+			console.log(data);
+
+		},
+
+		onSwitchRoom: function(newroom) {
+
+			this.socket.emit('switch room', newroom);
+
+		},
+
+		onUpdateRoom: function(rooms, currentRoom) {
+
+			this.rooms = rooms;
+
+			this.currentRoom = currentRoom;
+
+			console.log('you join '+currentRoom.name);
+
+			console.log('Players in '+currentRoom.name, currentRoom.players);
 
 		}
 
