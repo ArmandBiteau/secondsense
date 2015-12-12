@@ -82,15 +82,11 @@ export default Vue.extend({
 
 		},
 
-		onUpdateRoom: function(rooms, currentRoom) {
+		onUpdateRoom: function(rooms) {
 
 			this.rooms = rooms;
 
-			this.currentRoom = currentRoom;
-
-			console.log('you join '+currentRoom.name);
-
-			console.log('Players in '+currentRoom.name, currentRoom.players);
+			console.log(this.rooms);
 
 		}
 
