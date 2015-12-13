@@ -62,15 +62,7 @@ export default {
 
         this.createFbSDK();
 
-        this.$http.get('/api/users', (data) => {
-
-            console.log('/api/users :', data);
-
-        }).error((data, status, request) => {
-
-            console.log(data, status, request);
-
-        });
+        this.testPHPApi();
 
 	},
 
@@ -92,15 +84,35 @@ export default {
 
         },
 
+        testPHPApi: function() {
+
+            // GET ALL PLAYERS
+            this.$http.get('/api/users', (data) => {
+
+                console.log('/api/users :', data);
+
+            }).error((data, status, request) => {
+
+                console.log(data, status, request);
+
+            });
+
+            // GET Armand Bto
+            this.$http.get('/api/users/1259753977383932', (data) => {
+
+                console.log('/api/users/1259753977383932 :', data);
+
+            }).error((data, status, request) => {
+
+                console.log(data, status, request);
+
+            });
+
+        },
+
         createNodeSession: function() {
 
             this.socket = io.connect('http://192.168.33.10:3000');
-
-            this.socket.on('connect', function() {
-
-                // User connected to the app
-
-            });
 
         },
 
