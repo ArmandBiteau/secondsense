@@ -1,7 +1,7 @@
 <?php
 
-require 'Slim/Slim.php';
-require 'models/User.php';
+require_once 'Slim/Slim.php';
+require_once 'models/User.php';
 
 $app = new Slim();
 $user = new User();
@@ -50,5 +50,3 @@ $app->put('/users/:id', function($id) use($user, $app) {
 });
 
 $app->run();
-
-?>
