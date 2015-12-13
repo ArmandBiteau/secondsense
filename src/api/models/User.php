@@ -1,14 +1,15 @@
 <?php
 
-require_once 'Db.php';
+require_once "Db.php";
 
 class User
 {
 
-  private $_select = "SELECT * FROM secondsense_users ";
-  private $_insert = "INSERT INTO secondsense_users(name, score) VALUES(:name , :score)";
-  private $_update = "UPDATE secondsense_users SET name = :name, score = :score WHERE id = :id";
-  private $_delete = "DELETE FROM secondsense_users WHERE id = :id";
+  private $_select = "SELECT * FROM secondsense_users";
+  private $_insert = "INSERT INTO secondsense_users(facebook_user_id, facebook_user_name) VALUES (:facebook_id, :facebook_name)";
+  private $_update = "UPDATE secondsense_users SET facebook_user_name = :facebook_name WHERE facebook_user_id = :facebook_id";
+  private $_delete = "DELETE FROM secondsense_users WHERE facebook_user_id = :facebook_id";
+  private $_dbh;
 
   public function __construct()
   {
@@ -19,7 +20,7 @@ class User
 
   public function getAll()
   {
-    $sql = $this->_select . " ORDER BY name";
+    $sql = $this->_select . " ORDER BY facebook_user_name";
 
     try {
       $stmt = $this->_dbh->query($sql);
@@ -34,11 +35,11 @@ class User
 
   public function getById($id)
   {
-    $sql = $this->_select . " WHERE id = :id ORDER BY name";
+    $sql = $this->_select . " WHERE facebook_user_id = :facebook_id ORDER BY facebook_user_name";
 
     try {
       $stmt = $this->_dbh->prepare($sql);
-      $stmt->bindParam("id", $id);
+      $stmt->bindParam("facebook_id", $id);
       $stmt->execute();
       $result = $stmt->fetchObject();
       echo json_encode($result);
@@ -51,12 +52,12 @@ class User
 
   public function getByName($name)
   {
-    $sql = $this->_select . " WHERE UPPER(name) LIKE UPPER(:name) ORDER BY name";
+    $sql = $this->_select . " WHERE UPPER(facebook_user_name) LIKE UPPER(:facebook_name) ORDER BY facebook_user_name";
 
     try {
       $stmt = $this->_dbh->prepare($sql);
       $name = "%".$name."%";
-      $stmt->bindParam("name", $name);
+      $stmt->bindParam("facebook_name", $name);
       $stmt->execute();
       $result = $stmt->fetchAll(PDO::FETCH_OBJ);
       echo json_encode($result);
@@ -69,11 +70,10 @@ class User
 
   public function insert($vo)
   {
-
     try {
       $stmt = $this->_dbh->prepare($this->_insert);
-      $stmt->bindParam("name", $vo->name);
-      $stmt->bindParam("score", $vo->score);
+      // $stmt->bindParam("facebook_id", $vo->id)
+      $stmt->bindParam("facebook_name", $vo->name);
       $stmt->execute();
       $vo->id = $db->lastInsertId();
       echo json_encode($vo);
@@ -88,9 +88,8 @@ class User
   {
     try {
       $stmt = $this->_dbh->prepare($this->_update);
-      $stmt->bindParam("name", $vo->name);
-      $stmt->bindParam("score", $vo->score);
-      $stmt->bindParam("id", $vo->id);
+      $stmt->bindParam("facebook_name", $vo->name);
+      $stmt->bindParam("facebook_id", $vo->id);
       $stmt->execute();
       echo json_encode($vo);
 
@@ -104,7 +103,7 @@ class User
   {
     try {
       $stmt = $this->_dbh->prepare($this->_delete);
-      $stmt->bindParam("id", $id);
+      $stmt->bindParam("facebook_id", $id);
       $stmt->execute();
       echo 'ok';
 

@@ -7,6 +7,7 @@ class Db
     private $_username = "root";
     private $_password = "root";
     private $_database = "secondsense";
+
     /*
     Get an instance of the Database
     @return Instance
@@ -22,10 +23,8 @@ class Db
     private function __construct()
     {
         try {
-            $this->_connection  = new \PDO("mysql:host=$this->_host;dbname=$this->_database", $this->_username, $this->_password);
+            $this->_connection  = new PDO("mysql:host=$this->_host;dbname=$this->_database", $this->_username, $this->_password);
             $this->_connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            /*** echo a message saying we have connected ***/
-            echo 'Connected to database';
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
