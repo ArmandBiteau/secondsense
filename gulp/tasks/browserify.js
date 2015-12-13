@@ -17,10 +17,12 @@ var packageJSON = require('../../package.json');
 var librairies = Object.keys(packageJSON.dependencies);
 
 gulp.task('browserify', function() {
-	var browserifyConfig = watchify(browserify(files.browserifyEntry, watchify.args));
+	var browserifyConfigApp = watchify(browserify(files.browserifyEntry, watchify.args));
+	var browserifyConfigServer = watchify(browserify(files.serverEntry, watchify.args));
 
-	function rebundle() {
-		browserifyConfig
+	function rebundleApp() {
+
+		browserifyConfigApp
 			.external(librairies)
 			.transform(babelify, {presets: ['es2015']})
 			.bundle()
@@ -37,9 +39,40 @@ gulp.task('browserify', function() {
 			.pipe(reload({
 				stream: true
 			}));
+
 	}
 
-	browserifyConfig.on('update', rebundle);
+	function rebundleServer() {
+
+		// browserifyConfigServer
+			// .external(librairies)
+			// .transform(babelify, {presets: ['es2015']})
+			// .bundle()
+			// .on('error', errorHandler)
+			// .pipe(source('bundle.js'))
+			// .pipe(buffer())
+			// .pipe(sourcemaps.init({
+				// loadMaps: true
+			// }))
+			// .pipe(uglify())
+			// .pipe(sourcemaps.write('./'))
+			// .pipe(gulp.dest(files.serverDest))
+			// .pipe(filter('**/*.js'))
+			// .pipe(reload({
+			// 	stream: true
+			// }));
+
+	}
+
+	function rebundle() {
+
+		rebundleApp();
+		rebundleServer();
+
+	}
+
+	browserifyConfigApp.on('update', rebundleApp);
+	browserifyConfigServer.on('update', rebundleServer);
 
 	return rebundle();
 });

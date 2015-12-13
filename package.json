@@ -47,6 +47,7 @@
     "gulp-sass": "^2.1.0",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-uglify": "^1.2.0",
+    "http-browserify": "^1.7.0",
     "remapify": "^2.0.0",
     "stringify": "^3.1.0",
     "vinyl-buffer": "^1.0.0",

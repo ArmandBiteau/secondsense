@@ -2,7 +2,18 @@
 
     <div class="rooms-container">
 
-        <h1>Rooms</h1>
+        <h1>Rooms list</h1>
+
+        <div class="rooms-list">
+            <li v-for="room in rooms">
+                <button class="rooms-list-element" v-on:click="onSwitchRoom(room.name)">
+                    {{ room.name }}
+                    <span v-for="player in room.players">
+                        {{player.name}}
+                    </span>
+                </button>
+            </li>
+        </div>
 
     </div>
 

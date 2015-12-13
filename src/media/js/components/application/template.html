@@ -2,13 +2,7 @@
 
     <div class="application-container">
 
-        <component :is="currentView"></component>
-
-        <!-- <loading-component></loading-component> -->
-        <!-- <intro-component></intro-component> -->
-        <!-- <connection-component></connection-component> -->
-        <!-- <rooms-component></rooms-component> -->
-        <!-- <game-component></game-component> -->
+        <component :is="currentView" :socket="socket" :me="me"></component>
 
         <div class="tmp-routing">
             <a v-on:click="switchView('loading')">Loading</a>

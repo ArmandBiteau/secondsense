@@ -20,13 +20,13 @@ export default {
 
 		cubeInitialize: function() {
 
-            var geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+            let geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
 
-            var material = new THREE.MeshLambertMaterial({color: 0xF6F6F6});
+            let material = new THREE.MeshLambertMaterial({color: 0xF6F6F6});
 
             this._cube = new THREE.Mesh(geometry, material);
 
-            var dimensions = new THREE.Box3().setFromObject(this._cube);
+            let dimensions = new THREE.Box3().setFromObject(this._cube);
 
             this._cube.position.set(this._cubePositionInitial.x, this._cubePositionInitial.y + dimensions.max.y, this._cubePositionInitial.z);
 

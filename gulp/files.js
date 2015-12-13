@@ -1,8 +1,10 @@
 module.exports = {
 
 	copyEntry: [
-		'src/*',
 		'src/.htaccess',
+		'src/index.html',
+		'src/robots.txt',
+		'src/humans.txt',
 		'src/favicon/**',
 		'src/media/img/**',
 		'src/media/glsl/**',
@@ -10,8 +12,10 @@ module.exports = {
 		'src/media/icons/**',
 		'src/media/sounds/**',
 		'src/media/fonts/**',
-		'src/server.js',
-		'src/api/**'
+		'src/api/**',
+
+		'src/server/**'
+
 	],
 
 	delEntry: [
@@ -30,6 +34,9 @@ module.exports = {
 
 	browserifyEntry: './src/media/js/main.js',
 	browserifyDest: 'public/media/js',
+
+	serverEntry: './src/server/index.js',
+	serverDest: './server',
 
 	cssEntry: 'src/media/scss/**/*.scss',
 	cssDest: 'public/media/css',

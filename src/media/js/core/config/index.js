@@ -6,11 +6,11 @@ import Detectizr from '../../utils/detectizr';
  * CORE
 */
 
-export const DEBUG = window.config.DEBUG;
+// export const DEBUG = window.config.DEBUG;
 
-export const LOG = window.config.LOG;
+// export const LOG = window.config.LOG;
 
-export const LIVE = window.config.LIVE;
+// export const LIVE = window.config.LIVE;
 
 /*
  * PATHS

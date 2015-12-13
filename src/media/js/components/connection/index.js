@@ -4,6 +4,8 @@ import Vue from 'vue';
 
 export default Vue.extend({
 
+	inherit: true,
+
 	template: require('./template.html'),
 
 	data: function() {
@@ -11,6 +13,15 @@ export default Vue.extend({
 		return {
 
 		};
+
+	},
+
+	props: {
+
+		me: {
+	      type: Object,
+	      required: true
+	    }
 
 	},
 
@@ -52,31 +63,31 @@ export default Vue.extend({
 
 				fields: 'id, name, gender, picture, email'
 
-			}, function(response) {
+			}, (response) => {
 
-				this.$parent.me.id = response.id;
+				this.me.id = response.id;
 
-				this.$parent.me.name = response.name;
+				this.me.name = response.name;
 
-				this.$parent.me.email = response.email;
+				this.me.email = response.email;
 
-				this.$parent.me.gender = response.gender;
+				this.me.gender = response.gender;
 
-				this.$parent.me.picture = response.picture.data.url;
+				this.me.picture = response.picture.data.url;
 
-			}.bind(this));
+			});
 
 			FB.api('/me/friends', 'get', {
 
 				access_token: token
 
-			}, function(response) {
+			}, (response) => {
 
-				this.$parent.me.friends = response.data;
+				this.me.friends = response.data;
 
-			}.bind(this));
+			});
 
-			console.log(this.$parent.me);
+			console.log(this.me);
 
 		},
 
@@ -84,17 +95,17 @@ export default Vue.extend({
 
 			if (response.status === 'connected') {
 
-				var token = response.authResponse.accessToken;
+				let token = response.authResponse.accessToken;
 
 				this.getFBInfos(token);
 
 			} else {
 
-				FB.login(function(response) {
+				FB.login((response) => {
 
 					this.statusChangeCallback(response);
 
-				}.bind(this), {scope: 'public_profile, email, user_friends'});
+				}, {scope: 'public_profile, email, user_friends'});
 
 			}
 
@@ -102,11 +113,11 @@ export default Vue.extend({
 
 		checkLoginState: function() {
 
-			FB.getLoginStatus(function(response) {
+			FB.getLoginStatus((response) => {
 
 				this.statusChangeCallback(response);
 
-			}.bind(this));
+			});
 
 		}
 

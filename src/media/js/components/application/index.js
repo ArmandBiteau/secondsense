@@ -40,7 +40,9 @@ export default {
 
                 friends: []
 
-            }
+            },
+
+            socket: null
 
 		};
 
@@ -56,13 +58,15 @@ export default {
 
         this.addEventListener();
 
+        this.createNodeSession();
+
         this.createFbSDK();
 
-        this.$http.get('/api/users', function(data) {
+        this.$http.get('/api/users', (data) => {
 
             console.log('/api/users :', data);
 
-        }).error(function(data, status, request) {
+        }).error((data, status, request) => {
 
             console.log(data, status, request);
 
@@ -88,9 +92,21 @@ export default {
 
         },
 
+        createNodeSession: function() {
+
+            this.socket = io.connect('http://192.168.33.10:3000');
+
+            this.socket.on('connect', function() {
+
+                // User connected to the app
+
+            });
+
+        },
+
         createFbSDK: function() {
 
-            window.fbAsyncInit = function() {
+            window.fbAsyncInit = () => {
 
                 FB.init({
                     appId: '1653645381585414',
@@ -103,9 +119,9 @@ export default {
 
             (function(d, s, id) {
 
-                var js;
+                let js;
 
-                var fjs = d.getElementsByTagName(s)[0];
+                let fjs = d.getElementsByTagName(s)[0];
 
                 if (d.getElementById(id)) {return;}
 

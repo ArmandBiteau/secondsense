@@ -42,6 +42,12 @@ export default Vue.component('game-score-component', {
 
 		addEventListener: function() {
 
+			document.addEventListener('mousemove', this.onMouseMove);
+
+		},
+
+		onMouseMove: function() {
+
 		}
 
 	},
