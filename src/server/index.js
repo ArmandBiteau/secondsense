@@ -49,17 +49,25 @@ function onSocketConnection(client) {
 
 function onClientDisconnect() {
 
-	console.log('Player has disconnected: '+this.player.name);
+    if (this.player) {
 
-    var playerToDelete = this.room.players.indexOf(this.player);
+        console.log('Player has disconnected: '+this.player.name);
 
-    if(playerToDelete != -1) {
+        var playerToDelete = this.room.players.indexOf(this.player);
 
-    	this.room.players.splice(playerToDelete, 1);
+        if(playerToDelete != -1) {
+
+        	this.room.players.splice(playerToDelete, 1);
+
+        };
+
+    	this.broadcast.emit('remove player', {name: this.player.name});
+
+    } else {
+
+        console.log('Unknown player has disconnected !');
 
     };
-
-	this.broadcast.emit('remove player', {name: this.player.name});
 
 };
 

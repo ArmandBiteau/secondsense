@@ -68,6 +68,12 @@ export default Vue.extend({
 
 			let _this = this;
 
+			this.socket.on('connect', function() {
+
+                // User connected to the app
+
+            });
+
 			this.socket.emit('new player', {name: _this.me.name});
 
 			this.socket.on('new player', _this.onNewPlayer);

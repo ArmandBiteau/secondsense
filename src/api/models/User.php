@@ -71,16 +71,14 @@ class User
   public function insert($vo)
   {
     try {
-      $stmt = $this->_dbh->prepare($this->_insert);
-      // $stmt->bindParam("facebook_id", $vo->id)
-      $stmt->bindParam("facebook_name", $vo->name);
-      $stmt->execute();
-      $vo->id = $db->lastInsertId();
-      echo json_encode($vo);
+        $stmt = $this->_dbh->prepare($this->_insert);
+        $stmt->bindParam("facebook_id", $vo->facebook_user_id);
+        $stmt->bindParam("facebook_name", $vo->facebook_user_name);
+        $stmt->execute();
+        echo json_encode($vo);
 
     } catch(PDOException $e) {
-      echo '{"error":{"text":'. $e->getMessage() .'}}';
-
+        echo '{"error":{"text":'. $e->getMessage() .'}}';
     }
   }
 
@@ -88,8 +86,8 @@ class User
   {
     try {
       $stmt = $this->_dbh->prepare($this->_update);
-      $stmt->bindParam("facebook_name", $vo->name);
-      $stmt->bindParam("facebook_id", $vo->id);
+      $stmt->bindParam("facebook_id", $vo->facebook_user_id);
+      $stmt->bindParam("facebook_name", $vo->facebook_user_name);
       $stmt->execute();
       echo json_encode($vo);
 
@@ -105,7 +103,7 @@ class User
       $stmt = $this->_dbh->prepare($this->_delete);
       $stmt->bindParam("facebook_id", $id);
       $stmt->execute();
-      echo 'ok';
+      echo '{"success":{"text":"user deleted"}}';
 
     } catch(PDOException $e) {
       echo '{"error":{"text":'. $e->getMessage() .'}}';

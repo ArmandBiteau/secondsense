@@ -75,6 +75,8 @@ export default Vue.extend({
 
 				this.me.picture = response.picture.data.url;
 
+				this.checkDatabase();
+
 			});
 
 			FB.api('/me/friends', 'get', {
@@ -87,7 +89,7 @@ export default Vue.extend({
 
 			});
 
-			console.log(this.me);
+			// console.log(this.me);
 
 		},
 
@@ -118,6 +120,38 @@ export default Vue.extend({
 				this.statusChangeCallback(response);
 
 			});
+
+		},
+
+		checkDatabase: function() {
+
+			var _this = this;
+
+			var player = {
+
+				facebook_user_id: _this.me.id,
+
+				facebook_user_name: _this.me.name
+
+			};
+
+            this.$http.get('/api/users/'+_this.me.id, (data) => {
+
+                console.log('Already exists :', data.facebook_user_name);
+
+            }).error(() => {
+
+				this.$http.post('/api/users', player, (data) => {
+
+	                console.log('New player added :', data);
+
+	            }).error((data, status, request) => {
+
+	                console.log(data, status, request);
+
+	            });
+
+            });
 
 		}
 
