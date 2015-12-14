@@ -68,6 +68,26 @@ class User
     }
   }
 
+  public function getFriends($id)
+  {
+    $sql = "SELECT user_friends.* FROM secondsense_users AS user_friends
+				    INNER JOIN secondsense_friends ON user_friends.facebook_user_id = secondsense_friends.facebook_user_id_friend
+            INNER JOIN secondsense_users AS me ON secondsense_friends.facebook_user_id = me.facebook_user_id
+            WHERE me.facebook_user_id = :facebook_id";
+
+    try {
+      $stmt = $this->_dbh->prepare($sql);
+      $stmt->bindParam("facebook_id", $id);
+      $stmt->execute();
+      $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+      echo json_encode($result);
+
+    } catch(PDOException $e) {
+      echo '{"error":{"text":'. $e->getMessage() .'}}';
+
+    }
+  }
+
   public function insert($vo)
   {
     try {

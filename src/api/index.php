@@ -18,6 +18,12 @@ $app->get('/users/:id', function($id) use($user) {
 
 });
 
+$app->get('/users/:id/friends', function($id) use($user) {
+
+  $user->getFriends($id);
+
+});
+
 $app->get('/users/search/:name', function($name) use($user) {
 
   $user->getByName($name);
