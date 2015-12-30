@@ -3,6 +3,7 @@
 Berksfile.lock
 .sass-cache
 /public
+/server
 /node_modules
 /bower_components
 /npm-debug.log

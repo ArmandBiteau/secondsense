@@ -17,13 +17,12 @@ var packageJSON = require('../../package.json');
 
 var librairies = Object.keys(packageJSON.dependencies);
 
-gulp.task('browserify', function() {
-	var browserifyConfig = watchify(browserify(files.browserifyEntry, watchify.args));
+gulp.task('browserify-server', function() {
+	var browserifyServerConfig = watchify(browserify(files.browserifyServerEntry, watchify.args));
 
 	function rebundle() {
 
-		browserifyConfig
-			.external(librairies)
+		browserifyServerConfig
 			.transform(babelify, {presets: ['es2015']})
 			.bundle()
 			.on('error', errorHandler)
@@ -34,7 +33,7 @@ gulp.task('browserify', function() {
 			}))
 			.pipe(uglify())
 			.pipe(sourcemaps.write('./'))
-			.pipe(gulp.dest(files.browserifyDest))
+			.pipe(gulp.dest(files.browserifyServerDest))
 			.pipe(filter('**/*.js'))
 			.pipe(reload({
 				stream: true
@@ -42,7 +41,7 @@ gulp.task('browserify', function() {
 
 	}
 
-	browserifyConfig.on('update', rebundle);
+	browserifyServerConfig.on('update', rebundle);
 
 	return rebundle();
 });
