@@ -1,67 +1,55 @@
 'use strict';
 
-var http = require('http');
-var fs = require('fs');
-var io = require('socket.io');
+import Socket from './Socket';
 
-var Player = require('./Player');
+class Room {
 
-var Room = function(roomName) {
+	constructor(roomName) {
 
-	this.name = roomName;
+		this.name = roomName;
 
-	this.maxPlayers = 5;
+		this.maxPlayers = 5;
 
-	this.players = [];
+		this.players = [];
 
-};
+	}
 
-Room.prototype.join = function(socket) {
+	addPlayer(player) {
 
-	socket.join(this.name);
+		Socket.join(this.name);
 
-};
+	    this.players.push(player);
 
-Room.prototype.leave = function(socket) {
+		console.log(player.name+' a rejoint : '+this.name);
 
-	socket.leave(this.name);
+		Socket.broadcast.to(this.name).emit('new player', {name: player});
 
-};
+		for (var i = 0; i < this.players.length; i++) {
 
-Room.prototype.addPlayer = function(socket, player) {
+			Socket.emit('new player', {name: this.players[i].name});
 
-    this.join(socket);
+		}
 
-    this.players.push(player);
+	}
 
-	console.log(player.name+' a rejoint : '+this.name);
+	removePlayer(player) {
 
-	socket.broadcast.to(this.name).emit('new player', {name: player});
+		Socket.leave(this.name);
 
-	for (var i = 0; i < this.players.length; i++) {
+		let playerToDelete = this.players.indexOf(player);
 
-		socket.emit('new player', {name: this.players[i].name});
+	    if (playerToDelete !== -1) {
 
-	};
+	    	this.players.splice(playerToDelete, 1);
 
-};
+	    }
 
-Room.prototype.removePlayer = function(socket, player) {
+	}
 
-	this.leave(socket);
+    playerById() {
 
-	var playerToDelete = this.players.indexOf(player);
+    }
 
-    if(playerToDelete != -1) {
+}
 
-    	this.players.splice(playerToDelete, 1);
-
-    };
-
-};
-
-Room.prototype.playerById = function() {
-
-};
-
-module.exports = Room;
+export default Room;

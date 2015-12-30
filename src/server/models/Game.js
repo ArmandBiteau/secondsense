@@ -1,54 +1,55 @@
 'use strict';
 
-var http = require('http');
-var fs = require('fs');
-var io = require('socket.io');
+import Socket from './Socket';
 
-var Room = require('./Room');
+import Room from './Room';
 
-var Game = function() {
+class Game {
 
-    this.rooms = [];
+	constructor() {
 
-};
+		this.rooms = [];
 
-Game.prototype.addRoom = function(roomName) {
+	}
 
-    this.rooms.push(new Room(roomName));
+    addRoom(roomName) {
 
-};
+        this.rooms.push(new Room(roomName));
 
-Game.prototype.removeRoom = function(room) {
+    }
 
-	var roomToDelete = this.rooms.indexOf(room);
+    removeRoom(room) {
 
-    if(roomToDelete != -1) {
+        let roomToDelete = this.rooms.indexOf(room);
 
-    	this.rooms.splice(roomToDelete, 1);
+        if (roomToDelete !== -1) {
 
-    };
+        	this.rooms.splice(roomToDelete, 1);
 
-};
+        }
 
-Game.prototype.updateRooms = function(socket) {
+    }
 
-    socket.emit('update rooms', this.rooms);
+    updateRooms() {
 
-};
+        Socket.emit('update rooms', this.rooms);
 
-Game.prototype.roomByName = function(roomName) {
+    }
 
-	for (var i = 0; i < this.rooms.length; i++) {
+    roomByName(roomName) {
 
-		if (this.rooms[i].name == roomName)
+        for (var i = 0; i < this.rooms.length; i++) {
 
-			return this.rooms[i];
+    		if (this.rooms[i].name === roomName)
 
-	};
+    			return this.rooms[i];
 
-	return false;
+    	}
 
-};
+    	return false;
 
+    }
 
-module.exports = Game;
+}
+
+export default Game;
