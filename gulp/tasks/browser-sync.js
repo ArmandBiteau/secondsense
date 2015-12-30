@@ -3,10 +3,13 @@ var	browserSync = require('browser-sync');
 
 gulp.task('browser-sync', function() {
 	browserSync({
-		proxy: 'secondsense.local',
+		ui: {
+		    port: 8080
+		},
+		proxy: {
+		    target: 'http://secondsense.local',
+		    ws: true
+		},
 		browser: 'google chrome',
-		online: false,
-		ui: false,
-		ghostMode: false
 	});
 });
