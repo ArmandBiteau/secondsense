@@ -1,17 +1,21 @@
 'use strict';
 
-var http = require('http');
-var fs = require('fs');
-var io = require("socket.io");
+class Player {
 
-var Player = function(playerName) {
+	constructor(playerName) {
 
-	this.name = playerName;
-	this.x;
-	this.y;
-	this.z;
-	this.id;
+		this.name = playerName;
 
-};
+		this.x = 0;
 
-module.exports = Player;
+		this.y = 0;
+
+		this.z = 0;
+
+		this.id = null;
+
+	}
+
+}
+
+export default Player;

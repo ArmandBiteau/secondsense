@@ -13,9 +13,6 @@ module.exports = {
 		'src/media/sounds/**',
 		'src/media/fonts/**',
 		'src/api/**',
-
-		'src/server/**'
-
 	],
 
 	delEntry: [
@@ -35,17 +32,17 @@ module.exports = {
 	browserifyEntry: './src/media/js/main.js',
 	browserifyDest: 'public/media/js',
 
-	serverEntry: './src/server/index.js',
-	serverDest: './server',
+	browserifyServerEntry: './src/server/index.js',
+	browserifyServerDest: 'server',
 
 	cssEntry: 'src/media/scss/**/*.scss',
 	cssDest: 'public/media/css',
 	cssBase: 'src',
 
-	lintEntry: [
-		'src/media/js/**/*.js',
-		'src/server.js'
-	],
+	lintAppEntry: 'src/media/js/**/*.js',
+	lintServerEntry: 'src/server/**/*.js',
+	lintApiEntry: 'src/api/**/*.php',
+
 	remapifyEntry: 'src/media/js'
 
 };
