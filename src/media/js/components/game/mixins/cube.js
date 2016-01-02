@@ -2,6 +2,14 @@
 
 import THREE from 'three';
 
+// import {
+//     PATH_GLSL
+// } from '../../../core/config';
+
+var fragment = require('../../../../glsl/test-fs.glsl');
+
+console.log(fragment());
+
 export default {
 
     created: function() {
@@ -9,8 +17,6 @@ export default {
 		// Cube
 
 		this._cube = null;
-
-		this._cubeColor = '#FFFFFF';
 
 		this._cubePositionInitial = new THREE.Vector3(0, 0, -1);
 
@@ -22,7 +28,7 @@ export default {
 
             let geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
 
-            let material = new THREE.MeshLambertMaterial({color: 0xF6F6F6});
+            let material = new THREE.MeshLambertMaterial({color: 0x00FFFF});
 
             this._cube = new THREE.Mesh(geometry, material);
 
