@@ -8,6 +8,7 @@ import Game from './Game';
 
 import Player from './Player';
 
+// DROP THE GAME
 var Secondsense;
 
 class Manager {
@@ -35,9 +36,9 @@ class Manager {
 
     setEventHandlers() {
 
-		var _this = this;
+		let _this = this;
 
-    	Socket.sockets.on('connection', function(client) {
+    	Socket.sockets.on('connection', (client) => {
 
 	        console.log('Quelqu\'un de nouveau dans le game !');
 
@@ -55,9 +56,9 @@ class Manager {
 
         if (this.player) {
 
-            console.log('Player has disconnected: '+this.player.name);
+            console.log(this.player.name+' has disconnected !');
 
-            var playerToDelete = this.room.players.indexOf(this.player);
+            let playerToDelete = this.room.players.indexOf(this.player);
 
             if (playerToDelete !== -1) {
 
