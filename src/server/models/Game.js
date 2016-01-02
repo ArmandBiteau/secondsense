@@ -1,7 +1,5 @@
 'use strict';
 
-import Socket from './Socket';
-
 import Room from './Room';
 
 class Game {
@@ -30,9 +28,11 @@ class Game {
 
     }
 
-    updateRooms() {
+    updateRooms(socket) {
 
-        Socket.emit('update rooms', this.rooms);
+		socket.broadcast.emit('update rooms', this.rooms);
+
+		socket.emit('update rooms', this.rooms);
 
     }
 

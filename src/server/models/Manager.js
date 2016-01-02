@@ -8,11 +8,13 @@ import Game from './Game';
 
 import Player from './Player';
 
+var Secondsense;
+
 class Manager {
 
 	constructor() {
 
-        this.game = new Game();
+        Secondsense = new Game();
 
         this.start();
 
@@ -26,30 +28,26 @@ class Manager {
 
         console.log('Server running at http://192.168.33.10:3000/');
 
-        this.game.addRoom('Temporary room');
-        this.game.addRoom('Another room');
+        Secondsense.addRoom('Temporary room');
+        Secondsense.addRoom('Another room');
 
     }
 
     setEventHandlers() {
 
-    	Socket.sockets.on('connection', this.onSocketConnection.bind(this));
+		var _this = this;
 
-    }
+    	Socket.sockets.on('connection', function(client) {
 
-    onSocketConnection(client) {
+	        console.log('Quelqu\'un de nouveau dans le game !');
 
-    	// console.log("New player has connected: "+client.id);
-        console.log('Quelqu\'un de nouveau dans le game !');
+	    	client.on('disconnect', _this.onClientDisconnect);
 
-        // Listen for client disconnected
-    	client.on('disconnect', this.onClientDisconnect.bind(this));
+	    	client.on('new player', _this.onNewPlayer);
 
-        // Listen for new player message
-    	client.on('new player', this.onNewPlayer.bind(this));
+	    	client.on('switch room', _this.onSwitchRoom);
 
-        // Listen for player room
-    	client.on('switch room', this.onSwitchRoom.bind(this));
+		});
 
     }
 
@@ -67,7 +65,7 @@ class Manager {
 
             }
 
-        	Socket.broadcast.emit('remove player', {name: this.player.name});
+        	this.broadcast.emit('remove player', {name: this.player.name});
 
         } else {
 
@@ -81,23 +79,23 @@ class Manager {
 
         this.player = new Player(data.name);
 
-        this.room = this.game.roomByName('Temporary room');
+        this.room = Secondsense.roomByName('Temporary room');
 
-        this.room.addPlayer(this.player);
+        this.room.addPlayer(this, this.player);
 
-        this.game.updateRooms();
+        Secondsense.updateRooms(this);
 
     }
 
     onSwitchRoom(newroom) {
 
-        this.room.removePlayer(this.player);
+        this.room.removePlayer(this, this.player);
 
-        this.room = this.game.roomByName(newroom);
+        this.room = Secondsense.roomByName(newroom);
 
-        this.room.addPlayer(this.player);
+        this.room.addPlayer(this, this.player);
 
-        this.game.updateRooms();
+        Secondsense.updateRooms(this);
 
     }
 

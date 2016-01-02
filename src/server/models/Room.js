@@ -1,7 +1,5 @@
 'use strict';
 
-import Socket from './Socket';
-
 class Room {
 
 	constructor(roomName) {
@@ -14,27 +12,27 @@ class Room {
 
 	}
 
-	addPlayer(player) {
+	addPlayer(socket, player) {
 
-		Socket.join(this.name);
+		socket.join(this.name);
 
 	    this.players.push(player);
 
 		console.log(player.name+' a rejoint : '+this.name);
 
-		Socket.broadcast.to(this.name).emit('new player', {name: player});
+		socket.broadcast.to(this.name).emit('new player', {name: player});
 
 		for (var i = 0; i < this.players.length; i++) {
 
-			Socket.emit('new player', {name: this.players[i].name});
+			socket.emit('new player', {name: this.players[i].name});
 
 		}
 
 	}
 
-	removePlayer(player) {
+	removePlayer(socket, player) {
 
-		Socket.leave(this.name);
+		socket.leave(this.name);
 
 		let playerToDelete = this.players.indexOf(player);
 
