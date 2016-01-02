@@ -43,6 +43,7 @@ If it's not, install last version of [ChefDK](https://downloads.chef.io/chef-dk/
 Open a new terminal view and run vagrant :
 ```sh
 $ vagrant plugin install vagrant-berkshelf
+$ vagrant plugin install vagrant-hostmanager
 $ vagrant up
 $ vagrant ssh
 ```
