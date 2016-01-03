@@ -2,13 +2,6 @@
 
 import THREE from 'three';
 
-var uniforms = {
-
-      time: { type: 'f', value: 1.0 },
-
-      resolution: { type: 'v2', value: new THREE.Vector2()
-}};
-
 export default {
 
     created: function() {
@@ -17,19 +10,19 @@ export default {
 
 		this._ground = null;
 
-    this._groundColor = {color: 0x2c2c2c};
+        this._groundColor = {color: 0x2c2c2c};
 
 		this._borders = null;
 
-    this._bordersColor = {color: 0x3399FF};
+        this._bordersColor = {color: 0x3399FF};
 
-    this._obstacles = null;
+        this._obstacles = null;
 
-    this._obstaclesColor = {color: 0xCC6600};
+        this._obstaclesColor = {color: 0xCC6600};
 
 		this._terrainPositionInitial = new THREE.Vector3(0, 0, 0);
 
-    this._terrainSize = 20;
+        this._terrainSize = 20;
 
 	},
 
@@ -53,92 +46,86 @@ export default {
 
             // Borders
 
-            let borders = new THREE.Geometry();
+            var bordersGeo = new THREE.Geometry();
 
-            let border1 = new THREE.Mesh(new THREE.CubeGeometry(2,this._terrainSize,2));
+            let border1Geo = new THREE.BoxGeometry(2, this._terrainSize, 2);
+            let border1Mesh = new THREE.Mesh(border1Geo);
+            border1Mesh.position.set(this._terrainSize / 2, 0, 1);
 
-            border1.position.set(this._terrainSize / 2, 0, 1);
+            let border2Geo = new THREE.BoxGeometry(2, this._terrainSize, 2);
+            let border2Mesh = new THREE.Mesh(border2Geo);
+            border2Mesh.position.set(-this._terrainSize / 2, 0, 1);
 
-            THREE.GeometryUtils.merge(borders, border1);
+            let border3Geo = new THREE.BoxGeometry(this._terrainSize, 2, 2);
+            let border3Mesh = new THREE.Mesh(border3Geo);
+            border3Mesh.position.set(0, this._terrainSize / 2, 1);
 
-            let border2 = new THREE.Mesh(new THREE.CubeGeometry(2,this._terrainSize,2));
+            let border4Geo = new THREE.BoxGeometry(this._terrainSize, 2, 2);
+            let border4Mesh = new THREE.Mesh(border4Geo);
+            border4Mesh.position.set(0, -this._terrainSize / 2, 1);
 
-            border2.position.set(-this._terrainSize / 2, 0, 1);
+            border1Mesh.updateMatrix();
+            bordersGeo.merge(border1Mesh.geometry, border1Mesh.matrix);
 
-            THREE.GeometryUtils.merge(borders, border2);
+            border2Mesh.updateMatrix();
+            bordersGeo.merge(border2Mesh.geometry, border2Mesh.matrix);
 
-            let border3 = new THREE.Mesh(new THREE.CubeGeometry(this._terrainSize,2,2));
+            border3Mesh.updateMatrix();
+            bordersGeo.merge(border3Mesh.geometry, border3Mesh.matrix);
 
-            border3.position.set(0, this._terrainSize / 2, 1);
+            border4Mesh.updateMatrix();
+            bordersGeo.merge(border4Mesh.geometry, border4Mesh.matrix);
 
-            THREE.GeometryUtils.merge(borders, border3);
-
-            let border4 = new THREE.Mesh(new THREE.CubeGeometry(this._terrainSize,2,2));
-
-            border4.position.set(0, -this._terrainSize / 2, 1);
-
-            THREE.GeometryUtils.merge(borders, border4);
-
-            let bordersMaterial = new THREE.MeshBasicMaterial(this._bordersColor);
-
-            this._borders = new THREE.Mesh(borders, bordersMaterial);
+            this._borders = new THREE.Mesh(bordersGeo, new THREE.MeshBasicMaterial(this._bordersColor));
 
             this._borders.rotation.x = -Math.PI / 2;
 
             this._collidableMeshList.push(this._borders);
 
-      this._scene.add(this._borders);
+            this._scene.add(this._borders);
 
             // Obstacles
 
-            let obstacles = new THREE.Geometry();
+            var obstaclesGeo = new THREE.Geometry();
+            var obstaclesMat = new THREE.ShaderMaterial({
+                uniforms: {
+                      time: { type: 'f', value: 1.0 },
+                      resolution: { type: 'v2', value: new THREE.Vector2() }
+                },
+                vertexShader: require('../../../../glsl/terrain-vs.glsl')(),
+                fragmentShader: require('../../../../glsl/terrain-fs.glsl')()
+            });
 
-            let i;
+            for (let i = 0; i < 15; i++) {
 
-            for (i = 0; i < 15; i++) {
+                let obstacleGeo = new THREE.BoxGeometry(Math.random()*3, Math.random()*3, Math.random()*6);
+                let obstacleMesh = new THREE.Mesh(obstacleGeo);
 
-                    let obstacle = new THREE.Mesh(new THREE.CubeGeometry(Math.random()*3,Math.random()*3,Math.random()*6));
+                obstacleMesh.position.set((Math.random() * 2 - 1) * this._terrainSize / 2, (Math.random() * 2 - 1) * this._terrainSize / 2, 0.5);
+                obstacleMesh.rotation.set(Math.floor(Math.random() * 90), Math.floor(Math.random() * 90), Math.floor(Math.random() * 90));
 
-                    obstacle.position.set((Math.random() * 2 - 1) * this._terrainSize / 2, (Math.random() * 2 - 1) * this._terrainSize / 2, 0.5);
-
-                    obstacle.rotation.set(Math.floor(Math.random() * 90), Math.floor(Math.random() * 90), Math.floor(Math.random() * 90));
-
-                    THREE.GeometryUtils.merge(obstacles, obstacle);
+                obstacleMesh.updateMatrix();
+                obstaclesGeo.merge(obstacleMesh.geometry, obstacleMesh.matrix);
 
             }
 
-            let vertexShader = 'varying vec2 vUv;void main(){vUv = uv;vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );gl_Position = projectionMatrix * mvPosition;}';
-
-            let fragmentShader = 'uniform float time;uniform vec2 resolution;varying vec2 vUv;void main( void ) {vec2 position = -1.0 + 2.0 * vUv;float red = abs( sin( position.x * position.y + time / 5.0 ) );float green = abs( sin( position.x * position.y + time / 4.0 ) );float blue = abs( sin( position.x * position.y + time / 3.0 ) );gl_FragColor = vec4( red, green, blue, 1.0 );}';
-
-            let obstaclesMaterial = new THREE.ShaderMaterial(
-                    {
-
-                      uniforms: uniforms,
-
-                      vertexShader: vertexShader,
-
-                      fragmentShader: fragmentShader
-
-                    });
-
-            this._obstacles = new THREE.Mesh(obstacles, obstaclesMaterial);
+            this._obstacles = new THREE.Mesh(obstaclesGeo, obstaclesMat);
 
             this._obstacles.rotation.x = -Math.PI / 2;
 
             this._collidableMeshList.push(this._obstacles);
 
-      this._scene.add(this._obstacles);
+            this._scene.add(this._obstacles);
 
             // Grid helper
 
             let helper = new THREE.GridHelper(40, 0.25);
 
-      			helper.color1.setHex(0x6a6a6a);
+  			helper.color1.setHex(0x6a6a6a);
 
-      			helper.color2.setHex(0x6a6a6a);
+  			helper.color2.setHex(0x6a6a6a);
 
-      			helper.position.y = 0;
+  			helper.position.y = 0;
 
 			this._scene.add(helper);
 
@@ -146,7 +133,7 @@ export default {
 
 		terrainUpdate: function() {
 
-            uniforms.time.value += 0.1;
+            this._obstacles.material.uniforms.time.value += 0.1;
 
 		}
 	}

@@ -6,10 +6,6 @@ import THREE from 'three';
 //     PATH_GLSL
 // } from '../../../core/config';
 
-var fragment = require('../../../../glsl/test-fs.glsl');
-
-console.log(fragment());
-
 export default {
 
     created: function() {

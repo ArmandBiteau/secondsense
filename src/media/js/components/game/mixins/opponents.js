@@ -8,7 +8,7 @@ export default {
 
 		// Opponents
 
-    this._opponentsNumber = null;
+        this._opponentsNumber = null;
 
 		this._opponents = [];
 
@@ -24,9 +24,7 @@ export default {
 
             this._opponentsNumber = opponentsNumber;
 
-            let i;
-
-            for (i = 0; i < opponentsNumber; i++) {
+            for (let i = 0; i < opponentsNumber; i++) {
 
                   let geometry = new THREE.SphereGeometry(0.1, 16, 16);
 
@@ -44,13 +42,11 @@ export default {
 
 		opponentsUpdate: function(posArray) {
 
-      let i;
+            for (let i = 0; i < posArray.length; i++) {
 
-      for (i = 0; i < posArray.length; i++) {
+                this._opponents[i].position.set(posArray[i].x, posArray[i].y, posArray[i].z);
 
-            this._opponents[i].position.set(posArray[i].x, posArray[i].y, posArray[i].z);
-
-      }
+            }
 
 		}
 	}

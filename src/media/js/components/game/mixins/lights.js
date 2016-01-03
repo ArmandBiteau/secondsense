@@ -12,7 +12,7 @@ export default {
 
 		this._spotLightColor = '#FFFFFF';
 
-        this.__spotLightIntensity = 1000;
+        this._spotLightIntensity = 1000;
 
 		this._spotLightPosition = new THREE.Vector3(1, 2, 2);
 
