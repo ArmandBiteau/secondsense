@@ -6,7 +6,7 @@ export default {
 
     created: function() {
 
-		// Cube
+		// Sound Emitter
 
 		this._soundEmitter = null;
 
@@ -22,7 +22,7 @@ export default {
 
 		soundEmitterInitialize: function() {
 
-            let geometry = new THREE.SphereGeometry(0.1, 7, 7);
+            let geometry = new THREE.OctahedronGeometry(0.2, 0);
 
             let material = new THREE.MeshPhongMaterial({ color: 0xFF0000, shininess: 30, shading: THREE.FlatShading });
 
@@ -30,7 +30,7 @@ export default {
 
             let dimensions = new THREE.Box3().setFromObject(this._soundEmitter);
 
-            this._soundEmitter.position.set(this._soundEmitterPositionInitial.x, this._soundEmitterPositionInitial.y + dimensions.max.y, this._soundEmitterPositionInitial.z);
+            this._soundEmitter.position.set(this._soundEmitterPositionInitial.x, this._soundEmitterPositionInitial.y + dimensions.max.y + 0.25, this._soundEmitterPositionInitial.z);
 
 			this._scene.add(this._soundEmitter);
 
@@ -52,9 +52,7 @@ export default {
 
 		soundEmitterUpdate: function() {
 
-            this._soundEmitter.rotation.x -= 0.01;
-
-            this._soundEmitter.rotation.y -= 0.01;
+            this._soundEmitter.rotation.y -= 0.02;
 
 		}
 	}

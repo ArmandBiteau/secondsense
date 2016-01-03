@@ -30,8 +30,10 @@
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.3.13",
+    "babelify": "^7.2.0",
     "browser-sync": "^2.8.1",
     "browserify": "^9.0.8",
+    "browserify-shader": "^0.1.2",
     "browserify-shim": "^3.8.5",
     "del": "^1.2.0",
     "gulp": "^3.9.0",
@@ -66,7 +68,8 @@
   "browserify": {
     "transform": [
       "browserify-shim",
-      "stringify"
+      "stringify",
+      "babelify"
     ]
   },
   "browserify-shim": {

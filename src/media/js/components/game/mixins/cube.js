@@ -2,6 +2,10 @@
 
 import THREE from 'three';
 
+// import {
+//     PATH_GLSL
+// } from '../../../core/config';
+
 export default {
 
     created: function() {
@@ -12,7 +16,7 @@ export default {
 
 		this._cubeColor = '#FFFFFF';
 
-		this._cubePositionInitial = new THREE.Vector3(0, 0, -1);
+		this._cubePositionInitial = new THREE.Vector3(0, 0, 0);
 
 	},
 
@@ -20,15 +24,17 @@ export default {
 
 		cubeInitialize: function() {
 
-            let geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+            let geometry = new THREE.OctahedronGeometry();
 
-            let material = new THREE.MeshLambertMaterial({color: 0xF6F6F6});
+            let material = new THREE.MeshLambertMaterial({color: 0x00FFFF});
 
             this._cube = new THREE.Mesh(geometry, material);
 
-            let dimensions = new THREE.Box3().setFromObject(this._cube);
+            //let dimensions = new THREE.Box3().setFromObject(this._cube);
 
-            this._cube.position.set(this._cubePositionInitial.x, this._cubePositionInitial.y + dimensions.max.y, this._cubePositionInitial.z);
+            this._cube.position.set(1, 0.4, 1);
+
+            this._cube.scale.set(0.2, 0.1, 0.2);
 
 			this._scene.add(this._cube);
 
@@ -38,7 +44,7 @@ export default {
 
 		cubeUpdate: function() {
 
-            // this._cube.rotation.y += 0.01;
+            this._cube.rotation.y += 0.01;
 
 		}
 	}

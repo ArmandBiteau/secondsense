@@ -59,6 +59,7 @@ class Main {
 			new Vue(Application);
 
 		});
+
 	}
 }
 

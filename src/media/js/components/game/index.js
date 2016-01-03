@@ -16,6 +16,8 @@ import TerrainMixin from './mixins/terrain';
 
 import CubeMixin from './mixins/cube';
 
+import OpponentsMixin from './mixins/opponents';
+
 import LightsMixin from './mixins/lights';
 
 export default Vue.extend({
@@ -151,7 +153,7 @@ export default Vue.extend({
 
 			this._scene = new THREE.Scene();
 
-			this._scene.fog = new THREE.FogExp2(0x1c1c1c, 1.2);
+			//this._scene.fog = new THREE.FogExp2(0x1c1c1c, 1.2);
 
 			// Camera
 
@@ -218,13 +220,13 @@ export default Vue.extend({
 
 			this.isSceneLoaded = true;
 
-			// this.soundEmitterInitialize();
+			this.soundEmitterInitialize();
 
 			this.terrainInitialize();
 
 			this.lightInitialize();
 
-			this.cubeInitialize();
+			this.opponentsInitialize(4);
 
 		},
 
@@ -243,13 +245,15 @@ export default Vue.extend({
 
 			this.cameraUpdate();
 
-			// this.soundEmitterUpdate();
+			this.soundEmitterUpdate();
 
 			this.terrainUpdate();
 
 			this.lightsUpdate();
 
-			this.cubeUpdate();
+			let posArray = [new THREE.Vector3(1, 0.4, 1), new THREE.Vector3(-1, 0.4, -1), new THREE.Vector3(-1, 0.4, 1), new THREE.Vector3(1, 0.4, -1)];
+
+			this.opponentsUpdate(posArray);
 
 		},
 
@@ -307,7 +311,17 @@ export default Vue.extend({
 
 		canMoveForward: function() {
 
+			let vector = new THREE.Vector3(0, 0, -1);
+
+			let cameraLookVector = vector.applyQuaternion(this._camera.quaternion);
+
 			let originPoint = this._cameraBox.position.clone();
+
+			 // console.log(originPoint);
+
+			originPoint = new THREE.Vector3(originPoint.x + cameraLookVector.x * 0.5, originPoint.y, originPoint.z + cameraLookVector.z * 0.5);
+
+			// console.log(originPoint);
 
 			for (let vertexIndex = 0; vertexIndex < this._cameraBox.geometry.vertices.length; vertexIndex++) {
 
@@ -335,7 +349,7 @@ export default Vue.extend({
 
 		moveForward: function() {
 
-			this._distanceMove = 0.1;
+			this._distanceMove = 0.5;
 
 			let canMove = this.canMoveForward();
 
@@ -388,6 +402,8 @@ export default Vue.extend({
 		TerrainMixin,
 
 		CubeMixin,
+
+		OpponentsMixin,
 
 		LightsMixin,
 

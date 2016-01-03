@@ -39,7 +39,9 @@ module.exports = {
 	cssDest: 'public/media/css',
 	cssBase: 'src',
 
-	lintAppEntry: 'src/media/js/**/*.js',
+	lintAppEntry: [
+		'src/media/js/**/*.js'
+	],
 	lintServerEntry: 'src/server/**/*.js',
 	lintApiEntry: 'src/api/**/*.php',
 
