@@ -18,19 +18,19 @@ import Detectizr from '../../utils/detectizr';
 
 export const ROOT_URL = window.location.origin || window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
 
-export const PATH_DATA = '/data';
+export const PATH_DATA = ROOT_URL + '/media/data';
 
 export const PATH_MODELS = PATH_DATA + '/models';
 
-export const PATH_SCRIPTS = '/scripts';
+export const PATH_SCRIPTS = ROOT_URL + '/media/js';
 
-export const PATH_GLSL = '/glsl';
+export const PATH_GLSL = ROOT_URL + '/media/glsl';
 
-export const PATH_IMAGES = '/img';
+export const PATH_IMAGES = ROOT_URL + '/media/img';
 
 export const PATH_TEXTURES = PATH_IMAGES + '/textures';
 
-export const PATH_SOUNDS = '/sounds';
+export const PATH_SOUNDS = ROOT_URL + '/media/sounds';
 
 /*
  * LOCALS

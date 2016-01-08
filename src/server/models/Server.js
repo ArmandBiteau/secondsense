@@ -2,30 +2,25 @@
 
 var http = require('http');
 var fs = require('fs');
-var io = require('socket.io');
 
-var Server = function() {
+class Server {
 
-    //My Server
+	constructor() {
 
-};
+		return http.createServer(function(req, res) {
 
-Server.prototype.createServer = function() {
+            fs.readFile('./index.html', 'utf-8', function(error, content) {
 
-    var server = http.createServer(function(req, res) {
+                res.writeHead(200, {'Content-Type': 'text/html'});
 
-        fs.readFile('./index.html', 'utf-8', function(error, content) {
+                res.end(content);
 
-            res.writeHead(200, {'Content-Type': 'text/html'});
-
-            res.end(content);
+            });
 
         });
 
-    });
+	}
 
-    return server;
+}
 
-};
-
-module.exports = Server;
+export default (new Server());

@@ -12,21 +12,23 @@ var	filter = require('gulp-filter');
 var errorHandler = require('../error-handler');
 
 var babelify = require('babelify');
-
 var packageJSON = require('../../package.json');
+
 var librairies = Object.keys(packageJSON.dependencies);
 
 gulp.task('browserify', function() {
-	var browserifyConfigApp = watchify(browserify(files.browserifyEntry, watchify.args));
-	var browserifyConfigServer = watchify(browserify(files.serverEntry, watchify.args));
+	var browserifyConfig = watchify(browserify(files.browserifyEntry, watchify.args));
+	browserifyConfig.transform('browserify-shader');
 
-	function rebundleApp() {
+	function rebundle() {
 
-		browserifyConfigApp
+		browserifyConfig
 			.external(librairies)
+
 			.transform(babelify, {presets: ['es2015']})
 			.bundle()
 			.on('error', errorHandler)
+			// .pipe(babel())
 			.pipe(source('bundle.js'))
 			.pipe(buffer())
 			.pipe(sourcemaps.init({
@@ -42,37 +44,7 @@ gulp.task('browserify', function() {
 
 	}
 
-	function rebundleServer() {
-
-		// browserifyConfigServer
-			// .external(librairies)
-			// .transform(babelify, {presets: ['es2015']})
-			// .bundle()
-			// .on('error', errorHandler)
-			// .pipe(source('bundle.js'))
-			// .pipe(buffer())
-			// .pipe(sourcemaps.init({
-				// loadMaps: true
-			// }))
-			// .pipe(uglify())
-			// .pipe(sourcemaps.write('./'))
-			// .pipe(gulp.dest(files.serverDest))
-			// .pipe(filter('**/*.js'))
-			// .pipe(reload({
-			// 	stream: true
-			// }));
-
-	}
-
-	function rebundle() {
-
-		rebundleApp();
-		rebundleServer();
-
-	}
-
-	browserifyConfigApp.on('update', rebundleApp);
-	browserifyConfigServer.on('update', rebundleServer);
+	browserifyConfig.on('update', rebundle);
 
 	return rebundle();
 });
