@@ -10,6 +10,6 @@ gulp.task('browser-sync', function() {
 		    target: 'http://secondsense.local',
 		    ws: true
 		},
-		browser: 'google chrome',
+		browser: (process.platform === 'linux' ? 'google-chrome' : 'google chrome'),
 	});
 });
