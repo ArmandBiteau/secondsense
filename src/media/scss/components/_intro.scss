@@ -14,20 +14,20 @@
     margin: 0 auto;
     height: auto;
     width: auto;
-    transform: rotate3d(0, 1, 0, 0deg);
+    transform: rotate3d(0, 1, 0, 0deg) translateZ(50px);
     transform-style: preserve-3d;
 }
 
 .intro-title{
-    margin-bottom: 35%;
+    margin-bottom: 30%;
     h1{
-        transform: perspective(1000px) translateZ(50px);
+        transform: perspective(1000px) translateZ(0px);
     }
     h2{
         text-align: right;
-        margin-top: -0.2em;
-        margin-right: 0.4em;
-        transform: perspective(1000px) translateZ(80px);
+        margin-top: -0.3em;
+        margin-right: 1em;
+        transform: perspective(1000px) translateZ(20px);
     }
 }
 
@@ -35,5 +35,4 @@
     display: flex;
     flex-flow: row wrap;
     justify-content: space-around;
-    transform: perspective(1000px) translateZ(50px);
 }

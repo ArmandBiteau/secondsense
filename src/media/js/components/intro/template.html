@@ -1,4 +1,4 @@
-<div class="intro-wrapper">
+<div id="intro-wrapper" class="intro-wrapper">
 
     <div v-el:container class="intro-container">
 
@@ -12,7 +12,7 @@
         <div class="intro-links">
 
             <connection-component :socket="socket" :me="me"></connection-component>
-            <a v-on:click="$parent.switchView('loading')" class="zbtn">How to play</a>
+            <a v-on:click="$parent.switchView('game')" class="zbtn">How to play</a>
 
         </div>
 

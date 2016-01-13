@@ -53,7 +53,7 @@ export default Vue.extend({
 
 		addEventListener: function() {
 
-			document.addEventListener('mousemove', (event) => {
+			document.getElementById('intro-wrapper').addEventListener('mousemove', (event) => {
 
 				this.updateContainer3D(event);
 
@@ -63,14 +63,12 @@ export default Vue.extend({
 
 		updateContainer3D: function(event) {
 
-			let _this = this;
-
 			let x = event.clientX - window.innerWidth/2;
 			let y = event.clientY - window.innerHeight/2;
 
-			TweenMax.to(_this.$els.container, 0.3, {
+			TweenMax.to(this.$els.container, 0.3, {
 				css: {
-					'transform': 'rotateX('+ -y/70 +'deg) rotateY('+ x/100 +'deg)'
+					'transform': 'rotateX('+ -y/60 +'deg) rotateY('+ x/100 +'deg) translateZ(50px)'
 				}
 			});
 
