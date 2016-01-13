@@ -2,9 +2,20 @@
 
 import Vue from 'vue';
 
+import connectionComponent from '../connection';
+
 export default Vue.extend({
 
+	inherit: true,
+
 	template: require('./template.html'),
+
+	props: {
+
+		socket: {},
+		me: {}
+
+	},
 
 	data: function() {
 
@@ -47,7 +58,7 @@ export default Vue.extend({
 	},
 
 	components: {
-
+		connectionComponent
 	}
 
 });

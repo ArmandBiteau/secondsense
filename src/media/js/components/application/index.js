@@ -4,8 +4,6 @@ import loading from '../loading';
 
 import intro from '../intro';
 
-import connection from '../connection';
-
 import rooms from '../rooms';
 
 import game from '../game';
@@ -24,7 +22,7 @@ export default {
 
 		return {
 
-            currentView: 'connection',
+            currentView: 'intro',
 
             me: {
 
@@ -159,7 +157,6 @@ export default {
 
         loading,
         intro,
-        connection,
         rooms,
         game
 
