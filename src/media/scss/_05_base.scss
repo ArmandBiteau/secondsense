@@ -12,17 +12,29 @@ html {
 
 body {
 	height: 100%;
-	font-family: 'Pier';
-	font-weight: 100;
+	font-family: 'Arkship';
 }
 
 h1,h2,h3,h4{
 	text-transform: uppercase;
+	margin: 0;
+}
+
+h1{
+	font-size: 3em;
+	font-family: 'Order';
+}
+
+h2{
+	font-size: 1.2em;
+	color: $color-primary;
 }
 
 a,a:hover,a:active{
 	text-decoration: none;
+	text-transform: uppercase;
 	color: $color-white;
+	cursor: pointer;
 }
 
 a:hover{

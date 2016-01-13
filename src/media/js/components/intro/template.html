@@ -3,8 +3,11 @@
     <div class="intro-container">
 
         <h1>SecondSense</h1>
+        <h2>Webgl-Vr Game</h2>
 
         <connection-component :socket="socket" :me="me"></connection-component>
+
+        <a v-on:click="$parent.switchView('loading')" class="zbtn">How to play</a>
 
     </div>
 

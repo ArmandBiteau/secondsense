@@ -1,6 +1,7 @@
 .intro-wrapper {
     @include fullpage-absolute;
-    background: $color-black;
+    background: url('../img/backgrounds/home.png') center center no-repeat;
+    background-size: cover;
     user-select: none;
 }
 

@@ -151,6 +151,8 @@ export default Vue.component('connection-component', {
 
             });
 
+			this.$parent.$parent.switchView('rooms');
+
 		}
 
 	},
