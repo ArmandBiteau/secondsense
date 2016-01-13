@@ -13,11 +13,15 @@ html {
 body {
 	height: 100%;
 	font-family: 'Arkship';
+	letter-spacing: 0.2em;
 }
 
 h1,h2,h3,h4{
 	text-transform: uppercase;
 	margin: 0;
+	letter-spacing: 0.2em;
+	font-weight: lighter;
+	// opacity:0.999;
 }
 
 h1{
@@ -28,6 +32,7 @@ h1{
 h2{
 	font-size: 1.2em;
 	color: $color-primary;
+
 }
 
 a,a:hover,a:active{

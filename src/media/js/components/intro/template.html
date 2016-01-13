@@ -1,13 +1,20 @@
 <div class="intro-wrapper">
 
-    <div class="intro-container">
+    <div v-el:container class="intro-container">
 
-        <h1>SecondSense</h1>
-        <h2>Webgl-Vr Game</h2>
+        <div class="intro-title">
 
-        <connection-component :socket="socket" :me="me"></connection-component>
+            <h1>SecondSense</h1>
+            <h2>Webgl-Vr Game</h2>
 
-        <a v-on:click="$parent.switchView('loading')" class="zbtn">How to play</a>
+        </div>
+
+        <div class="intro-links">
+
+            <connection-component :socket="socket" :me="me"></connection-component>
+            <a v-on:click="$parent.switchView('loading')" class="zbtn">How to play</a>
+
+        </div>
 
     </div>
 
