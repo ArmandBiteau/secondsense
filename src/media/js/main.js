@@ -20,6 +20,8 @@ import Application from './components/application';
 
 import domready from 'domready';
 
+import SoundManager from './core/soundManager';
+
 class Main {
 
 	constructor() {
@@ -51,7 +53,7 @@ class Main {
 	start() {
 
 		Promise.all([
-			// SoundManager.start()
+			SoundManager.start()
 		])
 
 		.then(() => {

@@ -4,11 +4,11 @@ import loading from '../loading';
 
 import intro from '../intro';
 
-import connection from '../connection';
-
 import rooms from '../rooms';
 
 import game from '../game';
+
+import Emitter from '../../core/emitter';
 
 // import {
 //     ROOT_URL
@@ -24,7 +24,7 @@ export default {
 
 		return {
 
-            currentView: 'connection',
+            currentView: 'intro',
 
             me: {
 
@@ -82,6 +82,16 @@ export default {
 
         addEventListener: function() {
 
+            var zbtns = document.querySelectorAll('.zbtn');
+
+            for (var x=0; x<zbtns.length; x++)
+            {
+                zbtns[x].addEventListener('mouseover', () => {
+
+                        Emitter.emit('SOUND_MANAGER_REQUEST_SOUND_CLICK');
+
+                });
+            }
         },
 
         testPHPApi: function() {
@@ -159,7 +169,6 @@ export default {
 
         loading,
         intro,
-        connection,
         rooms,
         game
 

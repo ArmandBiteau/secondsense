@@ -1,0 +1,33 @@
+.zbtn{
+    transform-style: preserve-3d;
+    transform: perspective(1000px) translateZ(20px);
+    &::before{
+        content: "";
+        position: absolute;
+        left: -20px;
+        top: 5px;
+        width: 100%;
+        height: 170%;
+        background: $color-white-lighter;
+        transform: perspective(1000px) translateZ(-20px);
+        transition: width 0.1s;
+    }
+    &::after{
+        content: "";
+        position: absolute;
+        left: -20px;
+        top: 5px;
+        width: 0%;
+        height: 170%;
+        background: $color-primary;
+        transform: perspective(1000px) translateZ(-20px);
+        transition: width 0.2s ease-in;
+    }
+    &:hover{
+        color: $color-white;
+        &::after{
+            width: 100%;
+            transition: width 0.2s ease-out;
+        }
+    }
+}

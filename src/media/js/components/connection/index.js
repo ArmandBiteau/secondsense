@@ -2,7 +2,7 @@
 
 import Vue from 'vue';
 
-export default Vue.extend({
+export default Vue.component('connection-component', {
 
 	inherit: true,
 
@@ -18,10 +18,8 @@ export default Vue.extend({
 
 	props: {
 
-		me: {
-	      type: Object,
-	      required: true
-	    }
+		socket: {},
+		me: {}
 
 	},
 
@@ -152,6 +150,8 @@ export default Vue.extend({
 	            });
 
             });
+
+			this.$parent.$parent.switchView('rooms');
 
 		}
 
