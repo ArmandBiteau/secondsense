@@ -10,7 +10,7 @@
         height: 170%;
         background: $color-white-lighter;
         transform: perspective(1000px) translateZ(-20px);
-        transition: width 0.2s ease-in;
+        transition: width 0.1s;
     }
     &::after{
         content: "";
@@ -27,7 +27,7 @@
         color: $color-white;
         &::after{
             width: 100%;
-            transition: width 0.3s ease-out;
+            transition: width 0.2s ease-out;
         }
     }
 }

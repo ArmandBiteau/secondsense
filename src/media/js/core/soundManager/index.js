@@ -8,6 +8,7 @@ var Sound = createjs.Sound;
 
 import {
 	SOUND_AMBIANCE,
+	SOUND_CLICK,
     PATH_SOUNDS
 } from '../config';
 
@@ -30,6 +31,11 @@ class SoundManager {
 				id: SOUND_AMBIANCE,
 				src: PATH_SOUNDS + '/' + SOUND_AMBIANCE + '.mp3',
 				data: 1
+			},
+			{
+				id: SOUND_CLICK,
+				src: PATH_SOUNDS + '/' + SOUND_CLICK + '.mp3',
+				data: 2
 			}
 		];
 	}
@@ -44,17 +50,19 @@ class SoundManager {
 
 		Emitter.on('SOUND_MANAGER_REQUEST_SOUND_TOGGLE', this.toogleSound);
 
+		Emitter.on('SOUND_MANAGER_REQUEST_SOUND_CLICK', this.onClickrequested);
+
 	}
 
 	removeEventListener() {
 
 		Emitter.off('SOUND_MANAGER_REQUEST_SOUND_TOGGLE', this.toogleSound);
 
+		Emitter.off('SOUND_MANAGER_REQUEST_SOUND_CLICK', this.onClickrequested);
+
 	}
 
 	start() {
-
-        console.log('Sound start');
 
 		this.addEventListener();
 
@@ -106,6 +114,12 @@ class SoundManager {
 	}
 
 	unmute() {
+
+	}
+
+	onClickrequested() {
+
+		Sound.play('click');
 
 	}
 

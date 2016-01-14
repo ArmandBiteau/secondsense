@@ -8,6 +8,8 @@ import rooms from '../rooms';
 
 import game from '../game';
 
+import Emitter from '../../core/emitter';
+
 // import {
 //     ROOT_URL
 // } from '../../core/config';
@@ -80,6 +82,16 @@ export default {
 
         addEventListener: function() {
 
+            var zbtns = document.querySelectorAll('.zbtn');
+
+            for (var x=0; x<zbtns.length; x++)
+            {
+                zbtns[x].addEventListener('mouseover', () => {
+
+                        Emitter.emit('SOUND_MANAGER_REQUEST_SOUND_CLICK');
+
+                });
+            }
         },
 
         testPHPApi: function() {
