@@ -1,11 +1,39 @@
 .connection-wrapper {
-    // @include fullpage-absolute;
-    // background: $color-black;
     user-select: none;
 }
 
 .connection-container {
     position: relative;
-    // height: 100%;
-    // width: 100%;
+}
+
+
+.connection-container {
+    position: relative;
+    margin: 0 auto;
+    height: auto;
+    width: auto;
+    transform: rotate3d(0, 1, 0, 0deg) translateZ(50px);
+    transform-style: preserve-3d;
+}
+
+.connection-title{
+    margin-bottom: 15%;
+    h1{
+        font-size: 1.5em;
+    }
+    span{
+        font-family: "Order";
+        transform: perspective(1000px) translateZ(20px);
+        display: inline-block;
+        color: $color-white;
+    }
+}
+
+.connection-loading{
+    color: $color-primary;
+    text-transform: uppercase;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    transform: perspective(1000px) translateZ(20px);
 }

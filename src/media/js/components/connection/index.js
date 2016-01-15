@@ -12,6 +12,8 @@ export default Vue.component('connection-component', {
 
 		return {
 
+			connected: false
+
 		};
 
 	},
@@ -36,6 +38,14 @@ export default Vue.component('connection-component', {
 	},
 
 	watch: {
+
+		connected: function() {
+
+				console.log('Connected as', this.me.name);
+
+				this.onConnected();
+
+		}
 
 	},
 
@@ -87,8 +97,6 @@ export default Vue.component('connection-component', {
 
 			});
 
-			// console.log(this.me);
-
 		},
 
 		statusChangeCallback: function(response) {
@@ -137,11 +145,15 @@ export default Vue.component('connection-component', {
 
                 console.log('Already exists :', data.facebook_user_name);
 
+				this.connected = true;
+
             }).error(() => {
 
 				this.$http.post('/api/users', player, (data) => {
 
 	                console.log('New player added :', data);
+
+					this.connected = true;
 
 	            }).error((data, status, request) => {
 
@@ -151,7 +163,17 @@ export default Vue.component('connection-component', {
 
             });
 
-			this.$parent.$parent.switchView('rooms');
+		},
+
+		onConnected: function() {
+
+			this.me.connected = true;
+
+			setTimeout(() => {
+
+				this.$parent.$parent.switchView('rooms');
+
+			}, 2000);
 
 		}
 

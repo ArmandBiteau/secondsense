@@ -38,7 +38,9 @@ export default {
 
                 picture: '',
 
-                friends: []
+                friends: [],
+
+                connected: false
 
             },
 
