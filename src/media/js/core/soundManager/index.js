@@ -76,7 +76,7 @@ class SoundManager {
 
 				if (i === 0) {
 
-					Sound.play('ambiance');
+					// Sound.play('ambiance');
 					resolve();
 				}
 			}

@@ -1,6 +1,6 @@
 <div id="intro-wrapper" class="intro-wrapper">
 
-    <div v-el:container class="intro-container">
+    <div v-el:container class="intro-container" v-show="!me.connected">
 
         <div class="intro-title">
 
@@ -13,6 +13,25 @@
 
             <connection-component :socket="socket" :me="me"></connection-component>
             <a v-on:click="$parent.switchView('game')" class="zbtn">How to play</a>
+
+        </div>
+
+    </div>
+
+    <div v-el:container class="intro-container" v-if="me.connected">
+
+        <div class="connection-title">
+
+            <h1>
+                <span>Welcome back</span>
+                <span class="zbtn">{{me.name}}</span>
+            </h1>
+
+        </div>
+
+        <div class="connection-loading">
+
+            <span>Initializing rooms...</span>
 
         </div>
 

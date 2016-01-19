@@ -1,4 +1,5 @@
 .zbtn{
+    display: inline-block;
     transform-style: preserve-3d;
     transform: perspective(1000px) translateZ(20px);
     &::before{
