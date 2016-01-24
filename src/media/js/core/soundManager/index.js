@@ -76,7 +76,7 @@ class SoundManager {
 
 				if (i === 0) {
 
-					// Sound.play('ambiance');
+					Sound.play(SOUND_AMBIANCE);
 					resolve();
 				}
 			}
@@ -119,7 +119,7 @@ class SoundManager {
 
 	onClickrequested() {
 
-		Sound.play('click');
+		Sound.play(SOUND_CLICK);
 
 	}
 

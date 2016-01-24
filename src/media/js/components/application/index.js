@@ -84,7 +84,7 @@ export default {
 
         addEventListener: function() {
 
-            var zbtns = document.querySelectorAll('.zbtn');
+            let zbtns = document.querySelectorAll('.zbtn');
 
             for (var x=0; x<zbtns.length; x++)
             {
@@ -94,6 +94,7 @@ export default {
 
                 });
             }
+
         },
 
         testPHPApi: function() {
