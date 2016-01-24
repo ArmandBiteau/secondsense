@@ -7,6 +7,7 @@ server {
 
     server_name secondsense.local;
 
+    index index.html index.php;
     access_log /var/log/nginx/perso-access.log;
     error_log /var/log/nginx/perso-error.log notice;
 
@@ -18,37 +19,23 @@ server {
         proxy_set_header Host $host;
         proxy_cache_bypass $http_upgrade;
 
-        fastcgi_buffer_size 16k;
-        fastcgi_buffers 4 16k;
-
-        fastcgi_pass unix:/var/run/php5-fpm.sock;
-        fastcgi_index index.php;
-        include /etc/nginx/fastcgi.conf;
-        fastcgi_read_timeout 600;
-    }
-
-    location ^~ /media/ {
-        allow all;
+        index  index.html index.php;
     }
 
     location /api/ {
         try_files /api/$uri $uri/ /api/index.php?$request_uri;
         fastcgi_split_path_info ^/api/(.+\.php)(/.+)$;
-
-        fastcgi_buffer_size 16k;
-        fastcgi_buffers 4 16k;
-        fastcgi_pass unix:/var/run/php5-fpm.sock;
-        fastcgi_index index.php;
-        include /etc/nginx/fastcgi.conf;
-        fastcgi_read_timeout 600;
+        fastcgi_intercept_errors on;
+        fastcgi_index  index.php;
+        include /etc/nginx/fastcgi_params;
     }
 
     location ~ \.php$ {
-        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        try_files $uri =404;
         fastcgi_pass unix:/var/run/php5-fpm.sock;
         fastcgi_index index.php;
-        include /etc/nginx/fastcgi.conf;
-        fastcgi_read_timeout 600;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include /etc/nginx/fastcgi_params;
     }
 
 }
