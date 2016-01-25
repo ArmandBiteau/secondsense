@@ -38,9 +38,11 @@ export default Vue.extend({
 
 			_stats: null,
 
-			_raf: null
+			_raf: null,
 
 			// Effect
+
+			_composer: null
 
 		};
 
@@ -137,7 +139,7 @@ export default Vue.extend({
 
 			this._renderer.setSize(window.innerWidth, window.innerHeight);
 
-			this._renderer.setClearColor(0xffffff, 0);
+			this._renderer.setClearColor(0x4249d6, 0);
 
 			document.getElementById('background-canvas').appendChild(this._renderer.domElement);
 
@@ -160,6 +162,24 @@ export default Vue.extend({
 			this.cubeInitialize();
 
 			this.lightsInitialize();
+
+			this.glitchInitialize();
+
+		},
+
+		glitchInitialize: function() {
+
+			this._composer = new THREE.EffectComposer(this._renderer);
+
+			this._composer.addPass(new THREE.RenderPass(this._scene, this._camera));
+
+			let rgbshift = new THREE.ShaderPass(THREE.RGBShiftShader);
+			rgbshift.uniforms.amount.value = 0.0015;
+			this._composer.addPass(rgbshift);
+
+			let glitch = new THREE.GlitchPass();
+			this._composer.addPass(glitch);
+			glitch.renderToScreen = true;
 
 		},
 
@@ -188,9 +208,11 @@ export default Vue.extend({
 
 			// this._controls.update();
 
-			this._renderer.render(this._scene, this._camera);
+			// this._renderer.render(this._scene, this._camera);
 
 			this._renderer.autoClearColor = true;
+
+			this._composer.render();
 
 			this._stats.end();
 		},
