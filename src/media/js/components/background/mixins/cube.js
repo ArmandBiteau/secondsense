@@ -24,7 +24,7 @@ export default {
 
             let geometry = new THREE.BoxGeometry(1, 1, 1);
 
-            let material = new THREE.MeshLambertMaterial({color: 0x4249d6});
+            let material = new THREE.MeshLambertMaterial({color: 0xF9F9F9});
 
             this._cube = new THREE.Mesh(geometry, material);
 

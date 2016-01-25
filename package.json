@@ -63,7 +63,7 @@
     "watchify": "^3.1.1"
   },
   "browser": {
-    "three": "./src/media/vendor/three.min.js",
+    "three": "./src/media/vendor/three/01_three.min.js",
     "io": "./src/media/vendor/socketio.min.js",
     "stats": "./src/media/vendor/stats.min.js",
     "soundjs": "./src/media/vendor/soundjs.js"
