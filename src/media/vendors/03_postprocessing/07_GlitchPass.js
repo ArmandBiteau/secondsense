@@ -48,21 +48,21 @@ THREE.GlitchPass.prototype = {
 
 		if ( this.curF % this.randX == 0 || this.goWild == true ) {
 
-			this.uniforms[ 'amount' ].value = Math.random() / 30;
+			this.uniforms[ 'amount' ].value = Math.random() / 40;
 			this.uniforms[ 'angle' ].value = THREE.Math.randFloat( - Math.PI, Math.PI );
 			this.uniforms[ 'seed_x' ].value = THREE.Math.randFloat( - 1, 1 );
 			this.uniforms[ 'seed_y' ].value = THREE.Math.randFloat( - 1, 1 );
-			this.uniforms[ 'distortion_x' ].value = THREE.Math.randFloat( 0, 1 );
-			this.uniforms[ 'distortion_y' ].value = THREE.Math.randFloat( 0, 1 );
+			this.uniforms[ 'distortion_x' ].value = THREE.Math.randFloat( 0, 0.5 );
+			this.uniforms[ 'distortion_y' ].value = THREE.Math.randFloat( 0, 0.5 );
 			this.curF = 0;
 			this.generateTrigger();
 
 		} else if ( this.curF % this.randX < this.randX / 5 ) {
 
-			this.uniforms[ 'amount' ].value = Math.random() / 90;
+			this.uniforms[ 'amount' ].value = Math.random() / 120;
 			this.uniforms[ 'angle' ].value = THREE.Math.randFloat( - Math.PI, Math.PI );
-			this.uniforms[ 'distortion_x' ].value = THREE.Math.randFloat( 0, 1 );
-			this.uniforms[ 'distortion_y' ].value = THREE.Math.randFloat( 0, 1 );
+			this.uniforms[ 'distortion_x' ].value = THREE.Math.randFloat( 0, 0.8 );
+			this.uniforms[ 'distortion_y' ].value = THREE.Math.randFloat( 0, 0.8 );
 			this.uniforms[ 'seed_x' ].value = THREE.Math.randFloat( - 0.3, 0.3 );
 			this.uniforms[ 'seed_y' ].value = THREE.Math.randFloat( - 0.3, 0.3 );
 
@@ -104,7 +104,7 @@ THREE.GlitchPass.prototype = {
 
 		}
 
-		var texture = new THREE.DataTexture( data_arr, dt_size, dt_size, THREE.RGBAFormat, THREE.FloatType );
+		var texture = new THREE.DataTexture( data_arr, dt_size, dt_size, THREE.RGBFormat, THREE.FloatType );
 		texture.needsUpdate = true;
 		return texture;
 
