@@ -36,6 +36,7 @@
     "browserify": "^9.0.8",
     "browserify-shader": "^0.1.2",
     "browserify-shim": "^3.8.5",
+    "bufferutil": "^1.2.1",
     "del": "^1.2.0",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^2.3.1",
@@ -56,12 +57,13 @@
     "phplint": "^1.7.0",
     "remapify": "^2.0.0",
     "stringify": "^3.1.0",
+    "utf-8-validate": "^1.2.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.1.1"
   },
   "browser": {
-    "three": "./src/media/vendor/three.min.js",
+    "three": "./src/media/vendor/three/01_three.min.js",
     "io": "./src/media/vendor/socketio.min.js",
     "stats": "./src/media/vendor/stats.min.js",
     "soundjs": "./src/media/vendor/soundjs.js"
