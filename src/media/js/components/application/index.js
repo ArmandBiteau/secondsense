@@ -8,6 +8,8 @@ import rooms from '../rooms';
 
 import game from '../game';
 
+import background from '../background';
+
 import Emitter from '../../core/emitter';
 
 // import {
@@ -173,7 +175,8 @@ export default {
         loading,
         intro,
         rooms,
-        game
+        game,
+        background
 
 	}
 
