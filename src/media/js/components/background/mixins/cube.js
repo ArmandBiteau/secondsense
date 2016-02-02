@@ -14,21 +14,19 @@ export default {
 
 		this._cube = null;
 
-		this._cubeColor = '#FFFFFF';
-
 	},
 
 	methods: {
 
 		cubeInitialize: function() {
 
-            let geometry = new THREE.BoxGeometry(1, 1, 1);
+            let geometry = new THREE.SphereGeometry(0.5, 3, 2);
 
-            let material = new THREE.MeshLambertMaterial({color: 0xffffff});
+            let material = new THREE.MeshPhongMaterial({ color: 0x4249d6, shininess: 30, shading: THREE.FlatShading });
 
             this._cube = new THREE.Mesh(geometry, material);
 
-            this._cube.position.set(0, 0, -3);
+            this._cube.position.set(0, 0, -1);
 
 			this._scene.add(this._cube);
 
