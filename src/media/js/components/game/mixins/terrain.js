@@ -2,6 +2,8 @@
 
 import THREE from 'three';
 
+var glslify = require('glslify');
+
 export default {
 
     created: function() {
@@ -10,11 +12,11 @@ export default {
 
 		this._ground = null;
 
-        this._groundColor = {color: 0x2c2c2c};
+        this._groundColor = {color: 0x181d21};
 
 		this._borders = null;
 
-        this._bordersColor = {color: 0x3399FF};
+        this._bordersColor = {color: 0x181d21};
 
         this._obstacles = null;
 
@@ -89,11 +91,11 @@ export default {
             var obstaclesGeo = new THREE.Geometry();
             var obstaclesMat = new THREE.ShaderMaterial({
                 uniforms: {
-                      time: { type: 'f', value: 1.0 },
-                      resolution: { type: 'v2', value: new THREE.Vector2() }
+                    time: { type: 'f', value: 1.0 },
+                    resolution: { type: 'v2', value: new THREE.Vector2() }
                 },
-                vertexShader: require('../../../../glsl/terrain-vs.glsl')(),
-                fragmentShader: require('../../../../glsl/terrain-fs.glsl')()
+                vertexShader: glslify('../../../../glsl/terrain-vs.glsl'),
+                fragmentShader: glslify('../../../../glsl/terrain-fs.glsl')
             });
 
             for (let i = 0; i < 15; i++) {
@@ -121,9 +123,9 @@ export default {
 
             let helper = new THREE.GridHelper(40, 0.25);
 
-  			helper.color1.setHex(0x6a6a6a);
+  			helper.color1.setHex(0x4249d6);
 
-  			helper.color2.setHex(0x6a6a6a);
+  			helper.color2.setHex(0x4249d6);
 
   			helper.position.y = 0;
 

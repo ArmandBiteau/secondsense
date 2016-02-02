@@ -173,9 +173,9 @@ export default Vue.extend({
 
 			this._composer.addPass(new THREE.RenderPass(this._scene, this._camera));
 
-			let rgbshift = new THREE.ShaderPass(THREE.RGBShiftShader);
-			rgbshift.uniforms.amount.value = 0.0015;
-			this._composer.addPass(rgbshift);
+			let rgbShift = new THREE.ShaderPass(THREE.RGBShiftShader);
+			rgbShift.uniforms.amount.value = 0.0015;
+			this._composer.addPass(rgbShift);
 
 			let glitch = new THREE.GlitchPass();
 			this._composer.addPass(glitch);

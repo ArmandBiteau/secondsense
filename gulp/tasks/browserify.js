@@ -18,7 +18,6 @@ var librairies = Object.keys(packageJSON.dependencies);
 
 gulp.task('browserify', function() {
 	var browserifyConfig = watchify(browserify(files.browserifyEntry, watchify.args));
-	browserifyConfig.transform('browserify-shader');
 
 	function rebundle() {
 
