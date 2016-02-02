@@ -155,7 +155,7 @@ export default Vue.extend({
 
 			this._scene = new THREE.Scene();
 
-			//this._scene.fog = new THREE.FogExp2(0x1c1c1c, 1.2);
+			this._scene.fog = new THREE.FogExp2(0x181d21, 0.5);
 
 			// Camera
 
@@ -167,23 +167,24 @@ export default Vue.extend({
 
 			this._camera.add(this._listener);
 
-			let cameraBoxGeometry = new THREE.SphereGeometry(0.3, 5, 5);
+			// let cameraBoxGeometry = new THREE.SphereGeometry(0.3, 5, 5);
 
-            let cameraBoxMaterial = new THREE.MeshBasicMaterial({ color: 0x00FF00});
+            // let cameraBoxMaterial = new THREE.MeshBasicMaterial({ color: 0x00FF00});
 
-            this._cameraBox = new THREE.Mesh(cameraBoxGeometry, cameraBoxMaterial);
+            // this._cameraBox = new THREE.Mesh(cameraBoxGeometry, cameraBoxMaterial);
 
-            this._cameraBox.position.set(this._camera.position.x, this._camera.position.y, this._camera.position.z);
+            // this._cameraBox.position.set(this._camera.position.x, this._camera.position.y, this._camera.position.z);
 
-			this._scene.add(this._cameraBox);
+			// this._scene.add(this._cameraBox);
 
 			// Controls
 
 			// this._controls = new THREE.VRControls(this._camera);
 
-			this._controls = new FirstPersonControls(this._camera, 0.5);
-			//lock the Y position to 0.5
+			this._controls = new FirstPersonControls(this._camera, 0.5); //lock the Y position to 0.5
+
 			this._controls.lookSpeed = 300;
+
 			this._controls.movementSpeed = 1000;
 
 			// Score
@@ -266,7 +267,7 @@ export default Vue.extend({
 
 		cameraUpdate: function() {
 
-			this._cameraBox.position.set(this._camera.position.x, this._camera.position.y, this._camera.position.z);
+			// this._cameraBox.position.set(this._camera.position.x, this._camera.position.y, this._camera.position.z);
 
 		},
 
