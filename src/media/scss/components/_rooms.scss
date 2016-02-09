@@ -164,7 +164,9 @@
         display: inline-block;
         transform-style: preserve-3d;
         transform: perspective(1000px) translateZ(0px);
-        line-height: 3.5em;
+        // line-height: 3.5em;
+        padding-top: 1em;
+        padding-bottom: 1em;
         &::before{
             content: "";
             position: absolute;
