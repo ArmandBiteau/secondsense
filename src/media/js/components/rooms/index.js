@@ -161,7 +161,7 @@ export default Vue.extend({
 
 			this.rooms = rooms;
 
-			// console.log(this.rooms);
+			console.log(this.rooms);
 
 		},
 

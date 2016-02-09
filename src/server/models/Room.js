@@ -2,11 +2,11 @@
 
 class Room {
 
-	constructor(roomName) {
+	constructor(roomName, maxPlayers) {
 
 		this.name = roomName;
 
-		this.maxPlayers = 5;
+		this.maxPlayers = maxPlayers;
 
 		this.players = [];
 

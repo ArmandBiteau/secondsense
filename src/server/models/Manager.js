@@ -29,8 +29,7 @@ class Manager {
 
         console.log('Server running at http://192.168.33.10:3000/');
 
-        Secondsense.addRoom('Temporary room');
-        Secondsense.addRoom('Another room');
+        Secondsense.addRoom('First room', 3);
 
     }
 
@@ -48,6 +47,8 @@ class Manager {
 
 	    	client.on('switch room', _this.onSwitchRoom);
 
+			client.on('new room', _this.onNewRoom);
+
 		});
 
     }
@@ -58,13 +59,17 @@ class Manager {
 
             console.log(this.player.name+' has disconnected !');
 
-            let playerToDelete = this.room.players.indexOf(this.player);
+			if (this.room) {
 
-            if (playerToDelete !== -1) {
+				let playerToDelete = this.room.players.indexOf(this.player);
 
-            	this.room.players.splice(playerToDelete, 1);
+	            if (playerToDelete !== -1) {
 
-            }
+	            	this.room.players.splice(playerToDelete, 1);
+
+	            }
+
+			}
 
         	this.broadcast.emit('remove player', {name: this.player.name});
 
@@ -80,9 +85,7 @@ class Manager {
 
         this.player = new Player(data.name);
 
-        this.room = Secondsense.roomByName('Temporary room');
-
-        this.room.addPlayer(this, this.player);
+        this.room = null;
 
         Secondsense.updateRooms(this);
 
@@ -90,9 +93,25 @@ class Manager {
 
     onSwitchRoom(newroom) {
 
-        this.room.removePlayer(this, this.player);
+		if (this.room) {
+
+			this.room.removePlayer(this, this.player);
+
+		}
 
         this.room = Secondsense.roomByName(newroom);
+
+        this.room.addPlayer(this, this.player);
+
+        Secondsense.updateRooms(this);
+
+    }
+
+	onNewRoom(newroom) {
+
+		Secondsense.addRoom(newroom.name, newroom.maxPlayers);
+
+        this.room = Secondsense.roomByName(newroom.name);
 
         this.room.addPlayer(this, this.player);
 
