@@ -144,17 +144,30 @@ export default Vue.extend({
 			//tmp
 			// rooms = [{
 			// 		maxPlayers: 5,
-			// 		name: 'Temporary room',
+			// 		name: 'Awesome Imac',
 			// 		players: [{
 			// 			id: null,
 			// 			name: 'Armand Bto'
 			// 		}]
-			// 	},{
+			// 	},
+			// 	{
 			// 		maxPlayers: 3,
-			// 		name: 'Another room',
+			// 		name: 'Another Room',
 			// 		players: [{
 			// 			id: null,
-			// 			name: 'Jordi Bastide'
+			// 			name: 'Armand Bto'
+			// 		},
+			// 		{
+			// 			id: null,
+			// 			name: 'Armand Bto'
+			// 		}]
+			// 	},
+			// 	{
+			// 		maxPlayers: 4,
+			// 		name: 'Another',
+			// 		players: [{
+			// 			id: null,
+			// 			name: 'Armand Bto'
 			// 		}]
 			// 	}
 			// ];

@@ -48,8 +48,8 @@
     float: right;
     width: 100%;
     max-width: 330px;
-    height: 50%;
-    padding-bottom: 6em;
+    height: 40%;
+    min-height: 4.5em;
     margin-top: 2em;
 }
 
@@ -59,27 +59,109 @@
 }
 
 .rooms-list-iscroll{
-    // border: 1px solid white;
     width: 100%;
     height: 100%;
 }
 
 .rooms-list-item{
-
-}
-
-.rooms-list-item-element{
     transform-style: preserve-3d;
     transform: perspective(1000px) translateZ(0px);
     display: inline-block;
+    padding: 1em;
+    box-shadow: 0px 0px 0px 2px $color-white inset;
+    width: 47%;
+    cursor: pointer;
+    margin-bottom: 1.5em;
+    transition: transform 0.3s;
+    &:nth-child(2n+1){
+        margin-right: 6%;
+    }
+    &:hover{
+        transform: perspective(1000px) translateZ(10px);
+        transition: transform 0.3s;
+        & .rooms-list-item-corner{
+            transition: all 0.3s;
+            transform: perspective(1000px) translateX(3px) translateY(-3px);
+        }
+    }
 }
+
+.rooms-list-item-title{
+    margin: 0;
+    padding: 0;
+    margin-bottom: 1.2em;
+}
+
+.rooms-list-item-corner{
+    position: absolute;
+    top: 0.3em;
+    right: 0.3em;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 1em 1em 0;
+    border-color: transparent $color-white transparent transparent;
+    transition: all 0.3s;
+}
+
+.rooms-list-item-players{
+
+}
+
+.rooms-list-item-players-trigs{
+    display: inline-block;
+    width: 40%;
+    float: left;
+}
+
+.rooms-list-item-players-trig{
+    position: absolute;
+    background: $color-white-lighter;
+    width: 0.5em;
+    height: 1.2em;
+    margin: 0;
+    padding: 0;
+    float: left;
+    &:first-of-type{
+        margin-left: 0em;
+    }
+    &:nth-child(2){
+        margin-left: 0.8em;
+    }
+    &:nth-child(3){
+        margin-left: 1.6em;
+    }
+    &:nth-child(4){
+        margin-left: 2.4em;
+    }
+    &:nth-child(5){
+        margin-left: 3.2em;
+    }
+    &.active{
+        background: $color-white;
+    }
+}
+
+.rooms-list-item-players-friends{
+    display: inline-block;
+    width: 50%;
+    float: right;
+    text-align: right;
+    span{
+        font-size: 0.8em;
+        letter-spacing: 0;
+    }
+}
+
+
+
 
 .rooms-create{
     float: right;
     width: 100%;
     max-width: 330px;
     height: auto;
-    margin-top: 2em;
+    margin-top: 5em;
 }
 
 .rooms-create-title{

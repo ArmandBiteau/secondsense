@@ -19,16 +19,33 @@
 
             <div class="rooms-list-iscroll">
 
-                <li v-for="room in rooms" class="rooms-list-item">
+                <div v-for="room in rooms" class="rooms-list-item" v-on:click="onSwitchRoom(room.name)">
 
-                    <button class="rooms-list-item-element" v-on:click="onSwitchRoom(room.name)">
-                        {{ room.name }}
+                    <div class="rooms-list-item-corner"></div>
+
+                    <h5 class="rooms-list-item-title">{{ room.name }}</h5>
+
+                    <div class="rooms-list-item-players">
+
+                        <div class="rooms-list-item-players-trigs">
+
+                            <span v-bind:class="{ 'rooms-list-item-players-trig': true, 'active': $index < room.players.length }" v-for="index in room.maxPlayers"></span>
+
+                        </div>
+
+                        <div class="rooms-list-item-players-friends">
+
+                            <span>2 friends</span>
+
+                        </div>
+
+                    </div>
+
                         <!-- <span v-for="player in room.players">
                             {{player.name}}
                         </span> -->
-                    </button>
 
-                </li>
+                </div>
 
             </div>
         </div>
@@ -46,7 +63,7 @@
 
                 <div class="rooms-create-form-element rooms-create-form-name">
 
-                    <input type="text" v-model="newRoomName" placeholder="Room name"/>
+                    <input type="text" v-model="newRoomName" placeholder="Room name" maxlength="10"/>
 
                 </div>
 
