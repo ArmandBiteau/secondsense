@@ -111,6 +111,12 @@ class Manager {
 
 		Secondsense.addRoom(newroom.name, newroom.maxPlayers);
 
+		if (this.room) {
+
+			this.room.removePlayer(this, this.player);
+
+		}
+
         this.room = Secondsense.roomByName(newroom.name);
 
         this.room.addPlayer(this, this.player);

@@ -2,6 +2,8 @@
 
 import Vue from 'vue';
 
+import IScroll from 'iscroll';
+
 export default Vue.extend({
 
 	inherit: true,
@@ -46,6 +48,8 @@ export default Vue.extend({
 
 	ready: function() {
 
+		this.initIscroll();
+
 		this.updateMaxPlayers(this.maxPlayers);
 
         this.addEventListener();
@@ -86,6 +90,25 @@ export default Vue.extend({
 				}, false);
 
 			}
+
+		},
+
+		initIscroll: function() {
+
+			let wrapper = document.getElementById('rooms-list-iscroll');
+			this.IScroll = new IScroll(wrapper, {
+				mouseWheel: true,
+				scrollbars: true,
+				keyBindings: false
+			});
+
+			setTimeout(this.IscrollRefresh, 500);
+
+		},
+
+		IscrollRefresh: function() {
+
+			 this.IScroll.refresh();
 
 		},
 
@@ -169,12 +192,34 @@ export default Vue.extend({
 			// 			id: null,
 			// 			name: 'Armand Bto'
 			// 		}]
+			// 	},
+			// 	{
+			// 		maxPlayers: 3,
+			// 		name: 'Another Room',
+			// 		players: [{
+			// 			id: null,
+			// 			name: 'Armand Bto'
+			// 		},
+			// 		{
+			// 			id: null,
+			// 			name: 'Armand Bto'
+			// 		}]
+			// 	},
+			// 	{
+			// 		maxPlayers: 4,
+			// 		name: 'Another',
+			// 		players: [{
+			// 			id: null,
+			// 			name: 'Armand Bto'
+			// 		}]
 			// 	}
 			// ];
 
 			this.rooms = rooms;
 
 			console.log(this.rooms);
+
+			this.IscrollRefresh();
 
 		},
 

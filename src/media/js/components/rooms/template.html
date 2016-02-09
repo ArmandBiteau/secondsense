@@ -9,6 +9,22 @@
 
         </div>
 
+        <div class="rooms-rollinfos">
+
+            <h3>Room Informations</h3>
+
+            <h4>Name</h4>
+            <h5>Awesome Imac</h5>
+
+            <h4>Max Players</h4>
+            <h5>4</h5>
+
+            <h4>Connected Friends</h4>
+            <h5>Denis Tribouillois</h5>
+            <h5>Jordi Bastide</h5>
+
+        </div>
+
         <div class="rooms-list">
 
             <div class="rooms-list-title">
@@ -17,37 +33,38 @@
 
             </div>
 
-            <div class="rooms-list-iscroll">
+            <div id="rooms-list-iscroll" class="rooms-list-iscroll">
 
-                <div v-for="room in rooms" class="rooms-list-item" v-on:click="onSwitchRoom(room.name)">
+                <div id="rooms-list-iscroll-inner" class="rooms-list-iscroll-inner">
 
-                    <div class="rooms-list-item-corner"></div>
+                    <div v-for="room in rooms" class="rooms-list-item" v-on:click="onSwitchRoom(room.name)">
 
-                    <h5 class="rooms-list-item-title">{{ room.name }}</h5>
+                        <div class="rooms-list-item-corner"></div>
 
-                    <div class="rooms-list-item-players">
+                        <h5 class="rooms-list-item-title">{{ room.name }}</h5>
 
-                        <div class="rooms-list-item-players-trigs">
+                        <div class="rooms-list-item-players">
 
-                            <span v-bind:class="{ 'rooms-list-item-players-trig': true, 'active': $index < room.players.length }" v-for="index in room.maxPlayers"></span>
+                            <div class="rooms-list-item-players-trigs">
 
-                        </div>
+                                <span v-bind:class="{ 'rooms-list-item-players-trig': true, 'active': $index < room.players.length }" v-for="index in room.maxPlayers"></span>
 
-                        <div class="rooms-list-item-players-friends">
+                            </div>
 
-                            <span>2 friends</span>
+                            <div class="rooms-list-item-players-friends">
+
+                                <span>2 friends</span>
+
+                            </div>
 
                         </div>
 
                     </div>
 
-                        <!-- <span v-for="player in room.players">
-                            {{player.name}}
-                        </span> -->
-
                 </div>
 
             </div>
+
         </div>
 
         <div class="rooms-create">
