@@ -1,18 +1,74 @@
-<div class="rooms-wrapper">
+<div id="rooms-wrapper" class="rooms-wrapper">
 
-    <div class="rooms-container">
+    <div v-el:container class="rooms-container">
 
-        <h1>Rooms list</h1>
+        <div class="rooms-title">
+
+            <h2>Select a</h2>
+            <h1>Room</h1>
+
+        </div>
 
         <div class="rooms-list">
-            <li v-for="room in rooms">
-                <button class="rooms-list-element" v-on:click="onSwitchRoom(room.name)">
-                    {{ room.name }}
-                    <span v-for="player in room.players">
-                        {{player.name}}
-                    </span>
-                </button>
-            </li>
+
+            <div class="rooms-list-title">
+
+                <h3>Available rooms</h3>
+
+            </div>
+
+            <div class="rooms-list-iscroll">
+
+                <li v-for="room in rooms" class="rooms-list-item">
+
+                    <button class="rooms-list-item-element" v-on:click="onSwitchRoom(room.name)">
+                        {{ room.name }}
+                        <!-- <span v-for="player in room.players">
+                            {{player.name}}
+                        </span> -->
+                    </button>
+
+                </li>
+
+            </div>
+        </div>
+
+        <div class="rooms-create">
+
+            <div class="rooms-create-title">
+
+                <h3>Create a new room</h3>
+
+            </div>
+
+            <div class="rooms-create-form">
+
+
+                <div class="rooms-create-form-element rooms-create-form-name">
+
+                    <input type="text" v-model="newRoomName" placeholder="Room name"/>
+
+                </div>
+
+                <div class="rooms-create-form-element rooms-create-form-players">
+
+                    <h5>{{newRoomPlayers}} players</h5>
+                    <span class="rooms-create-form-players-trig trig-1" dataTrig="1"></span>
+                    <span class="rooms-create-form-players-trig trig-2" dataTrig="2"></span>
+                    <span class="rooms-create-form-players-trig trig-3" dataTrig="3"></span>
+                    <span class="rooms-create-form-players-trig trig-4" dataTrig="4"></span>
+                    <span class="rooms-create-form-players-trig trig-5" dataTrig="5"></span>
+
+                </div>
+
+                <div class="rooms-create-form-element rooms-create-form-button">
+
+                    <a v-on:click="createRoom(newRoomName, newRoomPlayers)" class="">Create</a>
+
+                </div>
+
+            </div>
+
         </div>
 
     </div>

@@ -1,10 +1,198 @@
 .rooms-wrapper {
     @include fullpage-absolute;
+    background-size: cover;
     user-select: none;
+    display: flex;
+    align-items: center;
+    transform-style: preserve-3d;
+    transform: perspective(1000px) translateZ(0);
 }
 
 .rooms-container {
     position: relative;
+    margin: 0 auto;
     height: 100%;
+    max-height: 500px;
     width: 100%;
+    max-width: 500px;
+    transform: rotate3d(0, 1, 0, 0deg) translateZ(50px);
+    transform-style: preserve-3d;
+    border: 2px solid $color-primary;
+    padding: 2em;
+    &::before{
+        content: "";
+        position: absolute;
+        top: 1em;
+        left: 1em;
+        height: 100%;
+        width: 100%;
+        background: linear-gradient(-45deg,rgba($color-white, 0.15) 0%, rgba($color-white, 0.06) 30%, rgba($color-white, 0) 100%);
+    }
+}
+
+.rooms-title{
+    position: absolute;
+    top: 4em;
+    left: -9em;
+    h2{
+        transform: perspective(1000px) translateZ(0px);
+    }
+    h1{
+        margin-left: 0.2em;
+        margin-top: 0.3em;
+        transform: perspective(1000px) translateZ(20px);
+    }
+}
+
+.rooms-list{
+    float: right;
+    width: 100%;
+    max-width: 330px;
+    height: 50%;
+    padding-bottom: 6em;
+    margin-top: 2em;
+}
+
+.rooms-list-title{
+    position: absolute;
+    margin-top: -2em;
+}
+
+.rooms-list-iscroll{
+    // border: 1px solid white;
+    width: 100%;
+    height: 100%;
+}
+
+.rooms-list-item{
+
+}
+
+.rooms-list-item-element{
+    transform-style: preserve-3d;
+    transform: perspective(1000px) translateZ(0px);
+    display: inline-block;
+}
+
+.rooms-create{
+    float: right;
+    width: 100%;
+    max-width: 330px;
+    height: auto;
+    margin-top: 2em;
+}
+
+.rooms-create-title{
+    position: absolute;
+    margin-top: -2em;
+}
+
+.rooms-create-form{
+    height: 100%;
+}
+
+.rooms-create-form-element{
+    transform-style: preserve-3d;
+    transform: perspective(1000px) translateZ(0px);
+    display: inline-block;
+}
+
+.rooms-create-form-name {
+    width: 40%;
+    input{
+        box-shadow: none !important;
+        outline: none;
+        background: none;
+        border: 2px solid $color-white;
+        padding: 0.5em;
+        color: $color-white;
+        text-transform: none;
+        width: 100%;
+    }
+}
+
+.rooms-create-form-players{
+    width: 30%;
+    padding-left: 1em;
+    h5{
+        position: absolute;
+        margin: 0;
+        margin-top: -1.3em;
+        line-height: 0;
+        padding: 0;
+        color: $color-white;
+        letter-spacing: 0;
+    }
+    .rooms-create-form-players-trig{
+        position: absolute;
+        background: $color-white-lighter;
+        width: 0.7em;
+        height: 1.45em;
+        margin: 0;
+        padding: 0;
+        // cursor: pointer;
+        margin-top: -0.5em;
+        float: left;
+        &.trig-1{
+            margin-left: 0em;
+        }
+        &.trig-2{
+            margin-left: 1em;
+        }
+        &.trig-3{
+            margin-left: 2em;
+        }
+        &.trig-4{
+            margin-left: 3em;
+        }
+        &.trig-5{
+            margin-left: 4em;
+        }
+        &.active{
+            background: $color-white;
+        }
+    }
+}
+
+
+.rooms-create-form-button{
+    display: inline-block;
+    width: 26%;
+    a{
+        color: $color-white;
+        font-size: 0.8em;
+        display: inline-block;
+        transform-style: preserve-3d;
+        transform: perspective(1000px) translateZ(0px);
+        line-height: 3.5em;
+        &::before{
+            content: "";
+            position: absolute;
+            left: -20%;
+            top: 0px;
+            width: 140%;
+            height: 100%;
+            background: $color-white-lighter;
+            transform: perspective(1000px) translateZ(-1px);
+            transition: width 0.1s;
+        }
+        &::after{
+            content: "";
+            position: absolute;
+            left: -20%;
+            top: 0px;
+            width: 0%;
+            height: 100%;
+            background: $color-primary;
+            transform: perspective(1000px) translateZ(-1px);
+            transition: width 0.2s ease-in;
+        }
+        &:hover{
+            color: $color-white;
+            &::after{
+                width: 140%;
+                transition: width 0.2s ease-out;
+            }
+        }
+    }
 }
