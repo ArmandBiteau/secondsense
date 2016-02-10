@@ -2,6 +2,8 @@
 	"browser": true,
 	"node": true,
 	"globals": {
+		"THREE": true,
+		"WAGNER": true,
 		"TimelineMax": true,
 		"TweenMax": true,
 		"createjs": true,

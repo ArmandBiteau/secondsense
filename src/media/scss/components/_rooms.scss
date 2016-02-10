@@ -1,10 +1,345 @@
 .rooms-wrapper {
     @include fullpage-absolute;
+    background-size: cover;
     user-select: none;
+    display: flex;
+    align-items: center;
+    transform-style: preserve-3d;
+    transform: perspective(1000px) translateZ(0);
 }
 
 .rooms-container {
     position: relative;
+    margin: 0 auto;
     height: 100%;
+    max-height: 500px;
     width: 100%;
+    max-width: 500px;
+    transform: rotate3d(0, 1, 0, 0deg) translateZ(50px);
+    transform-style: preserve-3d;
+    border: 2px solid $color-primary;
+    padding: 2em;
+    &::before{
+        content: "";
+        position: absolute;
+        top: 1em;
+        left: 1em;
+        height: 100%;
+        width: 100%;
+        background: linear-gradient(-45deg,rgba($color-white, 0.15) 0%, rgba($color-white, 0.06) 30%, rgba($color-white, 0) 100%);
+    }
+}
+
+.rooms-rollinfos{
+    position: absolute;
+    top: 2em;
+    left: 105%;
+    width: 15em;
+    h3{
+        padding: 0;
+        margin-bottom: 1.5em;
+    }
+    h4{
+        padding: 0;
+        margin: 0;
+        margin-bottom: 0.5em;
+        margin-top: 1.5em;
+    }
+    h5{
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.rooms-title{
+    position: absolute;
+    top: 4em;
+    left: -9em;
+    h2{
+        transform: translateZ(0px);
+    }
+    h1{
+        margin-left: 0.2em;
+        margin-top: 0.3em;
+        transform: translateZ(20px);
+    }
+}
+
+.rooms-list{
+    float: right;
+    width: 100%;
+    height: 80%;
+    max-height: 18.5em;
+    margin-top: 2em;
+}
+
+.rooms-list-title{
+    position: relative;
+    width: 100%;
+    max-width: 330px;
+    float: right;
+    text-align: left;
+    margin-top: -2em;
+}
+
+.rooms-list-iscroll{
+    width: 100%;
+    height: 100%;
+}
+
+.rooms-list-item{
+    transform-style: preserve-3d;
+    transform: translateZ(0px);
+    display: inline-block;
+    padding: 1em;
+    box-shadow: 0px 0px 0px 2px $color-white inset;
+    width: 47%;
+    cursor: pointer;
+    margin-bottom: 1.5em;
+    transition: transform 0.3s;
+    &:nth-child(2n+1){
+        margin-right: 6%;
+    }
+    &:hover{
+        transform: translateZ(10px);
+        transition: transform 0.3s;
+        & .rooms-list-item-corner{
+            transition: all 0.3s;
+            transform: translateX(3px) translateY(-3px);
+        }
+    }
+}
+
+.rooms-list-item-title{
+    margin: 0;
+    padding: 0;
+    margin-bottom: 1.2em;
+}
+
+.rooms-list-item-corner{
+    position: absolute;
+    top: 0.3em;
+    right: 0.3em;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 1em 1em 0;
+    border-color: transparent $color-white transparent transparent;
+    transition: all 0.3s;
+}
+
+.rooms-list-item-players{
+
+}
+
+.rooms-list-item-players-trigs{
+    display: inline-block;
+    width: 40%;
+    float: left;
+}
+
+.rooms-list-item-players-trig{
+    position: absolute;
+    background: $color-white-lighter;
+    width: 0.5em;
+    height: 1.2em;
+    margin: 0;
+    padding: 0;
+    float: left;
+    &:first-of-type{
+        margin-left: 0em;
+    }
+    &:nth-child(2){
+        margin-left: 0.8em;
+    }
+    &:nth-child(3){
+        margin-left: 1.6em;
+    }
+    &:nth-child(4){
+        margin-left: 2.4em;
+    }
+    &:nth-child(5){
+        margin-left: 3.2em;
+    }
+    &.active{
+        background: $color-white;
+    }
+}
+
+.rooms-list-item-players-friends{
+    display: inline-block;
+    width: 50%;
+    float: right;
+    text-align: right;
+    span{
+        font-size: 0.8em;
+        letter-spacing: 0;
+    }
+}
+
+
+
+
+.rooms-create{
+    float: right;
+    width: 100%;
+    max-width: 330px;
+    height: auto;
+    margin-top: 5em;
+}
+
+.rooms-create-title{
+    position: absolute;
+    margin-top: -2em;
+}
+
+.rooms-create-form{
+    height: 100%;
+}
+
+.rooms-create-form-element{
+    transform-style: preserve-3d;
+    transform: translateZ(0px);
+    display: inline-block;
+}
+
+.rooms-create-form-name {
+    width: 40%;
+    input{
+        box-shadow: none !important;
+        outline: none;
+        background: none;
+        border: 2px solid $color-white;
+        padding: 0.5em;
+        color: $color-white;
+        text-transform: none;
+        width: 100%;
+    }
+}
+
+.rooms-create-form-players{
+    width: 30%;
+    padding-left: 1em;
+    h5{
+        position: absolute;
+        margin: 0;
+        margin-top: -1.3em;
+        line-height: 0;
+        padding: 0;
+        color: $color-white;
+        letter-spacing: 0;
+    }
+    .rooms-create-form-players-trig{
+        position: absolute;
+        background: $color-white-lighter;
+        width: 0.7em;
+        height: 1.45em;
+        margin: 0;
+        padding: 0;
+        // cursor: pointer;
+        margin-top: -0.5em;
+        float: left;
+        &.trig-1{
+            margin-left: 0em;
+        }
+        &.trig-2{
+            margin-left: 1em;
+        }
+        &.trig-3{
+            margin-left: 2em;
+        }
+        &.trig-4{
+            margin-left: 3em;
+        }
+        &.trig-5{
+            margin-left: 4em;
+        }
+        &.active{
+            background: $color-white;
+        }
+    }
+}
+
+
+.rooms-create-form-button{
+    display: inline-block;
+    width: 26%;
+    a{
+        color: $color-white;
+        font-size: 0.8em;
+        display: inline-block;
+        transform-style: preserve-3d;
+        transform: translateZ(0px);
+        // line-height: 3.5em;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        &::before{
+            content: "";
+            position: absolute;
+            left: -20%;
+            top: 0px;
+            width: 140%;
+            height: 100%;
+            background: $color-white-lighter;
+            transform: translateZ(-1px);
+            transition: width 0.1s;
+        }
+        &::after{
+            content: "";
+            position: absolute;
+            left: -20%;
+            top: 0px;
+            width: 0%;
+            height: 100%;
+            background: $color-primary;
+            transform: translateZ(-1px);
+            transition: width 0.2s ease-in;
+        }
+        &:hover{
+            color: $color-white;
+            &::after{
+                width: 140%;
+                transition: width 0.2s ease-out;
+            }
+        }
+    }
+}
+
+.rooms-list-iscroll{
+    transform-style: preserve-3d;
+    transform: perspective(1000px) translateZ(0px);
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    overflow:hidden;
+    .iScrollVerticalScrollbar{
+        position: relative;
+        left: 5em;
+        height: 100%;
+        background: $color-white-lighter;
+        width: 1px!important;
+        overflow: visible!important;
+        top: auto!important;
+        .iScrollIndicator{
+            width: 0.2em!important;
+            height: 4em!important;
+            left: -0.1em!important;
+            background: $color-white!important;
+            border: none!important;
+            border-radius: 0;
+        }
+    }
+}
+
+.rooms-list-iscroll-inner{
+    transform-style: preserve-3d;
+    transform: translateZ(0px);
+    position: relative;
+    width: 100%;
+    max-width: 330px;
+    float: right;
+    height: auto;
+    overflow: hidden;
+    cursor: ns-resize;
 }

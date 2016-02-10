@@ -163,23 +163,38 @@ export default Vue.extend({
 
 			this.lightsInitialize();
 
-			this.glitchInitialize();
+			this.effectsInitialize();
 
 		},
 
-		glitchInitialize: function() {
+		effectsInitialize: function() {
 
-			this._composer = new THREE.EffectComposer(this._renderer);
+			// this._composer = new THREE.EffectComposer(this._renderer);
+			//
+			// this._composer.addPass(new THREE.RenderPass(this._scene, this._camera));
+			//
+			// let rgbShift = new THREE.ShaderPass(THREE.RGBShiftShader);
+			// rgbShift.uniforms.amount.value = 0.0015;
+			// this._composer.addPass(rgbShift);
+			//
+			// let glitch = new THREE.GlitchPass();
+			// this._composer.addPass(glitch);
+			// glitch.renderToScreen = true;
 
-			this._composer.addPass(new THREE.RenderPass(this._scene, this._camera));
+			this._composer = new WAGNER.Composer(this._renderer);
 
-			let rgbShift = new THREE.ShaderPass(THREE.RGBShiftShader);
-			rgbShift.uniforms.amount.value = 0.0015;
-			this._composer.addPass(rgbShift);
+			this._composer.setSize(window.innerWidth, window.innerHeight);
 
-			let glitch = new THREE.GlitchPass();
-			this._composer.addPass(glitch);
-			glitch.renderToScreen = true;
+			this._zoomBlurPass = new WAGNER.ZoomBlurPass({
+				// strength: 100
+			});
+
+			this._rgbSplitPass = new WAGNER.RGBSplitPass({
+				x: 100,
+				y: 100
+			});
+
+			this._asciiPass = new WAGNER.ASCIIPass();
 
 		},
 
@@ -212,7 +227,17 @@ export default Vue.extend({
 
 			this._renderer.autoClearColor = true;
 
-			this._composer.render();
+			this._composer.reset();
+
+			this._composer.render(this._scene, this._camera);
+
+			// this._composer.pass(this._rgbSplitPass);
+
+			this._composer.pass(this._asciiPass);
+
+			// this._composer.pass(this._zoomBlurPass);
+
+			this._composer.toScreen();
 
 			this._stats.end();
 		},

@@ -60,6 +60,8 @@ export default {
 
 	ready: function() {
 
+        this.initSounds();
+
         this.addEventListener();
 
         this.createNodeSession();
@@ -71,6 +73,12 @@ export default {
 	},
 
 	watch: {
+
+        currentView: function() {
+
+            this.initSounds();
+
+        }
 
 	},
 
@@ -86,7 +94,11 @@ export default {
 
         addEventListener: function() {
 
-            let zbtns = document.querySelectorAll('.zbtn');
+        },
+
+        initSounds: function() {
+
+            let zbtns = document.querySelectorAll('.is-sound');
 
             for (var x=0; x<zbtns.length; x++)
             {
