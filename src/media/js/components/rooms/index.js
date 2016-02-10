@@ -152,7 +152,7 @@ export default Vue.extend({
 
 		onNewPlayer: function(data) {
 
-			console.log(data);
+			console.log('New player : ' + data.name + ' => ' + data.room);
 
 		},
 
@@ -217,8 +217,6 @@ export default Vue.extend({
 
 			this.rooms = rooms;
 
-			console.log(this.rooms);
-
 			this.IscrollRefresh();
 
 		},
@@ -231,8 +229,6 @@ export default Vue.extend({
 					name: name,
 					maxPlayers: parseInt(players, 10)
 				};
-
-				console.log(newRoom);
 
 				this.socket.emit('new room', newRoom);
 

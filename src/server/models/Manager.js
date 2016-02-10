@@ -73,6 +73,8 @@ class Manager {
 
         	this.broadcast.emit('remove player', {name: this.player.name});
 
+			Secondsense.updateRooms(this);
+
         } else {
 
             console.log('Unknown player has disconnected !');

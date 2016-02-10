@@ -99,11 +99,13 @@ export default Vue.extend({
 
 			this.run = this.run.bind(this);
 
+			this.onWindowResize = this.onWindowResize.bind(this);
+
 		},
 
 		addEventListener: function() {
 
-			document.addEventListener('resize', this.onWindowResize);
+			window.addEventListener('resize', this.onWindowResize);
 
 		},
 
@@ -168,18 +170,6 @@ export default Vue.extend({
 		},
 
 		effectsInitialize: function() {
-
-			// this._composer = new THREE.EffectComposer(this._renderer);
-			//
-			// this._composer.addPass(new THREE.RenderPass(this._scene, this._camera));
-			//
-			// let rgbShift = new THREE.ShaderPass(THREE.RGBShiftShader);
-			// rgbShift.uniforms.amount.value = 0.0015;
-			// this._composer.addPass(rgbShift);
-			//
-			// let glitch = new THREE.GlitchPass();
-			// this._composer.addPass(glitch);
-			// glitch.renderToScreen = true;
 
 			this._composer = new WAGNER.Composer(this._renderer);
 
@@ -270,6 +260,8 @@ export default Vue.extend({
 			this._camera.updateProjectionMatrix();
 
 			this._renderer.setSize(window.innerWidth, window.innerHeight);
+
+			this._renderer.setClearColor(0x4249d6, 0);
 
 		},
 
