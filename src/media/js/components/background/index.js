@@ -6,6 +6,8 @@ import THREE from 'three';
 
 import Stats from 'stats';
 
+var glslify = require('glslify');
+
 import CubeMixin from './mixins/cube';
 
 import LightsMixin from './mixins/lights';
@@ -121,13 +123,13 @@ export default Vue.extend({
 
 			this._scene = new THREE.Scene();
 
-			//this._scene.fog = new THREE.FogExp2(0x1c1c1c, 1.2);
+			// this._scene.fog = new THREE.Fog(0x000000, 500, 1000);
 
 			// Camera
 
 			this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
 
-			this._camera.position.set(0, 0, 0);
+			this._camera.position.set(0, 0, 1000);
 
 			// Controls
 
@@ -171,20 +173,40 @@ export default Vue.extend({
 
 		effectsInitialize: function() {
 
-			this._composer = new WAGNER.Composer(this._renderer);
+			// this._depthMaterial = new THREE.MeshBasicMaterial();
+
+			this._depthTexture = null;
+
+			this._depthMaterial = new THREE.ShaderMaterial({
+				uniforms: {
+					mNear: { type: 'f', value: this._camera.near },
+					mFar: { type: 'f', value: this._camera.far }
+				},
+				vertexShader: glslify('../../../glsl/vertex-shaders/packed-depth-vs.glsl'),
+				fragmentShader: glslify('../../../glsl/fragment-shaders/packed-depth-fs.glsl'),
+				shading: THREE.SmoothShading
+			});
+
+			this._composer = new WAGNER.Composer(this._renderer, {useRGBA: true});
+
+			this._multiBloomPass = new WAGNER.MultiPassBloomPass();
+
+			this._dofPass = new WAGNER.GuidedFullBoxBlurPass();
+
+			this._vignette2Pass = new WAGNER.Vignette2Pass();
+
+			this._fxaaPass = new WAGNER.FXAAPass();
+
+			this._multiBloomPass.params.blurAmount = 2;
+
+			this._dofPass.params.amount = 20;
+			this._dofPass.params.invertBiasMap = true;
+			// this._dofPass.params.from = 0.5;
+			// this._dofPass.params.to = 1.0;
 
 			this._composer.setSize(window.innerWidth, window.innerHeight);
 
-			this._zoomBlurPass = new WAGNER.ZoomBlurPass({
-				// strength: 100
-			});
-
-			this._rgbSplitPass = new WAGNER.RGBSplitPass({
-				x: 100,
-				y: 100
-			});
-
-			this._asciiPass = new WAGNER.ASCIIPass();
+			this._depthTexture = WAGNER.Pass.prototype.getOfflineTexture(window.innerWidth, window.innerHeight, true);
 
 		},
 
@@ -217,19 +239,34 @@ export default Vue.extend({
 
 			this._renderer.autoClearColor = true;
 
+			this._composer.renderer.setClearColor(0x000000, 1);
+
 			this._composer.reset();
+
+			this._composer.renderer.clear();
+
+			this._cube.material = this._depthMaterial;
+
+			this._composer.render(this._scene, this._camera, null, this._depthTexture);
+
+			this._cube.material = this._cubeMaterial;
 
 			this._composer.render(this._scene, this._camera);
 
-			// this._composer.pass(this._rgbSplitPass);
+			this._dofPass.params.tBias = this._depthTexture;
 
-			this._composer.pass(this._asciiPass);
+			// this._composer.pass(this._multiBloomPass);
 
-			// this._composer.pass(this._zoomBlurPass);
+			// this._composer.pass(this._dofPass);
+
+			this._composer.pass(this._vignette2Pass);
+
+			// this._composer.pass(this._fxaaPass);
 
 			this._composer.toScreen();
 
 			this._stats.end();
+
 		},
 
 		initStats: function() {
