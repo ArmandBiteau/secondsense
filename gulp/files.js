@@ -25,7 +25,7 @@ module.exports = {
 	copyBase: 'src',
 	copyDest: 'public',
 
-	vendorsBase:'./src/media/vendors/**/*.js',
+	vendorsBase:'./src/media/vendors/**/**/*.js',
 	vendorsDest: './public/media/js',
 	vendorsConcat: 'vendors.bundle.js',
 
