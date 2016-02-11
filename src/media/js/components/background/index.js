@@ -6,7 +6,11 @@ import THREE from 'three';
 
 import Stats from 'stats';
 
+// var glslify = require('glslify');
+
 import CubeMixin from './mixins/cube';
+
+import PlaneMixin from './mixins/plane';
 
 import LightsMixin from './mixins/lights';
 
@@ -29,6 +33,10 @@ export default Vue.extend({
 			// Camera
 
 			_camera: null,
+
+			_mouseX: 0,
+
+			_mouseY: 0,
 
 			// Clock
 
@@ -99,11 +107,17 @@ export default Vue.extend({
 
 			this.run = this.run.bind(this);
 
+			this.onWindowResize = this.onWindowResize.bind(this);
+
+			this.onMouseMove = this.onMouseMove.bind(this);
+
 		},
 
 		addEventListener: function() {
 
-			document.addEventListener('resize', this.onWindowResize);
+			window.addEventListener('resize', this.onWindowResize);
+
+			window.addEventListener('mousemove', this.onMouseMove);
 
 		},
 
@@ -111,21 +125,44 @@ export default Vue.extend({
 
 		},
 
+		onWindowResize: function() {
+
+			this._camera.aspect = window.innerWidth / window.innerHeight;
+
+			this._camera.updateProjectionMatrix();
+
+			this._renderer.setSize(window.innerWidth, window.innerHeight);
+
+			this._zoomBlurPass.params.center.set(0.5 * window.innerWidth, 0.5 * window.innerHeight);
+
+		},
+
+		onMouseMove: function(event) {
+
+			this._mouseX = (event.clientX - window.innerWidth/2);
+			this._mouseY = (event.clientY - window.innerHeight/2);
+
+		},
+
 		sceneInitialize: function() {
 
 			// Parameters
+
+			this._mouseX = window.innerWidth/2;
+
+			this._mouseY = window.innerHeight/2;
 
 			// Scene
 
 			this._scene = new THREE.Scene();
 
-			//this._scene.fog = new THREE.FogExp2(0x1c1c1c, 1.2);
+			// this._scene.fog = new THREE.Fog(0x000000, 500, 1000);
 
 			// Camera
 
-			this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
+			this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 15000);
 
-			this._camera.position.set(0, 0, 0);
+			this._camera.position.set(0, 0, 500);
 
 			// Controls
 
@@ -139,7 +176,7 @@ export default Vue.extend({
 
 			this._renderer.setSize(window.innerWidth, window.innerHeight);
 
-			this._renderer.setClearColor(0x4249d6, 0);
+			this._renderer.setClearColor(0x070c10, 1);
 
 			document.getElementById('background-canvas').appendChild(this._renderer.domElement);
 
@@ -159,7 +196,9 @@ export default Vue.extend({
 
 			this.isSceneLoaded = true;
 
-			this.cubeInitialize();
+			this.planeInitialize();
+
+			// this.cubeInitialize();
 
 			this.lightsInitialize();
 
@@ -169,32 +208,22 @@ export default Vue.extend({
 
 		effectsInitialize: function() {
 
-			// this._composer = new THREE.EffectComposer(this._renderer);
-			//
-			// this._composer.addPass(new THREE.RenderPass(this._scene, this._camera));
-			//
-			// let rgbShift = new THREE.ShaderPass(THREE.RGBShiftShader);
-			// rgbShift.uniforms.amount.value = 0.0015;
-			// this._composer.addPass(rgbShift);
-			//
-			// let glitch = new THREE.GlitchPass();
-			// this._composer.addPass(glitch);
-			// glitch.renderToScreen = true;
+			this._composer = new WAGNER.Composer(this._renderer, {useRGBA: true});
 
-			this._composer = new WAGNER.Composer(this._renderer);
+			this._multiBloomPass = new WAGNER.MultiPassBloomPass();
+
+			this._fxaaPass = new WAGNER.FXAAPass();
+
+			this._vignettePass = new WAGNER.Vignette2Pass({
+				boost: 1,
+				reduction: 2
+			});
+
+			this._multiBloomPass.params.blurAmount = 2;
 
 			this._composer.setSize(window.innerWidth, window.innerHeight);
 
-			this._zoomBlurPass = new WAGNER.ZoomBlurPass({
-				// strength: 100
-			});
-
-			this._rgbSplitPass = new WAGNER.RGBSplitPass({
-				x: 100,
-				y: 100
-			});
-
-			this._asciiPass = new WAGNER.ASCIIPass();
+			this._depthTexture = WAGNER.Pass.prototype.getOfflineTexture(window.innerWidth, window.innerHeight, true);
 
 		},
 
@@ -211,7 +240,9 @@ export default Vue.extend({
 
 			this._clockElapsedTime = this._clock.getElapsedTime();
 
-			this.cubeUpdate();
+			this.planeUpdate();
+
+			// this.cubeUpdate();
 
 			this.lightsUpdate();
 
@@ -223,23 +254,47 @@ export default Vue.extend({
 
 			// this._controls.update();
 
+			this._camera.position.x = (-this._mouseX) * 0.12;
+			this._camera.position.y = this._mouseY * 0.15;
+
+			if (this._camera.position.x < -120) {
+				this._camera.position.x = -120;
+			}
+
+			if (this._camera.position.x > 120) {
+				this._camera.position.x = 120;
+			}
+
+			if (this._camera.position.y < -150) {
+				this._camera.position.y = -150;
+			}
+
+			if (this._camera.position.y > 150) {
+				this._camera.position.y = 150;
+			}
+
+			this._camera.lookAt(this._scene.position);
+
 			// this._renderer.render(this._scene, this._camera);
 
 			this._renderer.autoClearColor = true;
 
 			this._composer.reset();
 
+			this._composer.renderer.clear();
+
 			this._composer.render(this._scene, this._camera);
 
-			// this._composer.pass(this._rgbSplitPass);
+			this._composer.pass(this._fxaaPass);
 
-			this._composer.pass(this._asciiPass);
+			this._composer.pass(this._multiBloomPass);
 
-			// this._composer.pass(this._zoomBlurPass);
+			this._composer.pass(this._vignettePass);
 
 			this._composer.toScreen();
 
 			this._stats.end();
+
 		},
 
 		initStats: function() {
@@ -260,16 +315,6 @@ export default Vue.extend({
 		destroyStats: function() {
 
 			this._stats.domElement.parentNode.removeChild(this._stats.domElement);
-
-		},
-
-		onWindowResize: function() {
-
-			this._camera.aspect = window.innerWidth / window.innerHeight;
-
-			this._camera.updateProjectionMatrix();
-
-			this._renderer.setSize(window.innerWidth, window.innerHeight);
 
 		},
 
@@ -309,6 +354,7 @@ export default Vue.extend({
 
 	mixins: [
 
+		PlaneMixin,
 		CubeMixin,
 		LightsMixin
 

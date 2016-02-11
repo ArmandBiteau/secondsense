@@ -357,8 +357,10 @@ WAGNER.FreiChenEdgeDetectionPass.prototype = Object.create( WAGNER.Pass.prototyp
 
 WAGNER.DirtPass = function() {
 
+	var loader = new THREE.TextureLoader();
+
 	this.blendPass = new WAGNER.BlendPass();
-	this.dirtTexture = THREE.ImageUtils.loadTexture( WAGNER.assetsPath + '/textures/dirt8.jpg' );
+	this.dirtTexture = loader.load( WAGNER.assetsPath + '/textures/LensDirtiness_01.jpg' );
 
 };
 
@@ -408,7 +410,7 @@ WAGNER.GuidedBoxBlurPass.prototype.run = function( c ) {
 
 	this.shader.uniforms.tBias.value = this.params.tBias,
 	this.shader.uniforms.delta.value.copy( this.params.delta );
-	this.shader.uniforms.delta.value.multiplyScalar( .0001 );
+	this.shader.uniforms.delta.value.multiplyScalar( 0.0001 );
 	this.shader.uniforms.invertBiasMap.value = this.params.invertBiasMap;
 	this.shader.uniforms.isPacked.value = this.params.isPacked;
 	this.shader.uniforms.from.value = this.params.from;
@@ -612,10 +614,12 @@ WAGNER.GrayscalePass.prototype = Object.create( WAGNER.Pass.prototype );
 
 WAGNER.ASCIIPass = function() {
 
+	var loader = new THREE.TextureLoader();
+
 	WAGNER.Pass.call( this );
 	WAGNER.log( 'ASCIIPass Pass constructor' );
 	this.loadShader( 'ascii-fs.glsl', function() {
-		this.shader.uniforms.tAscii.value = THREE.ImageUtils.loadTexture( WAGNER.assetsPath + '/ascii/8x16_ascii_font_sorted.gif' );
+		this.shader.uniforms.tAscii.value = loader.load( WAGNER.assetsPath + '/ascii/8x16_ascii_font_sorted.gif' );
 	} );
 
 };

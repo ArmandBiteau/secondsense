@@ -14,19 +14,21 @@ export default {
 
 		this._cube = null;
 
+        this._cubeMaterial = null;
+
 	},
 
 	methods: {
 
 		cubeInitialize: function() {
 
-            let geometry = new THREE.SphereGeometry(0.5, 3, 2);
+            let geometry = new THREE.BoxGeometry(600, 600, 600);
 
-            let material = new THREE.MeshPhongMaterial({ color: 0x4249d6, shininess: 30, shading: THREE.FlatShading });
+            this._cubeMaterial = new THREE.MeshPhongMaterial({color: 0x4249d6, shading: THREE.SmoothShading});
 
-            this._cube = new THREE.Mesh(geometry, material);
+            this._cube = new THREE.Mesh(geometry, this._cubeMaterial);
 
-            this._cube.position.set(0, 0, -1);
+            this._cube.position.set(0, 0, 0);
 
 			this._scene.add(this._cube);
 
@@ -34,8 +36,9 @@ export default {
 
 		cubeUpdate: function() {
 
-            this._cube.rotation.y += 0.01;
-            this._cube.rotation.z += 0.01;
+            this._cube.rotation.x = Math.PI / 4;
+            this._cube.rotation.y += 0.005;
+            this._cube.rotation.z += 0.005;
 
 		}
 	}

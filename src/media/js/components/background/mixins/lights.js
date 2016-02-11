@@ -22,9 +22,9 @@ export default {
 
 		lightsInitialize: function() {
 
-            this._dirLight = new THREE.DirectionalLight(0xffffff, 1);
+            this._dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
 
-			this._dirLight.position.set(3, 3, 3);
+			this._dirLight.position.set(500, 1000, 1000);
 
             this._dirLight.castShadow = true;
 

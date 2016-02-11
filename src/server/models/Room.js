@@ -24,7 +24,7 @@ class Room {
 
 		for (var i = 0; i < this.players.length; i++) {
 
-			socket.emit('new player', {name: this.players[i].name});
+			socket.emit('new player', {name: this.players[i].name, room: this.name});
 
 		}
 

@@ -152,7 +152,7 @@ export default Vue.extend({
 
 		onNewPlayer: function(data) {
 
-			console.log(data);
+			console.log('New player : ' + data.name + ' => ' + data.room);
 
 		},
 
@@ -217,8 +217,6 @@ export default Vue.extend({
 
 			this.rooms = rooms;
 
-			console.log(this.rooms);
-
 			this.IscrollRefresh();
 
 		},
@@ -231,8 +229,6 @@ export default Vue.extend({
 					name: name,
 					maxPlayers: parseInt(players, 10)
 				};
-
-				console.log(newRoom);
 
 				this.socket.emit('new room', newRoom);
 
@@ -249,7 +245,7 @@ export default Vue.extend({
 			let x = event.clientX - window.innerWidth/2;
 			let y = event.clientY - window.innerHeight/2;
 
-			TweenMax.to(this.$els.container, 0.3, {
+			TweenMax.to(this.$els.container, 0.001, {
 				css: {
 					'transform': 'rotateX('+ -y/60 +'deg) rotateY('+ x/100 +'deg) translateZ(50px)'
 				}
