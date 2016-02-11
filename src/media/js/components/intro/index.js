@@ -66,7 +66,7 @@ export default Vue.extend({
 			let x = event.clientX - window.innerWidth/2;
 			let y = event.clientY - window.innerHeight/2;
 
-			TweenMax.to(this.$els.container, 0.3, {
+			TweenMax.to(this.$els.container, 0.001, {
 				css: {
 					'transform': 'rotateX('+ -y/60 +'deg) rotateY('+ x/100 +'deg) translateZ(50px)'
 				}

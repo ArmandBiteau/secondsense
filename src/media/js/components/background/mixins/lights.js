@@ -24,7 +24,7 @@ export default {
 
             this._dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
 
-			this._dirLight.position.set(0, 1500, 1000);
+			this._dirLight.position.set(500, 1000, 1000);
 
             this._dirLight.castShadow = true;
 

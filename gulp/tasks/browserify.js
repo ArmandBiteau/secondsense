@@ -24,7 +24,7 @@ gulp.task('browserify', function() {
 		browserifyConfig
 			.external(librairies)
 
-			.transform(babelify, {presets: ['es2015']})
+			.transform(babelify, {presets: ['es2015'], compact: false})
 			.bundle()
 			.on('error', errorHandler)
 			// .pipe(babel())

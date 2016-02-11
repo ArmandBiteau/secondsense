@@ -22,9 +22,9 @@ export default {
 
 		cubeInitialize: function() {
 
-            let geometry = new THREE.BoxGeometry(999, 999, 999);
+            let geometry = new THREE.BoxGeometry(600, 600, 600);
 
-            this._cubeMaterial = new THREE.MeshPhongMaterial({color: 0x181d21, shading: THREE.SmoothShading});
+            this._cubeMaterial = new THREE.MeshPhongMaterial({color: 0x4249d6, shading: THREE.SmoothShading});
 
             this._cube = new THREE.Mesh(geometry, this._cubeMaterial);
 
