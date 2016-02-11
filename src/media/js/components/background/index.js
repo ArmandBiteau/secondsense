@@ -6,7 +6,7 @@ import THREE from 'three';
 
 import Stats from 'stats';
 
-var glslify = require('glslify');
+// var glslify = require('glslify');
 
 import CubeMixin from './mixins/cube';
 
@@ -133,6 +133,8 @@ export default Vue.extend({
 
 			this._renderer.setSize(window.innerWidth, window.innerHeight);
 
+			this._zoomBlurPass.params.center.set(0.5 * window.innerWidth, 0.5 * window.innerHeight);
+
 		},
 
 		onMouseMove: function(event) {
@@ -174,7 +176,7 @@ export default Vue.extend({
 
 			this._renderer.setSize(window.innerWidth, window.innerHeight);
 
-			this._renderer.setClearColor(0x00000, 1);
+			this._renderer.setClearColor(0x070c10, 1);
 
 			document.getElementById('background-canvas').appendChild(this._renderer.domElement);
 
@@ -206,25 +208,16 @@ export default Vue.extend({
 
 		effectsInitialize: function() {
 
-			this._depthTexture = null;
-
-			this._depthMaterial = new THREE.ShaderMaterial({
-				uniforms: {
-					mNear: { type: 'f', value: this._camera.near },
-					mFar: { type: 'f', value: this._camera.far }
-				},
-				vertexShader: glslify('../../../glsl/vertex-shaders/packed-depth-vs.glsl'),
-				fragmentShader: glslify('../../../glsl/fragment-shaders/packed-depth-fs.glsl'),
-				shading: THREE.SmoothShading
-			});
-
 			this._composer = new WAGNER.Composer(this._renderer, {useRGBA: true});
 
 			this._multiBloomPass = new WAGNER.MultiPassBloomPass();
 
-			// this._dirtPass = new WAGNER.DirtPass();
-
 			this._fxaaPass = new WAGNER.FXAAPass();
+
+			this._vignettePass = new WAGNER.Vignette2Pass({
+				boost: 1,
+				reduction: 2
+			});
 
 			this._multiBloomPass.params.blurAmount = 2;
 
@@ -290,19 +283,13 @@ export default Vue.extend({
 
 			this._composer.renderer.clear();
 
-			this._plane.material = this._depthMaterial;
-
-			this._composer.render(this._scene, this._camera, null, this._depthTexture);
-
-			this._plane.material = this._planeMaterial;
-
 			this._composer.render(this._scene, this._camera);
+
+			this._composer.pass(this._fxaaPass);
 
 			this._composer.pass(this._multiBloomPass);
 
-			// this._composer.pass(this._dirtPass);
-
-			this._composer.pass(this._fxaaPass);
+			this._composer.pass(this._vignettePass);
 
 			this._composer.toScreen();
 

@@ -23,7 +23,7 @@ export default {
             let geometry = new THREE.PlaneGeometry(700, 700, 10, 10);
 
             this._planeMaterial = new THREE.MeshPhongMaterial({
-                color: 0x181d21,
+                color: 0x171c20,
                 shading: THREE.FlatShading,
                 polygonOffset: true,
                 polygonOffsetFactor: 1,
