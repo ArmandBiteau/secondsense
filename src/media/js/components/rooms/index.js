@@ -4,6 +4,8 @@ import Vue from 'vue';
 
 import IScroll from 'iscroll';
 
+import roomsWaitComponent from '../rooms-wait';
+
 export default Vue.extend({
 
 	inherit: true,
@@ -20,7 +22,13 @@ export default Vue.extend({
 
 			newRoomPlayers: null,
 
-			maxPlayers: 5
+			maxPlayers: 5,
+
+			isanActiveRoom: false,
+
+			activeRoom: {},
+
+			activeRoom_uid: ''
 
 		};
 
@@ -103,6 +111,7 @@ export default Vue.extend({
 			});
 
 			setTimeout(this.IscrollRefresh, 500);
+			setInterval(this.IscrollRefresh, 1000);
 
 		},
 
@@ -144,6 +153,8 @@ export default Vue.extend({
 
 			this.socket.on('new player', _this.onNewPlayer);
 
+			this.socket.on('exit room', _this.onExitRoom);
+
 			this.socket.on('update rooms', _this.onUpdateRoom);
 
 			this.onUpdateRoom();
@@ -156,15 +167,28 @@ export default Vue.extend({
 
 		},
 
-		onSwitchRoom: function(newroom) {
+		onSwitchRoom: function(room) {
 
-			this.socket.emit('switch room', newroom);
+			this.activeRoom_uid = room.id;
+
+			this.isanActiveRoom = true;
+
+			this.socket.emit('switch room', room.id);
+
+		},
+
+		onExitRoom: function() {
+
+			this.activeRoom_uid = '';
+
+			this.isanActiveRoom = false;
+
+			this.activeRoom = {};
 
 		},
 
 		onUpdateRoom: function(rooms) {
 
-			//tmp
 			// rooms = [{
 			// 		maxPlayers: 5,
 			// 		name: 'Awesome Imac',
@@ -172,52 +196,48 @@ export default Vue.extend({
 			// 			id: null,
 			// 			name: 'Armand Bto'
 			// 		}]
-			// 	},
-			// 	{
-			// 		maxPlayers: 3,
-			// 		name: 'Another Room',
-			// 		players: [{
-			// 			id: null,
-			// 			name: 'Armand Bto'
-			// 		},
-			// 		{
-			// 			id: null,
-			// 			name: 'Armand Bto'
-			// 		}]
-			// 	},
-			// 	{
-			// 		maxPlayers: 4,
-			// 		name: 'Another',
-			// 		players: [{
-			// 			id: null,
-			// 			name: 'Armand Bto'
-			// 		}]
-			// 	},
-			// 	{
-			// 		maxPlayers: 3,
-			// 		name: 'Another Room',
-			// 		players: [{
-			// 			id: null,
-			// 			name: 'Armand Bto'
-			// 		},
-			// 		{
-			// 			id: null,
-			// 			name: 'Armand Bto'
-			// 		}]
-			// 	},
-			// 	{
-			// 		maxPlayers: 4,
-			// 		name: 'Another',
-			// 		players: [{
-			// 			id: null,
-			// 			name: 'Armand Bto'
-			// 		}]
 			// 	}
 			// ];
 
-			this.rooms = rooms;
+			if (rooms) {
+
+				this.rooms = rooms;
+
+				if (this.isanActiveRoom) {
+
+					this.updateActiveRoom();
+
+				}
+
+			} else {
+
+				this.rooms = [];
+
+				this.isanActiveRoom = false;
+
+			}
 
 			this.IscrollRefresh();
+
+		},
+
+		updateActiveRoom: function() {
+
+			this.activeRoom = this.getRoomById(this.activeRoom_uid);
+
+		},
+
+		getRoomById: function(uid) {
+
+			for (let i = 0; i < this.rooms.length; i++) {
+
+	    		if (this.rooms[i].id === uid)
+
+	    			return this.rooms[i];
+
+	    	}
+
+	    	return {};
 
 		},
 
@@ -226,11 +246,16 @@ export default Vue.extend({
 			if (name) {
 
 				let newRoom = {
+					id: (name + '-' + (new Date()).getTime()).replace(/\s/g, ''),
 					name: name,
 					maxPlayers: parseInt(players, 10)
 				};
 
 				this.socket.emit('new room', newRoom);
+
+				this.activeRoom_uid = newRoom.id;
+
+				this.isanActiveRoom = true;
 
 			} else {
 
@@ -256,6 +281,8 @@ export default Vue.extend({
 	},
 
 	components: {
+
+		roomsWaitComponent
 
 	}
 

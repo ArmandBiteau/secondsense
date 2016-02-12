@@ -2,7 +2,9 @@
 
 class Room {
 
-	constructor(roomName, maxPlayers) {
+	constructor(id, roomName, maxPlayers) {
+
+		this.id = id;
 
 		this.name = roomName;
 

@@ -29,7 +29,7 @@ class Manager {
 
         console.log('Server running at http://192.168.33.10:3000/');
 
-        Secondsense.addRoom('First room', 3);
+        Secondsense.addRoom('FristRoomidtest', 'First room', 3);
 
     }
 
@@ -46,6 +46,8 @@ class Manager {
 	    	client.on('new player', _this.onNewPlayer);
 
 	    	client.on('switch room', _this.onSwitchRoom);
+
+			client.on('exit room', _this.onExitRoom);
 
 			client.on('new room', _this.onNewRoom);
 
@@ -93,7 +95,7 @@ class Manager {
 
     }
 
-    onSwitchRoom(newroom) {
+    onSwitchRoom(id) {
 
 		if (this.room) {
 
@@ -101,7 +103,7 @@ class Manager {
 
 		}
 
-        this.room = Secondsense.roomByName(newroom);
+        this.room = Secondsense.roomById(id);
 
         this.room.addPlayer(this, this.player);
 
@@ -109,9 +111,7 @@ class Manager {
 
     }
 
-	onNewRoom(newroom) {
-
-		Secondsense.addRoom(newroom.name, newroom.maxPlayers);
+	onExitRoom() {
 
 		if (this.room) {
 
@@ -119,7 +119,23 @@ class Manager {
 
 		}
 
-        this.room = Secondsense.roomByName(newroom.name);
+		Secondsense.updateRooms(this);
+
+		this.emit('exit room');
+
+    }
+
+	onNewRoom(newroom) {
+
+		Secondsense.addRoom(newroom.id, newroom.name, newroom.maxPlayers);
+
+		if (this.room) {
+
+			this.room.removePlayer(this, this.player);
+
+		}
+
+        this.room = Secondsense.roomById(newroom.id);
 
         this.room.addPlayer(this, this.player);
 

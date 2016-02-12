@@ -133,8 +133,6 @@ export default Vue.extend({
 
 			this._renderer.setSize(window.innerWidth, window.innerHeight);
 
-			this._zoomBlurPass.params.center.set(0.5 * window.innerWidth, 0.5 * window.innerHeight);
-
 		},
 
 		onMouseMove: function(event) {

@@ -1,0 +1,40 @@
+<div id="rooms-wait-wrapper" class="rooms-wait-wrapper">
+
+    <div v-el:waitcontainer class="rooms-wait-container">
+
+        <div class="rooms-wait-title">
+
+            <h2>{{room.name}}</h2>
+            <h1>Room</h1>
+
+            <div v-on:click="exitRoom()">BACK</div>
+
+        </div>
+
+        <div class="rooms-wait-list">
+
+            <div class="rooms-wait-list-title">
+
+                <h3>Players</h3>
+
+            </div>
+
+            <div class="rooms-wait-list-iscroll">
+
+                <div class="rooms-wait-list-iscroll-inner">
+
+                    <div v-for="player in room.players" class="rooms-wait-list-item">
+
+                        <h5 class="rooms-wait-list-item-title">{{ player.name }}</h5>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
