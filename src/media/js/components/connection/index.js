@@ -137,7 +137,9 @@ export default Vue.component('connection-component', {
 
 				facebook_user_id: _this.me.id,
 
-				facebook_user_name: _this.me.name
+				facebook_user_name: _this.me.name,
+
+				facebook_user_picture: _this.me.picture
 
 			};
 
@@ -146,6 +148,12 @@ export default Vue.component('connection-component', {
                 console.log('Already exists :', data.facebook_user_name);
 
 				this.connected = true;
+
+                // Update player informations
+                this.$http.put('/api/users/'+_this.me.id, player, (data) => {
+
+                	console.log('Player info updated  :', data.facebook_user_name);
+                });
 
             }).error(() => {
 
