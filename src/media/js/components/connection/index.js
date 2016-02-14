@@ -145,7 +145,9 @@ export default Vue.component('connection-component', {
 
             this.$http.get('/api/users/'+_this.me.id, (data) => {
 
-                console.log('Already exists :', data.facebook_user_name);
+                console.log('Already exists :', data);
+
+				this.me.score = data.score_id;
 
 				this.connected = true;
 

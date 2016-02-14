@@ -87,7 +87,7 @@ class Manager {
 
     onNewPlayer(data) {
 
-        this.player = new Player(data.name);
+        this.player = new Player(data.id, data.name, data.score, data.picture);
 
         this.room = null;
 

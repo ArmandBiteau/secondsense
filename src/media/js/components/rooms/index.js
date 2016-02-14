@@ -151,7 +151,7 @@ export default Vue.extend({
 
             });
 
-			this.socket.emit('new player', {name: _this.me.name});
+			this.socket.emit('new player', {id: _this.me.id, name: _this.me.name, score: _this.me.score, picture: _this.me.picture});
 
 			this.socket.on('new player', _this.onNewPlayer);
 

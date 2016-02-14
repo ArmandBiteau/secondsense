@@ -68,7 +68,7 @@ export default {
 
         this.createFbSDK();
 
-        this.testPHPApi();
+        // this.testPHPApi();
 
 	},
 
