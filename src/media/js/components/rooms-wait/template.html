@@ -39,7 +39,11 @@
 
             <div class="rooms-wait-list-chat">
 
-                <h3>Quick chat</h3>
+                <div class="rooms-list-chat-title">
+
+                    <h3>Quick chat</h3>
+
+                </div>
 
                 <div id="rooms-wait-list-chat-iscroll" class="rooms-wait-list-chat-iscroll">
 
@@ -47,9 +51,7 @@
 
                         <div v-for="message in room.messages" class="rooms-list-message">
 
-                            <h5 class="rooms-list-message-player">{{ message.player }}</h5>
-
-                            <p class="rooms-list-message-content">{{ message.content }}</p>
+                            <p class="rooms-list-message-content"><span>{{ message.player }}: </span>{{ message.content }}</p>
 
                         </div>
 
@@ -58,7 +60,7 @@
                 </div>
 
                 <div class="rooms-wait-list-chat-new">
-                    <input type="text" v-model="newMessage" placeholder="" maxlength="30"/>
+                    <input type="text" v-model="newMessage" placeholder="Your message..." v-on:keyup.enter="sendMessage(newMessage)"/>
                     <a v-on:click="sendMessage(newMessage)" class="is-sound">Send</a>
                 </div>
 

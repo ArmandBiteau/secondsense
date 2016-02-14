@@ -288,6 +288,10 @@ export default Vue.extend({
 
 			}
 
+			this.newRoomName = '';
+
+			this.newRoomPlayers = 5;
+
 		},
 
 		updateContainer3D: function(event) {

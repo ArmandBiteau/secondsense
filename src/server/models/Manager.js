@@ -151,6 +151,8 @@ class Manager {
 
         Secondsense.updateRooms(this);
 
+		this.emit('new message');
+
     }
 
 }

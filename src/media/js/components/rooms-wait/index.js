@@ -2,6 +2,8 @@
 
 import Vue from 'vue';
 
+import IScroll from 'iscroll';
+
 export default Vue.extend({
 
 	inherit: true,
@@ -47,6 +49,8 @@ export default Vue.extend({
 
         this.addEventListener();
 
+		this.initIscroll();
+
 	},
 
 	watch: {
@@ -73,6 +77,27 @@ export default Vue.extend({
 
 		},
 
+		initIscroll: function() {
+
+			let wrapper = document.getElementById('rooms-wait-list-chat-iscroll');
+			this.IScroll = new IScroll(wrapper, {
+				mouseWheel: true,
+				scrollbars: true,
+				keyBindings: false
+			});
+
+			setTimeout(this.IscrollRefresh, 500);
+
+		},
+
+		IscrollRefresh: function() {
+
+			 this.IScroll.refresh();
+
+			 this.IScroll.scrollTo(0, this.IScroll.maxScrollY, 0);
+
+		},
+
 		exitRoom: function() {
 
 			this.socket.emit('exit room');
@@ -82,6 +107,10 @@ export default Vue.extend({
 		sendMessage: function(txt) {
 
 			this.socket.emit('new message', {player: this.me.name, content: txt});
+
+			this.socket.on('new message', this.IscrollRefresh);
+
+			this.newMessage = '';
 
 		},
 
