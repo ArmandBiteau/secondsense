@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Sam 12 Décembre 2015 à 13:55
--- Version du serveur :  5.5.46-0+deb8u1
--- Version de PHP :  5.6.14-0+deb8u1
+-- Généré le :  Dim 14 Février 2016 à 15:39
+-- Version du serveur :  5.5.47-0+deb8u1
+-- Version de PHP :  5.6.17-0+deb8u1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -114,6 +114,7 @@ INSERT INTO `secondsense_scores` (`score_id`, `high_score`, `game_count`, `sum_s
 CREATE TABLE IF NOT EXISTS `secondsense_users` (
   `facebook_user_id` varchar(25) NOT NULL,
   `facebook_user_name` varchar(25) NOT NULL,
+  `facebook_user_profile_picture` varchar(250) NOT NULL,
   `score_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -121,10 +122,10 @@ CREATE TABLE IF NOT EXISTS `secondsense_users` (
 -- Contenu de la table `secondsense_users`
 --
 
-INSERT INTO `secondsense_users` (`facebook_user_id`, `facebook_user_name`, `score_id`) VALUES
-('10207942504911437', 'Jordi'' Naire', 1),
-('10208165568158846', 'Denis Tribouillois', 2),
-('1259753977383932', 'Armand Bto', 3);
+INSERT INTO `secondsense_users` (`facebook_user_id`, `facebook_user_name`, `facebook_user_profile_picture`, `score_id`) VALUES
+('10207942504911437', 'Jordi'' Naire', 'https://scontent.xx.fbcdn.net/hprofile-xpf1/v/t1.0-1/p50x50/12308756_10207999537937227_5054568030571087939_n.jpg?oh=51bad14a26bec42f33e67f5a3d6988bf&o', 1),
+('10208165568158846', 'Denis Tribouillois', '', 2),
+('1259753977383932', 'Armand Bto', '', 3);
 
 --
 -- Index pour les tables exportées
@@ -182,15 +183,15 @@ MODIFY `score_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 -- Contraintes pour la table `has_reward`
 --
 ALTER TABLE `has_reward`
-ADD CONSTRAINT `FK_has_reward_reward_id` FOREIGN KEY (`reward_id`) REFERENCES `secondsense_rewards` (`reward_id`),
-ADD CONSTRAINT `FK_has_reward_facebook_user_id` FOREIGN KEY (`facebook_user_id`) REFERENCES `secondsense_users` (`facebook_user_id`);
+ADD CONSTRAINT `FK_has_reward_facebook_user_id` FOREIGN KEY (`facebook_user_id`) REFERENCES `secondsense_users` (`facebook_user_id`),
+ADD CONSTRAINT `FK_has_reward_reward_id` FOREIGN KEY (`reward_id`) REFERENCES `secondsense_rewards` (`reward_id`);
 
 --
 -- Contraintes pour la table `secondsense_friends`
 --
 ALTER TABLE `secondsense_friends`
-ADD CONSTRAINT `FK_secondsense_friends_facebook_user_id_friend` FOREIGN KEY (`facebook_user_id_friend`) REFERENCES `secondsense_users` (`facebook_user_id`),
-ADD CONSTRAINT `FK_secondsense_friends_facebook_user_id` FOREIGN KEY (`facebook_user_id`) REFERENCES `secondsense_users` (`facebook_user_id`);
+ADD CONSTRAINT `FK_secondsense_friends_facebook_user_id` FOREIGN KEY (`facebook_user_id`) REFERENCES `secondsense_users` (`facebook_user_id`),
+ADD CONSTRAINT `FK_secondsense_friends_facebook_user_id_friend` FOREIGN KEY (`facebook_user_id_friend`) REFERENCES `secondsense_users` (`facebook_user_id`);
 
 --
 -- Contraintes pour la table `secondsense_users`
