@@ -6,8 +6,8 @@ class User
 {
 
   private $_select = "SELECT * FROM secondsense_users";
-  private $_insert = "INSERT INTO secondsense_users(facebook_user_id, facebook_user_name) VALUES (:facebook_id, :facebook_name)";
-  private $_update = "UPDATE secondsense_users SET facebook_user_name = :facebook_name WHERE facebook_user_id = :facebook_id";
+  private $_insert = "INSERT INTO secondsense_users(facebook_user_id, facebook_user_name, facebook_user_profile_picture) VALUES (:facebook_id, :facebook_name, :facebook_profile_picture)";
+  private $_update = "UPDATE secondsense_users SET facebook_user_name = :facebook_name, facebook_user_profile_picture = :facebook_profile_picture WHERE facebook_user_id = :facebook_id";
   private $_delete = "DELETE FROM secondsense_users WHERE facebook_user_id = :facebook_id";
   private $_dbh;
 
@@ -94,6 +94,7 @@ class User
         $stmt = $this->_dbh->prepare($this->_insert);
         $stmt->bindParam("facebook_id", $vo->facebook_user_id);
         $stmt->bindParam("facebook_name", $vo->facebook_user_name);
+        $stmt->bindParam("facebook_profile_picture", $vo->facebook_user_picture);
         $stmt->execute();
         echo json_encode($vo);
 
@@ -108,6 +109,7 @@ class User
       $stmt = $this->_dbh->prepare($this->_update);
       $stmt->bindParam("facebook_id", $vo->facebook_user_id);
       $stmt->bindParam("facebook_name", $vo->facebook_user_name);
+      $stmt->bindParam("facebook_profile_picture", $vo->facebook_user_picture);
       $stmt->execute();
       echo json_encode($vo);
 

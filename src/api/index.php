@@ -50,7 +50,7 @@ $app->put('/users/:id', function($id) use($user, $app) {
   $request = $app->request();
   $body = $request->getBody();
   $vo = json_decode($body);
-  $vo->id = $id;
+  $vo->facebook_user_id = $id;
   $user->update($vo);
 
 });
