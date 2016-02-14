@@ -26,7 +26,7 @@ export default {
 
 		return {
 
-            currentView: 'rooms',
+            currentView: 'intro',
 
             me: {
 

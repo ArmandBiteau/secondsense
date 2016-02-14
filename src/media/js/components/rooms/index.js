@@ -62,9 +62,9 @@ export default Vue.extend({
 
         this.addEventListener();
 
-		// this.openRoomSession();
+		this.openRoomSession();
 
-		this.createFakeActiveRoom();
+		// this.createFakeActiveRoom();
 
 	},
 
