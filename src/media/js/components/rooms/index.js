@@ -62,7 +62,9 @@ export default Vue.extend({
 
         this.addEventListener();
 
-		this.openRoomSession();
+		// this.openRoomSession();
+
+		this.createFakeActiveRoom();
 
 	},
 
@@ -167,6 +169,39 @@ export default Vue.extend({
 
 		},
 
+		createFakeActiveRoom: function() {
+
+			this.activeRoom = {
+				id: 'AwesomeImac-12',
+				maxPlayers: 5,
+				name: 'Awesome Imac',
+				players: [{
+					id: null,
+					name: 'Armand Bto',
+					score: 12467,
+					picture: 'https://scontent.xx.fbcdn.net/hprofile-xtf1/v/t1.0-1/p50x50/10982891_1184887868203877_3238801022109576051_n.jpg?oh=be9261d34e8eed564bb003e024e84d28&oe=5769CE9D'
+				},{
+					id: null,
+					name: 'Jordi Bastide',
+					score: 365,
+					picture: 'https://scontent.xx.fbcdn.net/hprofile-xtf1/v/t1.0-1/p50x50/10982891_1184887868203877_3238801022109576051_n.jpg?oh=be9261d34e8eed564bb003e024e84d28&oe=5769CE9D'
+				},{
+					id: null,
+					name: 'Denis Tribouillois',
+					score: 1193,
+					picture: 'https://scontent.xx.fbcdn.net/hprofile-xtf1/v/t1.0-1/p50x50/10982891_1184887868203877_3238801022109576051_n.jpg?oh=be9261d34e8eed564bb003e024e84d28&oe=5769CE9D'
+				}],
+				messages: [{
+					player: 'Armand Bto',
+					content: 'test message'
+				},{
+					player: 'Jordi Bastide',
+					content: 'second test message'
+				}]
+			};
+
+		},
+
 		onSwitchRoom: function(room) {
 
 			this.activeRoom_uid = room.id;
@@ -188,16 +223,6 @@ export default Vue.extend({
 		},
 
 		onUpdateRoom: function(rooms) {
-
-			// rooms = [{
-			// 		maxPlayers: 5,
-			// 		name: 'Awesome Imac',
-			// 		players: [{
-			// 			id: null,
-			// 			name: 'Armand Bto'
-			// 		}]
-			// 	}
-			// ];
 
 			if (rooms) {
 

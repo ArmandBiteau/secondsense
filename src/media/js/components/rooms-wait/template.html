@@ -4,8 +4,8 @@
 
         <div class="rooms-wait-title">
 
-            <h2>{{room.name}}</h2>
-            <h1>Room</h1>
+            <h2>Wait for</h2>
+            <h1>Start</h1>
 
             <div v-on:click="exitRoom()">BACK</div>
 
@@ -15,23 +15,49 @@
 
             <div class="rooms-wait-list-title">
 
-                <h3>Players</h3>
+                <h2>{{room.name}}</h2>
+                <h3>{{room.maxPlayers}} players max</h3>
 
             </div>
 
-            <div class="rooms-wait-list-iscroll">
+            <div class="rooms-wait-list-players">
 
-                <div class="rooms-wait-list-iscroll-inner">
+                <h3>Players list</h3>
 
-                    <div v-for="player in room.players" class="rooms-wait-list-item">
+                <div v-for="player in room.players" class="rooms-wait-list-player">
 
-                        <h5 class="rooms-wait-list-item-title">{{ player.name }}</h5>
+                    <div class="rooms-wait-list-player-picture" v-bind:style="{ backgroundImage: 'url(' +player.picture+ ')' }"></div>
 
+                    <div class="rooms-wait-list-player-infos">
+                        <h5 class="rooms-wait-list-player-title">{{ player.name }}</h5>
+                        <span class="rooms-wait-list-player-score">{{ player.score }}</span>
                     </div>
 
                 </div>
 
             </div>
+
+            <!-- <div class="rooms-wait-list-chat">
+
+                <h3>Quick chat</h3>
+
+                <div id="rooms-wait-list-chat-iscroll" class="rooms-wait-list-chat-iscroll">
+
+                    <div id="rooms-wait-list-chat-iscroll-inner" class="rooms-wait-list-chat-iscroll-inner">
+
+                        <div v-for="message in room.messages" class="rooms-list-message">
+
+                            <h5 class="rooms-list-message-player">{{ message.player }}</h5>
+
+                            <p class="rooms-list-message-content">{{ message.content }}</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div> -->
 
         </div>
 

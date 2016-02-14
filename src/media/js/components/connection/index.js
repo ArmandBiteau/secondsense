@@ -83,6 +83,8 @@ export default Vue.component('connection-component', {
 
 				this.me.picture = response.picture.data.url;
 
+				// console.log(this.me);
+
 				this.checkDatabase();
 
 			});
