@@ -9,4 +9,5 @@ gulp.task('watch', ['browser-sync', 'css', 'lint-app', 'lint-server', 'lint-api'
 	gulp.watch(files.lintServerEntry, ['lint-server', reload]);
 	gulp.watch(files.lintServerEntry, ['babel-server', reload]);
 	gulp.watch(files.copyEntry, ['copy', reload]);
+	gulp.watch(files.vendorsBase, ['vendors', reload]);
 });

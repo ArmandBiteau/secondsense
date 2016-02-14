@@ -4,11 +4,13 @@ import loading from '../loading';
 
 import intro from '../intro';
 
-import connection from '../connection';
-
 import rooms from '../rooms';
 
 import game from '../game';
+
+import background from '../background';
+
+import Emitter from '../../core/emitter';
 
 // import {
 //     ROOT_URL
@@ -24,7 +26,7 @@ export default {
 
 		return {
 
-            currentView: 'connection',
+            currentView: 'intro',
 
             me: {
 
@@ -38,7 +40,9 @@ export default {
 
                 picture: '',
 
-                friends: []
+                friends: [],
+
+                connected: false
 
             },
 
@@ -56,6 +60,8 @@ export default {
 
 	ready: function() {
 
+        this.initSounds();
+
         this.addEventListener();
 
         this.createNodeSession();
@@ -67,6 +73,12 @@ export default {
 	},
 
 	watch: {
+
+        currentView: function() {
+
+            this.initSounds();
+
+        }
 
 	},
 
@@ -81,6 +93,21 @@ export default {
         },
 
         addEventListener: function() {
+
+        },
+
+        initSounds: function() {
+
+            let zbtns = document.querySelectorAll('.is-sound');
+
+            for (var x=0; x<zbtns.length; x++)
+            {
+                zbtns[x].addEventListener('mouseover', () => {
+
+                        Emitter.emit('SOUND_MANAGER_REQUEST_SOUND_CLICK');
+
+                });
+            }
 
         },
 
@@ -170,9 +197,9 @@ export default {
 
         loading,
         intro,
-        connection,
         rooms,
-        game
+        game,
+        background
 
 	}
 

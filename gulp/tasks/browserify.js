@@ -18,14 +18,13 @@ var librairies = Object.keys(packageJSON.dependencies);
 
 gulp.task('browserify', function() {
 	var browserifyConfig = watchify(browserify(files.browserifyEntry, watchify.args));
-	browserifyConfig.transform('browserify-shader');
 
 	function rebundle() {
 
 		browserifyConfig
 			.external(librairies)
 
-			.transform(babelify, {presets: ['es2015']})
+			.transform(babelify, {presets: ['es2015'], compact: false})
 			.bundle()
 			.on('error', errorHandler)
 			// .pipe(babel())

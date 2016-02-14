@@ -2,6 +2,8 @@
 	"browser": true,
 	"node": true,
 	"globals": {
+		"THREE": true,
+		"WAGNER": true,
 		"TimelineMax": true,
 		"TweenMax": true,
 		"createjs": true,
@@ -22,5 +24,6 @@
 	"strict": true,
 	"undef": true,
 	"unused": true,
-	"eqnull": true
+	"eqnull": true,
+	"loopfunc": true
 }

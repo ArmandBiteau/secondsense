@@ -6,6 +6,8 @@ import THREE from 'three';
 
 import Stats from 'stats';
 
+import FirstPersonControls from '../../core/fpsControls';
+
 import gameScoreComponent from '../game-score';
 
 import gameEndComponent from '../game-end';
@@ -135,7 +137,7 @@ export default Vue.extend({
 
 			document.addEventListener('resize', this.onWindowResize);
 
-			document.getElementsByTagName('canvas')[0].addEventListener('mousedown', this.moveForward, false);
+			// document.getElementsByTagName('canvas')[0].addEventListener('mousedown', this.moveForward, false);
 
 		},
 
@@ -153,7 +155,7 @@ export default Vue.extend({
 
 			this._scene = new THREE.Scene();
 
-			//this._scene.fog = new THREE.FogExp2(0x1c1c1c, 1.2);
+			this._scene.fog = new THREE.FogExp2(0x181d21, 0.5);
 
 			// Camera
 
@@ -165,19 +167,25 @@ export default Vue.extend({
 
 			this._camera.add(this._listener);
 
-			let cameraBoxGeometry = new THREE.SphereGeometry(0.3, 5, 5);
+			// let cameraBoxGeometry = new THREE.SphereGeometry(0.3, 5, 5);
 
-            let cameraBoxMaterial = new THREE.MeshBasicMaterial({ color: 0x00FF00});
+            // let cameraBoxMaterial = new THREE.MeshBasicMaterial({ color: 0x00FF00});
 
-            this._cameraBox = new THREE.Mesh(cameraBoxGeometry, cameraBoxMaterial);
+            // this._cameraBox = new THREE.Mesh(cameraBoxGeometry, cameraBoxMaterial);
 
-            this._cameraBox.position.set(this._camera.position.x, this._camera.position.y, this._camera.position.z);
+            // this._cameraBox.position.set(this._camera.position.x, this._camera.position.y, this._camera.position.z);
 
-			this._scene.add(this._cameraBox);
+			// this._scene.add(this._cameraBox);
 
 			// Controls
 
-			this._controls = new THREE.VRControls(this._camera);
+			// this._controls = new THREE.VRControls(this._camera);
+
+			this._controls = new FirstPersonControls(this._camera, 0.5); //lock the Y position to 0.5
+
+			this._controls.lookSpeed = 300;
+
+			this._controls.movementSpeed = 1000;
 
 			// Score
 
@@ -199,11 +207,11 @@ export default Vue.extend({
 
 			// Effect
 
-			this._effect = new THREE.VREffect(this._renderer);
+			// this._effect = new THREE.VREffect(this._renderer);
 
-			this._effect.setSize(window.innerWidth, window.innerHeight);
+			// this._effect.setSize(window.innerWidth, window.innerHeight);
 
-			this._manager = new WebVRManager(this._renderer, this._effect, {hideButton: false});
+			// this._manager = new WebVRManager(this._renderer, this._effect, {hideButton: false});
 
 			this.sceneLoad();
 
@@ -259,7 +267,7 @@ export default Vue.extend({
 
 		cameraUpdate: function() {
 
-			this._cameraBox.position.set(this._camera.position.x, this._camera.position.y, this._camera.position.z);
+			// this._cameraBox.position.set(this._camera.position.x, this._camera.position.y, this._camera.position.z);
 
 		},
 
@@ -267,11 +275,12 @@ export default Vue.extend({
 
 			this._stats.begin();
 
-			this._controls.update();
+			// this._controls.update();
+			this._controls.update(this._clock.getDelta());
 
-			this._manager.render(this._scene, this._camera);
+			// this._manager.render(this._scene, this._camera);
 
-			// this._renderer.render(this._scene, this._camera);
+			this._renderer.render(this._scene, this._camera);
 
 			this._renderer.autoClearColor = true;
 
@@ -309,59 +318,59 @@ export default Vue.extend({
 
 		},
 
-		canMoveForward: function() {
+		// canMoveForward: function() {
+		//
+		// 	let vector = new THREE.Vector3(0, 0, -1);
+		//
+		// 	let cameraLookVector = vector.applyQuaternion(this._camera.quaternion);
+		//
+		// 	let originPoint = this._cameraBox.position.clone();
+		//
+		// 	 // console.log(originPoint);
+		//
+		// 	originPoint = new THREE.Vector3(originPoint.x + cameraLookVector.x * 0.5, originPoint.y, originPoint.z + cameraLookVector.z * 0.5);
+		//
+		// 	// console.log(originPoint);
+		//
+		// 	for (let vertexIndex = 0; vertexIndex < this._cameraBox.geometry.vertices.length; vertexIndex++) {
+		//
+		// 		let localVertex = this._cameraBox.geometry.vertices[vertexIndex].clone();
+		//
+		// 		let globalVertex = localVertex.applyMatrix4(this._cameraBox.matrix);
+		//
+		// 		let directionVector = globalVertex.sub(this._cameraBox.position);
+		//
+		// 		let ray = new THREE.Raycaster(originPoint, directionVector.clone().normalize());
+		//
+		// 		let collisionResults = ray.intersectObjects(this._collidableMeshList);
+		//
+		// 		if (collisionResults.length > 0 && collisionResults[0].distance < directionVector.length()) {
+		//
+		// 			return false;
+		//
+		// 		}
+		//
+		// 	}
+		//
+		// 	return true;
+		//
+		// },
 
-			let vector = new THREE.Vector3(0, 0, -1);
-
-			let cameraLookVector = vector.applyQuaternion(this._camera.quaternion);
-
-			let originPoint = this._cameraBox.position.clone();
-
-			 // console.log(originPoint);
-
-			originPoint = new THREE.Vector3(originPoint.x + cameraLookVector.x * 0.5, originPoint.y, originPoint.z + cameraLookVector.z * 0.5);
-
-			// console.log(originPoint);
-
-			for (let vertexIndex = 0; vertexIndex < this._cameraBox.geometry.vertices.length; vertexIndex++) {
-
-				let localVertex = this._cameraBox.geometry.vertices[vertexIndex].clone();
-
-				let globalVertex = localVertex.applyMatrix4(this._cameraBox.matrix);
-
-				let directionVector = globalVertex.sub(this._cameraBox.position);
-
-				let ray = new THREE.Raycaster(originPoint, directionVector.clone().normalize());
-
-				let collisionResults = ray.intersectObjects(this._collidableMeshList);
-
-				if (collisionResults.length > 0 && collisionResults[0].distance < directionVector.length()) {
-
-					return false;
-
-				}
-
-			}
-
-			return true;
-
-		},
-
-		moveForward: function() {
-
-			this._distanceMove = 0.5;
-
-			let canMove = this.canMoveForward();
-
-			if (canMove) {
-
-				this._camera.translateZ(-this._distanceMove);
-
-				this._camera.position.y = 0.5;
-
-			}
-
-		},
+		// moveForward: function() {
+		//
+		// 	this._distanceMove = 0.5;
+		//
+		// 	let canMove = this.canMoveForward();
+		//
+		// 	if (canMove) {
+		//
+		// 		this._camera.translateZ(-this._distanceMove);
+		//
+		// 		this._camera.position.y = 0.5;
+		//
+		// 	}
+		//
+		// },
 
 		/*
 		 * Start & stop

@@ -2,6 +2,8 @@
 
 import Vue from 'vue';
 
+import IScroll from 'iscroll';
+
 export default Vue.extend({
 
 	inherit: true,
@@ -12,7 +14,13 @@ export default Vue.extend({
 
 		return {
 
-			rooms: []
+			rooms: [],
+
+			newRoomName: '',
+
+			newRoomPlayers: null,
+
+			maxPlayers: 5
 
 		};
 
@@ -40,6 +48,10 @@ export default Vue.extend({
 
 	ready: function() {
 
+		this.initIscroll();
+
+		this.updateMaxPlayers(this.maxPlayers);
+
         this.addEventListener();
 
 		this.openRoomSession();
@@ -62,6 +74,62 @@ export default Vue.extend({
 
 		addEventListener: function() {
 
+			document.getElementById('rooms-wrapper').addEventListener('mousemove', (event) => {
+
+				this.updateContainer3D(event);
+
+			});
+
+			var newRoomPlayersCounter = document.getElementsByClassName('rooms-create-form-players-trig');
+			for (var i = 0; i < newRoomPlayersCounter.length; i++) {
+
+				newRoomPlayersCounter[i].addEventListener('click', (event) => {
+
+					this.updateMaxPlayers(event.target.attributes.dataTrig.nodeValue);
+
+				}, false);
+
+			}
+
+		},
+
+		initIscroll: function() {
+
+			let wrapper = document.getElementById('rooms-list-iscroll');
+			this.IScroll = new IScroll(wrapper, {
+				mouseWheel: true,
+				scrollbars: true,
+				keyBindings: false
+			});
+
+			setTimeout(this.IscrollRefresh, 500);
+
+		},
+
+		IscrollRefresh: function() {
+
+			 this.IScroll.refresh();
+
+		},
+
+		updateMaxPlayers: function(n) {
+
+			this.newRoomPlayers = n;
+
+			for (var i = 0; i < this.maxPlayers; i++) {
+
+				if (i < this.newRoomPlayers) {
+
+					document.getElementsByClassName('rooms-create-form-players-trig')[i].className = 'rooms-create-form-players-trig trig-'+ (i+1) +' active';
+
+				} else {
+
+					document.getElementsByClassName('rooms-create-form-players-trig')[i].className = 'rooms-create-form-players-trig trig-'+ (i+1);
+
+				}
+
+			}
+
 		},
 
 		openRoomSession: function() {
@@ -69,8 +137,6 @@ export default Vue.extend({
 			let _this = this;
 
 			this.socket.on('connect', function() {
-
-                // User connected to the app
 
             });
 
@@ -80,11 +146,13 @@ export default Vue.extend({
 
 			this.socket.on('update rooms', _this.onUpdateRoom);
 
+			this.onUpdateRoom();
+
 		},
 
 		onNewPlayer: function(data) {
 
-			console.log(data);
+			console.log('New player : ' + data.name + ' => ' + data.room);
 
 		},
 
@@ -96,9 +164,92 @@ export default Vue.extend({
 
 		onUpdateRoom: function(rooms) {
 
+			//tmp
+			// rooms = [{
+			// 		maxPlayers: 5,
+			// 		name: 'Awesome Imac',
+			// 		players: [{
+			// 			id: null,
+			// 			name: 'Armand Bto'
+			// 		}]
+			// 	},
+			// 	{
+			// 		maxPlayers: 3,
+			// 		name: 'Another Room',
+			// 		players: [{
+			// 			id: null,
+			// 			name: 'Armand Bto'
+			// 		},
+			// 		{
+			// 			id: null,
+			// 			name: 'Armand Bto'
+			// 		}]
+			// 	},
+			// 	{
+			// 		maxPlayers: 4,
+			// 		name: 'Another',
+			// 		players: [{
+			// 			id: null,
+			// 			name: 'Armand Bto'
+			// 		}]
+			// 	},
+			// 	{
+			// 		maxPlayers: 3,
+			// 		name: 'Another Room',
+			// 		players: [{
+			// 			id: null,
+			// 			name: 'Armand Bto'
+			// 		},
+			// 		{
+			// 			id: null,
+			// 			name: 'Armand Bto'
+			// 		}]
+			// 	},
+			// 	{
+			// 		maxPlayers: 4,
+			// 		name: 'Another',
+			// 		players: [{
+			// 			id: null,
+			// 			name: 'Armand Bto'
+			// 		}]
+			// 	}
+			// ];
+
 			this.rooms = rooms;
 
-			console.log(this.rooms);
+			this.IscrollRefresh();
+
+		},
+
+		createRoom: function(name, players) {
+
+			if (name) {
+
+				let newRoom = {
+					name: name,
+					maxPlayers: parseInt(players, 10)
+				};
+
+				this.socket.emit('new room', newRoom);
+
+			} else {
+
+				console.log('Give a name to your room');
+
+			}
+
+		},
+
+		updateContainer3D: function(event) {
+
+			let x = event.clientX - window.innerWidth/2;
+			let y = event.clientY - window.innerHeight/2;
+
+			TweenMax.to(this.$els.container, 0.001, {
+				css: {
+					'transform': 'rotateX('+ -y/60 +'deg) rotateY('+ x/100 +'deg) translateZ(50px)'
+				}
+			});
 
 		}
 

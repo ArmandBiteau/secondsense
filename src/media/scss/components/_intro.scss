@@ -1,11 +1,38 @@
 .intro-wrapper {
     @include fullpage-absolute;
-    background: $color-black;
+    // background: url('../img/backgrounds/home.png') center center no-repeat;
+    background-size: cover;
     user-select: none;
+    display: flex;
+    align-items: center;
+    transform-style: preserve-3d;
+    transform: perspective(1000px) translateZ(0);
 }
 
 .intro-container {
     position: relative;
-    height: 100%;
-    width: 100%;
+    margin: 0 auto;
+    height: auto;
+    width: auto;
+    transform: rotate3d(0, 1, 0, 0deg) translateZ(50px);
+    transform-style: preserve-3d;
+}
+
+.intro-title{
+    margin-bottom: 30%;
+    h1{
+        transform: perspective(1000px) translateZ(0px);
+    }
+    h2{
+        text-align: right;
+        margin-top: -0.3em;
+        margin-right: 1em;
+        transform: perspective(1000px) translateZ(20px);
+    }
+}
+
+.intro-links{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
 }

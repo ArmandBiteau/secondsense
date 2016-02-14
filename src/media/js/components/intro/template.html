@@ -1,8 +1,39 @@
-<div class="intro-wrapper">
+<div id="intro-wrapper" class="intro-wrapper">
 
-    <div class="intro-container">
+    <div v-el:container class="intro-container" v-show="!me.connected">
 
-        <h1>Intro</h1>
+        <div class="intro-title">
+
+            <h1>SecondSense</h1>
+            <h2>Webgl-Vr Game</h2>
+
+        </div>
+
+        <div class="intro-links">
+
+            <connection-component :socket="socket" :me="me"></connection-component>
+            <a v-on:click="$parent.switchView('game')" class="zbtn is-sound">How to play</a>
+
+        </div>
+
+    </div>
+
+    <div v-el:container class="intro-container" v-if="me.connected">
+
+        <div class="connection-title">
+
+            <h1>
+                <span>Welcome back</span>
+                <span class="zbtn">{{me.name}}</span>
+            </h1>
+
+        </div>
+
+        <div class="connection-loading">
+
+            <span>Initializing rooms...</span>
+
+        </div>
 
     </div>
 
