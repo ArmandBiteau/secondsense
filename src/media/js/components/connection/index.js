@@ -83,6 +83,8 @@ export default Vue.component('connection-component', {
 
 				this.me.picture = response.picture.data.url;
 
+				// console.log(this.me);
+
 				this.checkDatabase();
 
 			});
@@ -145,15 +147,37 @@ export default Vue.component('connection-component', {
 
             this.$http.get('/api/users/'+_this.me.id, (data) => {
 
-                console.log('Already exists :', data.facebook_user_name);
+                console.log('Already exists :', data);
 
-				this.connected = true;
-
-                // Update player informations
+				// Update player informations
                 this.$http.put('/api/users/'+_this.me.id, player, (data) => {
 
                 	console.log('Player info updated  :', data.facebook_user_name);
+
                 });
+
+	            // this.$http.get('/api/users/'+_this.me.id+'/friends', (data) => {
+				//
+	            //     this.me.friends = data;
+				//
+	            // }).error((data, status, request) => {
+				//
+	            //     console.log(data, status, request);
+				//
+	            // });
+
+				// GET score
+	            this.$http.get('/api/users/'+_this.me.id+'/score', (data) => {
+
+	                this.me.score = data;
+
+	            }).error((data, status, request) => {
+
+	                console.log(data, status, request);
+
+	            });
+
+				this.connected = true;
 
             }).error(() => {
 
@@ -181,7 +205,7 @@ export default Vue.component('connection-component', {
 
 				this.$parent.$parent.switchView('rooms');
 
-			}, 2000);
+			}, 500);
 
 		}
 

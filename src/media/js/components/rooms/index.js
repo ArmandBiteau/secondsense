@@ -4,6 +4,8 @@ import Vue from 'vue';
 
 import IScroll from 'iscroll';
 
+import roomsWaitComponent from '../rooms-wait';
+
 export default Vue.extend({
 
 	inherit: true,
@@ -20,7 +22,13 @@ export default Vue.extend({
 
 			newRoomPlayers: null,
 
-			maxPlayers: 5
+			maxPlayers: 5,
+
+			isanActiveRoom: false,
+
+			activeRoom: {},
+
+			activeRoom_uid: ''
 
 		};
 
@@ -55,6 +63,8 @@ export default Vue.extend({
         this.addEventListener();
 
 		this.openRoomSession();
+
+		// this.createFakeActiveRoom();
 
 	},
 
@@ -103,6 +113,7 @@ export default Vue.extend({
 			});
 
 			setTimeout(this.IscrollRefresh, 500);
+			setInterval(this.IscrollRefresh, 1000);
 
 		},
 
@@ -140,9 +151,11 @@ export default Vue.extend({
 
             });
 
-			this.socket.emit('new player', {name: _this.me.name});
+			this.socket.emit('new player', {id: _this.me.id, name: _this.me.name, score: _this.me.score, picture: _this.me.picture});
 
 			this.socket.on('new player', _this.onNewPlayer);
+
+			this.socket.on('exit room', _this.onExitRoom);
 
 			this.socket.on('update rooms', _this.onUpdateRoom);
 
@@ -156,68 +169,100 @@ export default Vue.extend({
 
 		},
 
-		onSwitchRoom: function(newroom) {
+		createFakeActiveRoom: function() {
 
-			this.socket.emit('switch room', newroom);
+			this.activeRoom = {
+				id: 'AwesomeImac-12',
+				maxPlayers: 5,
+				name: 'Awesome Imac',
+				players: [{
+					id: null,
+					name: 'Armand Bto',
+					score: 12467,
+					picture: 'https://scontent.xx.fbcdn.net/hprofile-xtf1/v/t1.0-1/p50x50/10982891_1184887868203877_3238801022109576051_n.jpg?oh=be9261d34e8eed564bb003e024e84d28&oe=5769CE9D'
+				},{
+					id: null,
+					name: 'Jordi Bastide',
+					score: 365,
+					picture: 'https://scontent.xx.fbcdn.net/hprofile-xtf1/v/t1.0-1/p50x50/10982891_1184887868203877_3238801022109576051_n.jpg?oh=be9261d34e8eed564bb003e024e84d28&oe=5769CE9D'
+				},{
+					id: null,
+					name: 'Denis Tribouillois',
+					score: 1193,
+					picture: 'https://scontent.xx.fbcdn.net/hprofile-xtf1/v/t1.0-1/p50x50/10982891_1184887868203877_3238801022109576051_n.jpg?oh=be9261d34e8eed564bb003e024e84d28&oe=5769CE9D'
+				}],
+				messages: [{
+					player: 'Armand Bto',
+					content: 'test message'
+				},{
+					player: 'Jordi Bastide',
+					content: 'second test message'
+				}]
+			};
+
+		},
+
+		onSwitchRoom: function(room) {
+
+			this.activeRoom_uid = room.id;
+
+			this.isanActiveRoom = true;
+
+			this.socket.emit('switch room', room.id);
+
+		},
+
+		onExitRoom: function() {
+
+			this.activeRoom_uid = '';
+
+			this.isanActiveRoom = false;
+
+			this.activeRoom = {};
 
 		},
 
 		onUpdateRoom: function(rooms) {
 
-			//tmp
-			// rooms = [{
-			// 		maxPlayers: 5,
-			// 		name: 'Awesome Imac',
-			// 		players: [{
-			// 			id: null,
-			// 			name: 'Armand Bto'
-			// 		}]
-			// 	},
-			// 	{
-			// 		maxPlayers: 3,
-			// 		name: 'Another Room',
-			// 		players: [{
-			// 			id: null,
-			// 			name: 'Armand Bto'
-			// 		},
-			// 		{
-			// 			id: null,
-			// 			name: 'Armand Bto'
-			// 		}]
-			// 	},
-			// 	{
-			// 		maxPlayers: 4,
-			// 		name: 'Another',
-			// 		players: [{
-			// 			id: null,
-			// 			name: 'Armand Bto'
-			// 		}]
-			// 	},
-			// 	{
-			// 		maxPlayers: 3,
-			// 		name: 'Another Room',
-			// 		players: [{
-			// 			id: null,
-			// 			name: 'Armand Bto'
-			// 		},
-			// 		{
-			// 			id: null,
-			// 			name: 'Armand Bto'
-			// 		}]
-			// 	},
-			// 	{
-			// 		maxPlayers: 4,
-			// 		name: 'Another',
-			// 		players: [{
-			// 			id: null,
-			// 			name: 'Armand Bto'
-			// 		}]
-			// 	}
-			// ];
+			if (rooms) {
 
-			this.rooms = rooms;
+				this.rooms = rooms;
+
+				if (this.isanActiveRoom) {
+
+					this.updateActiveRoom();
+
+				}
+
+			} else {
+
+				this.rooms = [];
+
+				this.isanActiveRoom = false;
+
+			}
 
 			this.IscrollRefresh();
+
+		},
+
+		updateActiveRoom: function() {
+
+			this.activeRoom = this.getRoomById(this.activeRoom_uid);
+
+		},
+
+		getRoomById: function(uid) {
+
+			for (let i = 0; i < this.rooms.length; i++) {
+
+	    		if (this.rooms[i].id === uid)
+
+	    			return this.rooms[i];
+
+	    	}
+
+	    	return {};
 
 		},
 
@@ -226,17 +271,26 @@ export default Vue.extend({
 			if (name) {
 
 				let newRoom = {
+					id: (name + '-' + (new Date()).getTime()).replace(/\s/g, ''),
 					name: name,
 					maxPlayers: parseInt(players, 10)
 				};
 
 				this.socket.emit('new room', newRoom);
 
+				this.activeRoom_uid = newRoom.id;
+
+				this.isanActiveRoom = true;
+
 			} else {
 
 				console.log('Give a name to your room');
 
 			}
+
+			this.newRoomName = '';
+
+			this.newRoomPlayers = 5;
 
 		},
 
@@ -256,6 +310,8 @@ export default Vue.extend({
 	},
 
 	components: {
+
+		roomsWaitComponent
 
 	}
 
