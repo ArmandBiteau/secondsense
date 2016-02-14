@@ -146,6 +146,17 @@ export default {
 
             });
 
+            // GET Jordi score
+            this.$http.get('/api/users/10207942504911437/score', (data) => {
+
+                console.log('/api/users/10207942504911437/score :', data);
+
+            }).error((data, status, request) => {
+
+                console.log(data, status, request);
+
+            });
+
         },
 
         createNodeSession: function() {

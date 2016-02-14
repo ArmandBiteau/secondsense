@@ -24,6 +24,12 @@ $app->get('/users/:id/friends', function($id) use($user) {
 
 });
 
+$app->get('/users/:id/score', function($id) use($user) {
+
+  $user->getScore($id);
+
+});
+
 $app->get('/users/search/:name', function($name) use($user) {
 
   $user->getByName($name);

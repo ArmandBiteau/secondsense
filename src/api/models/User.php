@@ -88,6 +88,25 @@ class User
     }
   }
 
+  public function getScore($id)
+  {
+    $sql = "SELECT scores.* FROM secondsense_scores AS scores 
+            INNER JOIN secondsense_users ON secondsense_users.score_id = scores.score_id 
+            WHERE secondsense_users.facebook_user_id = :facebook_id";
+
+    try {
+      $stmt = $this->_dbh->prepare($sql);
+      $stmt->bindParam("facebook_id", $id);
+      $stmt->execute();
+      $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+      echo json_encode($result);
+
+    } catch(PDOException $e) {
+      echo '{"error":{"text":'. $e->getMessage() .'}}';
+
+    }
+  }
+
   public function insert($vo)
   {
     try {
