@@ -18,6 +18,18 @@ $app->get('/users/:id', function($id) use($user) {
 
 });
 
+$app->get('/users/:id/friends', function($id) use($user) {
+
+  $user->getFriends($id);
+
+});
+
+$app->get('/users/:id/score', function($id) use($user) {
+
+  $user->getScore($id);
+
+});
+
 $app->get('/users/search/:name', function($name) use($user) {
 
   $user->getByName($name);
@@ -44,7 +56,7 @@ $app->put('/users/:id', function($id) use($user, $app) {
   $request = $app->request();
   $body = $request->getBody();
   $vo = json_decode($body);
-  $vo->id = $id;
+  $vo->facebook_user_id = $id;
   $user->update($vo);
 
 });

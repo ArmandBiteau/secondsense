@@ -135,6 +135,28 @@ export default {
 
             });
 
+            // GET Armand Bto's friends
+            this.$http.get('/api/users/1259753977383932/friends', (data) => {
+
+                console.log('/api/users/1259753977383932/friends :', data);
+
+            }).error((data, status, request) => {
+
+                console.log(data, status, request);
+
+            });
+
+            // GET Jordi score
+            this.$http.get('/api/users/10207942504911437/score', (data) => {
+
+                console.log('/api/users/10207942504911437/score :', data);
+
+            }).error((data, status, request) => {
+
+                console.log(data, status, request);
+
+            });
+
         },
 
         createNodeSession: function() {

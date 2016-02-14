@@ -6,8 +6,8 @@ class User
 {
 
   private $_select = "SELECT * FROM secondsense_users";
-  private $_insert = "INSERT INTO secondsense_users(facebook_user_id, facebook_user_name) VALUES (:facebook_id, :facebook_name)";
-  private $_update = "UPDATE secondsense_users SET facebook_user_name = :facebook_name WHERE facebook_user_id = :facebook_id";
+  private $_insert = "INSERT INTO secondsense_users(facebook_user_id, facebook_user_name, facebook_user_profile_picture) VALUES (:facebook_id, :facebook_name, :facebook_profile_picture)";
+  private $_update = "UPDATE secondsense_users SET facebook_user_name = :facebook_name, facebook_user_profile_picture = :facebook_profile_picture WHERE facebook_user_id = :facebook_id";
   private $_delete = "DELETE FROM secondsense_users WHERE facebook_user_id = :facebook_id";
   private $_dbh;
 
@@ -68,12 +68,52 @@ class User
     }
   }
 
+  public function getFriends($id)
+  {
+    $sql = "SELECT user_friends.* FROM secondsense_users AS user_friends
+				    INNER JOIN secondsense_friends ON user_friends.facebook_user_id = secondsense_friends.facebook_user_id_friend
+            INNER JOIN secondsense_users AS me ON secondsense_friends.facebook_user_id = me.facebook_user_id
+            WHERE me.facebook_user_id = :facebook_id";
+
+    try {
+      $stmt = $this->_dbh->prepare($sql);
+      $stmt->bindParam("facebook_id", $id);
+      $stmt->execute();
+      $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+      echo json_encode($result);
+
+    } catch(PDOException $e) {
+      echo '{"error":{"text":'. $e->getMessage() .'}}';
+
+    }
+  }
+
+  public function getScore($id)
+  {
+    $sql = "SELECT scores.* FROM secondsense_scores AS scores 
+            INNER JOIN secondsense_users ON secondsense_users.score_id = scores.score_id 
+            WHERE secondsense_users.facebook_user_id = :facebook_id";
+
+    try {
+      $stmt = $this->_dbh->prepare($sql);
+      $stmt->bindParam("facebook_id", $id);
+      $stmt->execute();
+      $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+      echo json_encode($result);
+
+    } catch(PDOException $e) {
+      echo '{"error":{"text":'. $e->getMessage() .'}}';
+
+    }
+  }
+
   public function insert($vo)
   {
     try {
         $stmt = $this->_dbh->prepare($this->_insert);
         $stmt->bindParam("facebook_id", $vo->facebook_user_id);
         $stmt->bindParam("facebook_name", $vo->facebook_user_name);
+        $stmt->bindParam("facebook_profile_picture", $vo->facebook_user_picture);
         $stmt->execute();
         echo json_encode($vo);
 
@@ -88,6 +128,7 @@ class User
       $stmt = $this->_dbh->prepare($this->_update);
       $stmt->bindParam("facebook_id", $vo->facebook_user_id);
       $stmt->bindParam("facebook_name", $vo->facebook_user_name);
+      $stmt->bindParam("facebook_profile_picture", $vo->facebook_user_picture);
       $stmt->execute();
       echo json_encode($vo);
 
