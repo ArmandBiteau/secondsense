@@ -90,8 +90,8 @@ class User
 
   public function getScore($id)
   {
-    $sql = "SELECT scores.* FROM secondsense_scores AS scores 
-            INNER JOIN secondsense_users ON secondsense_users.score_id = scores.score_id 
+    $sql = "SELECT scores.* FROM secondsense_scores AS scores
+            INNER JOIN secondsense_users ON secondsense_users.score_id = scores.score_id
             WHERE secondsense_users.facebook_user_id = :facebook_id";
 
     try {
@@ -99,7 +99,7 @@ class User
       $stmt->bindParam("facebook_id", $id);
       $stmt->execute();
       $result = $stmt->fetchAll(PDO::FETCH_OBJ);
-      echo json_encode($result);
+      echo json_encode($result[0]);
 
     } catch(PDOException $e) {
       echo '{"error":{"text":'. $e->getMessage() .'}}';

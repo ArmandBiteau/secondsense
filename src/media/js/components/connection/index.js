@@ -149,15 +149,35 @@ export default Vue.component('connection-component', {
 
                 console.log('Already exists :', data);
 
-				this.me.score = data.score_id;
-
-				this.connected = true;
-
-                // Update player informations
+				// Update player informations
                 this.$http.put('/api/users/'+_this.me.id, player, (data) => {
 
                 	console.log('Player info updated  :', data.facebook_user_name);
+
                 });
+
+	            // this.$http.get('/api/users/'+_this.me.id+'/friends', (data) => {
+				//
+	            //     this.me.friends = data;
+				//
+	            // }).error((data, status, request) => {
+				//
+	            //     console.log(data, status, request);
+				//
+	            // });
+
+				// GET score
+	            this.$http.get('/api/users/'+_this.me.id+'/score', (data) => {
+
+	                this.me.score = data;
+
+	            }).error((data, status, request) => {
+
+	                console.log(data, status, request);
+
+	            });
+
+				this.connected = true;
 
             }).error(() => {
 

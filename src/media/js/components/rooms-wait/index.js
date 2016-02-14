@@ -12,6 +12,8 @@ export default Vue.extend({
 
 		return {
 
+			newMessage: ''
+
 		};
 
 	},
@@ -74,6 +76,12 @@ export default Vue.extend({
 		exitRoom: function() {
 
 			this.socket.emit('exit room');
+
+		},
+
+		sendMessage: function(txt) {
+
+			this.socket.emit('new message', {player: this.me.name, content: txt});
 
 		},
 

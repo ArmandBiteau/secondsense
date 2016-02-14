@@ -51,6 +51,8 @@ class Manager {
 
 			client.on('new room', _this.onNewRoom);
 
+			client.on('new message', _this.onNewMessage);
+
 		});
 
     }
@@ -138,6 +140,14 @@ class Manager {
         this.room = Secondsense.roomById(newroom.id);
 
         this.room.addPlayer(this, this.player);
+
+        Secondsense.updateRooms(this);
+
+    }
+
+	onNewMessage(message) {
+
+		this.room.addMessage(message.player, message.content);
 
         Secondsense.updateRooms(this);
 

@@ -12,6 +12,8 @@ class Room {
 
 		this.players = [];
 
+		this.messages = [];
+
 	}
 
 	addPlayer(socket, player) {
@@ -30,6 +32,16 @@ class Room {
 
 		}
 
+	}
+
+	addMessage(player, txt) {
+
+		let message = {
+			player: player,
+			content: txt
+		};
+
+		this.messages.push(message);
 	}
 
 	removePlayer(socket, player) {

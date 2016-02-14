@@ -30,14 +30,14 @@
 
                     <div class="rooms-wait-list-player-infos">
                         <h5 class="rooms-wait-list-player-title">{{ player.name }}</h5>
-                        <span class="rooms-wait-list-player-score">{{ player.score }}</span>
+                        <span class="rooms-wait-list-player-score">{{ player.score.sum_score }}</span>
                     </div>
 
                 </div>
 
             </div>
 
-            <!-- <div class="rooms-wait-list-chat">
+            <div class="rooms-wait-list-chat">
 
                 <h3>Quick chat</h3>
 
@@ -57,7 +57,12 @@
 
                 </div>
 
-            </div> -->
+                <div class="rooms-wait-list-chat-new">
+                    <input type="text" v-model="newMessage" placeholder="" maxlength="30"/>
+                    <a v-on:click="sendMessage(newMessage)" class="is-sound">Send</a>
+                </div>
+
+            </div>
 
         </div>
 
