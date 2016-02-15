@@ -106,7 +106,7 @@ export default Vue.extend({
 
 		sendMessage: function(txt) {
 
-			if (txt.length) {
+			if ((txt.replace(/\s/g, '')).length) {
 
 				this.socket.emit('new message', {player: this.me.name, content: txt});
 
