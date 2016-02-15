@@ -106,11 +106,15 @@ export default Vue.extend({
 
 		sendMessage: function(txt) {
 
-			this.socket.emit('new message', {player: this.me.name, content: txt});
+			if (txt.length) {
 
-			this.socket.on('new message', this.IscrollRefresh);
+				this.socket.emit('new message', {player: this.me.name, content: txt});
 
-			this.newMessage = '';
+				this.socket.on('new message', this.IscrollRefresh);
+
+				this.newMessage = '';
+
+			}
 
 		},
 
