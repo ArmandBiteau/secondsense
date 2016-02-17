@@ -131,43 +131,101 @@ export default Vue.component('connection-component', {
 
 		checkDatabase: function() {
 
-			var _this = this;
+			this.getPlayerInfos().then(this.updatePlayerInfos).catch(this.setPlayerInfos).then(this.getPlayerScore);
 
-			var player = {
+			this.connected = true;
 
-				facebook_user_id: _this.me.id,
+		},
 
-				facebook_user_name: _this.me.name,
+		getPlayerInfos: function() {
 
-				facebook_user_picture: _this.me.picture
+			return new Promise((resolve, reject) => {
 
-			};
+				var _this = this;
 
-            this.$http.get('/api/users/'+_this.me.id, (data) => {
+				var player = {
 
-                console.log('Already exists :', data.facebook_user_name);
+					facebook_user_id: _this.me.id,
 
-				this.connected = true;
+					facebook_user_name: _this.me.name,
 
-                // Update player informations
-                this.$http.put('/api/users/'+_this.me.id, player, (data) => {
+					facebook_user_picture: _this.me.picture
 
-                	console.log('Player info updated  :', data.facebook_user_name);
-                });
+				};
 
-            }).error(() => {
+				this.$http.get('/api/users/' + player.facebook_user_id, (data) => {
 
-				this.$http.post('/api/users', player, (data) => {
+	                if (!data) {
 
-	                console.log('New player added :', data);
+	                	console.log('This player doesn\'t exit yet');
+	                	reject(player);
 
-					this.connected = true;
+	                } else {
+
+	                	console.log('Already exists :', data);
+	                	resolve(player);
+
+					}
 
 	            }).error((data, status, request) => {
 
 	                console.log(data, status, request);
 
 	            });
+
+	        });
+
+            // this.$http.get('/api/users/'+_this.me.id+'/friends', (data) => {
+			//
+            //     this.me.friends = data;
+			//
+            // }).error((data, status, request) => {
+			//
+            //     console.log(data, status, request);
+			//
+            // });
+
+		},
+
+		setPlayerInfos: function(player) {
+
+			this.$http.post('/api/users', player, (data) => {
+
+            	console.log('New player added :', data);
+
+            }).error((data, status, request) => {
+
+                console.log(data, status, request);
+
+            });
+
+            return player;
+		},
+
+		updatePlayerInfos: function(player) {
+
+            this.$http.put('/api/users/' + player.facebook_user_id, player, (data) => {
+
+            	console.log('Player info updated  :', data.facebook_user_name);
+
+            }).error((data, status, request) => {
+
+                console.log(data, status, request);
+
+            });
+
+            return player;
+		},
+
+		getPlayerScore: function(player) {
+
+			this.$http.get('/api/users/' + player.facebook_user_id + '/score', (data) => {
+
+                this.me.score = data;
+
+            }).error((data, status, request) => {
+
+                console.log(data, status, request);
 
             });
 
