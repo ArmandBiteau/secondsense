@@ -32,9 +32,9 @@ export default Vue.extend({
 
 			_camera: null,
 
-			_mouseX: 0,
+			_mouseX: window.innerWidth/2,
 
-			_mouseY: 0,
+			_mouseY: window.innerHeight/2,
 
 			// Clock
 
@@ -212,10 +212,7 @@ export default Vue.extend({
 
 			this._fxaaPass = new WAGNER.FXAAPass();
 
-			this._vignettePass = new WAGNER.Vignette2Pass({
-				boost: 1,
-				reduction: 2
-			});
+			// this._vignettePass = new WAGNER.VignettePass();
 
 			// this._multiBloomPass.params.blurAmount = 2;
 
@@ -291,7 +288,7 @@ export default Vue.extend({
 
 			// this._composer.pass(this._multiBloomPass);
 
-			this._composer.pass(this._vignettePass);
+			// this._composer.pass(this._vignettePass);
 
 			this._composer.toScreen();
 

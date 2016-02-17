@@ -169,7 +169,7 @@ export default {
 
             for (var i = 0, ul = this._cubeOffsets.count; i < ul; i++) {
 
-                var displacement = (Math.sin(this._clockElapsedTime + i/100) * this._cubeMaxHeight);
+                var displacement = (Math.sin(this._clockElapsedTime + i/125) * this._cubeMaxHeight);
                 this._cubeTransforms.setXYZ(i, 1, 1, displacement);
 
             }
