@@ -35,11 +35,11 @@ const int num_iter = 12;
 const float reci_num_iter_f = 1.0 / float(num_iter);
 
 void main()
-{	
+{
 	vec2 uv=(gl_FragCoord.xy/resolution.xy*.5)+.25;
 
 	vec4 sumcol = vec4(0.0);
-	vec4 sumw = vec4(0.0);	
+	vec4 sumw = vec4(0.0);
 	for ( int i=0; i<num_iter;++i )
 	{
 		float t = float(i) * reci_num_iter_f;
@@ -47,6 +47,6 @@ void main()
 		sumw += w;
 		sumcol += w * texture2D( tInput, barrelDistortion(uv, .6 * max_distort*t ) );
 	}
-		
+
 	gl_FragColor = sumcol / sumw;
 }

@@ -39,6 +39,7 @@
     "bufferutil": "^1.2.1",
     "del": "^1.2.0",
     "glsl-fog": "0.0.1",
+    "glsl-noise": "0.0.0",
     "glslify": "^5.0.2",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^2.3.1",

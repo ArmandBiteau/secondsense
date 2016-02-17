@@ -6,11 +6,9 @@ import THREE from 'three';
 
 import Stats from 'stats';
 
-// var glslify = require('glslify');
-
-import CubeMixin from './mixins/cube';
-
 import PlaneMixin from './mixins/plane';
+
+import CityMixin from './mixins/city';
 
 import LightsMixin from './mixins/lights';
 
@@ -154,7 +152,7 @@ export default Vue.extend({
 
 			this._scene = new THREE.Scene();
 
-			// this._scene.fog = new THREE.Fog(0x000000, 500, 1000);
+			// this._scene.fog = new THREE.Fog(0x181d21, 500, 1000);
 
 			// Camera
 
@@ -174,7 +172,7 @@ export default Vue.extend({
 
 			this._renderer.setSize(window.innerWidth, window.innerHeight);
 
-			this._renderer.setClearColor(0x070c10, 1);
+			this._renderer.setClearColor(0x181d24, 1);
 
 			document.getElementById('background-canvas').appendChild(this._renderer.domElement);
 
@@ -194,9 +192,9 @@ export default Vue.extend({
 
 			this.isSceneLoaded = true;
 
-			this.planeInitialize();
+			// this.planeInitialize();
 
-			// this.cubeInitialize();
+			this.cityInitialize();
 
 			this.lightsInitialize();
 
@@ -208,7 +206,9 @@ export default Vue.extend({
 
 			this._composer = new WAGNER.Composer(this._renderer, {useRGBA: true});
 
-			this._multiBloomPass = new WAGNER.MultiPassBloomPass();
+			// this._multiBloomPass = new WAGNER.MultiPassBloomPass();
+
+			this._chromePass = new WAGNER.ChromaticAberrationPass();
 
 			this._fxaaPass = new WAGNER.FXAAPass();
 
@@ -217,7 +217,7 @@ export default Vue.extend({
 				reduction: 2
 			});
 
-			this._multiBloomPass.params.blurAmount = 2;
+			// this._multiBloomPass.params.blurAmount = 2;
 
 			this._composer.setSize(window.innerWidth, window.innerHeight);
 
@@ -238,7 +238,9 @@ export default Vue.extend({
 
 			this._clockElapsedTime = this._clock.getElapsedTime();
 
-			this.planeUpdate();
+			// this.planeUpdate();
+
+			this.cityUpdate();
 
 			// this.cubeUpdate();
 
@@ -285,7 +287,9 @@ export default Vue.extend({
 
 			this._composer.pass(this._fxaaPass);
 
-			this._composer.pass(this._multiBloomPass);
+			// this._composer.pass(this._chromePass);
+
+			// this._composer.pass(this._multiBloomPass);
 
 			this._composer.pass(this._vignettePass);
 
@@ -353,7 +357,8 @@ export default Vue.extend({
 	mixins: [
 
 		PlaneMixin,
-		CubeMixin,
+		// CubeMixin,
+		CityMixin,
 		LightsMixin
 
 	],
