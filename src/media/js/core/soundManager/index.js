@@ -119,7 +119,7 @@ class SoundManager {
 
 	onClickrequested() {
 
-		// Sound.play(SOUND_CLICK);
+		Sound.play(SOUND_CLICK);
 
 	}
 
