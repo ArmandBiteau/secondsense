@@ -192,7 +192,7 @@ export default Vue.extend({
 
 			this.isSceneLoaded = true;
 
-			// this.planeInitialize();
+			this.planeInitialize();
 
 			this.cityInitialize();
 
@@ -235,7 +235,7 @@ export default Vue.extend({
 
 			this._clockElapsedTime = this._clock.getElapsedTime();
 
-			// this.planeUpdate();
+			this.planeUpdate();
 
 			this.cityUpdate();
 
