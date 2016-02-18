@@ -88,9 +88,9 @@ Go to [secondsense.local](http://secondsense.local) and have fun !
 
 ### Todos
 
- [ ] Write Tests
- [ ] Add Code Comments
- [ ] Play the game
+ - [ ] Write Tests
+ - [ ] Add Code Comments
+ - [ ] Play the game
 
 License
 ----
