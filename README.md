@@ -1,6 +1,6 @@
-# SecondSense - WebGL VR Game
+![Image of Secondsense](https://armandbiteau.com/secondsense.png)
 
-Developed by [Armand Biteau](https://www.armandbiteau.com), [Jordi Bastide](https://www.jordi-bastide.com), and [Denis Tribouillois](https://fr.linkedin.com/pub/denis-tribouillois/b8/585/b39), 3 students of [IMAC](http://www.ingenieur-imac.fr/) engineering school
+Developed by [Armand Biteau](https://www.armandbiteau.com), [Jordi Bastide](https://www.jordi-bastide.com), and [Denis Tribouillois](https://fr.linkedin.com/pub/denis-tribouillois/b8/585/b39), 3 students of [IMAC](http://www.ingenieur-imac.fr/) Engineering school
 
 ### Version
 Beta 0.0.1
@@ -8,13 +8,15 @@ Beta 0.0.1
 ### Tech
 
 * [ES6](https://nodejs.org/en/docs/es6/) - ECMAScript2015
-* [Vue.js](http://vuejs.org/) - Light Javascript MVC
-* [Three.js](http://threejs.org/) - WebGL framework
+* [Babelify](https://github.com/babel/babelify) - Compile ES5 to ES6
+* [Vue.js](http://vuejs.org/) - Light Javascript framework
+* [Three.js](http://threejs.org/) - JavaScript 3D library
+* [Wagner](https://github.com/spite/Wagner) - Effects composer for Three.js
+* [Glslify](https://github.com/stackgl/glslify) - Node.js-style module system for GLSL
 * [TweenMax/TimelineMax](https://greensock.com/gsap) - Animations library
 * [Preload.js](http://www.createjs.com/preloadjs) - Assets loader
-* [Gulp.js](http://gulpjs.com/) - Preprocess Scss/Jshint)
-* [Browserify](http://browserify.org/) - Requiring js files
-* [Babelify](https://github.com/babel/babelify) - Compile ES5 to ES6
+* [Gulp.js](http://gulpjs.com/) - Streaming build system (Scss/Jshint)
+* [Browserify](http://browserify.org/) - Bundling up dependencies
 * [Socket.io](http://socket.io/) - Node.js real-time engine
 * [Slim](http://www.slimframework.com/) - Php microframework for users api
 * [Vagrant](https://www.vagrantup.com/) - Local server php/nodejs
@@ -75,24 +77,20 @@ With that, our phpMyAdmin installation is now operational. To access the interfa
 http://secondsense.local/phpmyadmin
 ```
 
-Create a "secondsense" database, with a "secondsense_users" table composed by :
-* id - int autoincrement
-* name - varchar 50
-* score - int 10 default value 0
+Create a "secondsense" database, and import the sql export from : **/exports/secondsense_V2.sql**
 
 Now you're ready to start server. Simply run :
 ```sh
-$ cd /vagrant/public
-$ node server.js
+$ node /vagrant/server/index.js
 ```
 
 Go to [secondsense.local](http://secondsense.local) and have fun !
 
 ### Todos
 
- - Write Tests
- - Add Code Comments
- - Play the game
+ [ ] Write Tests
+ [ ] Add Code Comments
+ [ ] Play the game
 
 License
 ----
