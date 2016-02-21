@@ -159,6 +159,7 @@
         margin-bottom: 0.5em;
     }
     h3{
+        color: $color-primary;
         font-size: 0.9em;
     }
     svg{
@@ -190,6 +191,21 @@
     text-align: left;
     display: flex;
     align-items: center;
+    &.host{
+        &:before{
+            content: "HOST";
+            color: $color-white;
+            position: absolute;
+            right: 0em;
+            margin-top: 0.5em;
+            height: 2em;
+            line-height: 2.2em;
+            font-size: 0.8em;
+            padding-left: 1em;
+            padding-right: 1em;
+            background: $color-primary;
+        }
+    }
 }
 
 .rooms-wait-list-player-picture{
