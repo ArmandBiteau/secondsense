@@ -2,9 +2,11 @@
 
 class Room {
 
-	constructor(id, roomName, maxPlayers) {
+	constructor(id, host, roomName, maxPlayers) {
 
 		this.id = id;
+
+		this.host = host;
 
 		this.name = roomName;
 

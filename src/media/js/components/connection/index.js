@@ -173,6 +173,10 @@ export default Vue.component('connection-component', {
 
 	            }).error((data, status, request) => {
 
+					this.me.score = {
+						sum_score: 0
+					};
+
 	                console.log(data, status, request);
 
 	            });

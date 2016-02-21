@@ -10,9 +10,9 @@ class Game {
 
 	}
 
-    addRoom(id, roomName, maxPlayers) {
+    addRoom(id, host, roomName, maxPlayers) {
 
-        this.rooms.push(new Room(id, roomName, maxPlayers));
+        this.rooms.push(new Room(id, host, roomName, maxPlayers));
 
     }
 

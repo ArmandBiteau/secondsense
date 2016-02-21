@@ -7,7 +7,29 @@
             <h2>Wait for</h2>
             <h1>Start</h1>
 
-            <div v-on:click="exitRoom()">BACK</div>
+        </div>
+
+        <div class="rooms-wait-rollinfos">
+
+            <div class="rooms-wait-leave-button" v-on:click="exitRoom()">
+
+                <div class="rooms-wait-leave-button-corner"></div>
+
+                <span class="rooms-wait-leave-button-icon">0</span>
+
+                <h5 class=rooms-wait-leave-button-title>Leave</h5>
+
+            </div>
+
+            <div class="rooms-wait-start-button" v-on:click="exitRoom()">
+
+                <div class="rooms-wait-start-button-corner"></div>
+
+                <span class="rooms-wait-start-button-icon">0</span>
+
+                <h5 class=rooms-wait-start-button-title>Start game</h5>
+
+            </div>
 
         </div>
 
@@ -24,7 +46,7 @@
 
                 <h3>Players list</h3>
 
-                <div v-for="player in room.players" class="rooms-wait-list-player">
+                <div v-for="player in room.players" v-bind:class="{ 'rooms-wait-list-player': true, 'host': room.host == player.id }">
 
                     <div class="rooms-wait-list-player-picture" v-bind:style="{ backgroundImage: 'url(' +player.picture+ ')' }"></div>
 
