@@ -101,7 +101,7 @@
     line-height: 2.5em;
     display: block;
     width: 100%;
-    border: 1px solid red;
+    color: $color-white;
 }
 
 .rooms-wait-leave-button-title, .rooms-wait-start-button-title{
@@ -156,6 +156,16 @@
     text-align: left;
     h2{
         color: $color-white;
+        margin-bottom: 0.5em;
+    }
+    h3{
+        font-size: 0.9em;
+    }
+    svg{
+        height: 12px;
+        margin: 0;
+        top: 10px;
+        margin-left: -3px;
     }
 }
 

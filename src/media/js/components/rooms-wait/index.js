@@ -141,6 +141,15 @@ export default Vue.extend({
 
 	components: {
 
+	},
+
+	partials: {
+
+		joypadPartial: require('../../partials/joypad-partial/index.html'),
+		clockPartial: require('../../partials/clock-partial/index.html'),
+		outPartial: require('../../partials/out-partial/index.html'),
+		inPartial: require('../../partials/in-partial/index.html')
+
 	}
 
 });
