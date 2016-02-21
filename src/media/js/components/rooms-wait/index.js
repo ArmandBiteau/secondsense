@@ -104,6 +104,12 @@ export default Vue.extend({
 
 		},
 
+		startGame: function() {
+
+			console.log('START GAME');
+
+		},
+
 		sendMessage: function(txt) {
 
 			if ((txt.replace(/\s/g, '')).length) {
@@ -134,6 +140,15 @@ export default Vue.extend({
 	},
 
 	components: {
+
+	},
+
+	partials: {
+
+		joypadPartial: require('../../partials/joypad-partial/index.html'),
+		clockPartial: require('../../partials/clock-partial/index.html'),
+		outPartial: require('../../partials/out-partial/index.html'),
+		inPartial: require('../../partials/in-partial/index.html')
 
 	}
 

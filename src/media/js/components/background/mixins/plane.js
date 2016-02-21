@@ -57,7 +57,7 @@ export default {
                     },
                     brightness: {
                         type: 'f',
-                        value: 0.2
+                        value: 0.3
                     }
                 },
                 vertexShader: glslify('./../../../../glsl/background/plane-vs.glsl'),
@@ -66,12 +66,12 @@ export default {
                 transparent: false,
                 fog: true,
                 wireframe: true,
-                wireframeLinewidth: 1.5
+                wireframeLinewidth: 1
             });
 
             this._plane = new THREE.Mesh(geometry, this._planeMaterial);
 
-            this._plane.position.set(0, 2000, -3000);
+            this._plane.position.set(0, 2000, -4000);
 
 			this._scene.add(this._plane);
 

@@ -284,7 +284,7 @@ export default Vue.extend({
 
 			this._composer.pass(this._fxaaPass);
 
-			// this._composer.pass(this._chromePass);
+			this._composer.pass(this._chromePass);
 
 			// this._composer.pass(this._multiBloomPass);
 

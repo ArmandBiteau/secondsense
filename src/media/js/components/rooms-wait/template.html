@@ -7,7 +7,39 @@
             <h2>Wait for</h2>
             <h1>Start</h1>
 
-            <div v-on:click="exitRoom()">BACK</div>
+        </div>
+
+        <div class="rooms-wait-rollinfos">
+
+            <div class="rooms-wait-leave-button" v-on:click="exitRoom()">
+
+                <div class="rooms-wait-leave-button-corner"></div>
+
+                <span class="rooms-wait-leave-button-icon"><partial name="outPartial"></partial></span>
+
+                <h5 class=rooms-wait-leave-button-title>Leave</h5>
+
+            </div>
+
+            <div class="rooms-wait-start-button rooms-wait-waiting-button" v-if="room.host != me.id">
+
+                <div class="rooms-wait-start-button-corner"></div>
+
+                <span class="rooms-wait-start-button-icon"><partial name="clockPartial"></partial></span>
+
+                <h5 class=rooms-wait-start-button-title>Waiting...</h5>
+
+            </div>
+
+            <div class="rooms-wait-start-button" v-on:click="startGame()" v-if="room.host == me.id">
+
+                <div class="rooms-wait-start-button-corner"></div>
+
+                <span class="rooms-wait-start-button-icon"><partial name="inPartial"></partial></span>
+
+                <h5 class=rooms-wait-start-button-title>Start game</h5>
+
+            </div>
 
         </div>
 
@@ -16,15 +48,15 @@
             <div class="rooms-wait-list-title">
 
                 <h2>{{room.name}}</h2>
-                <h3>{{room.maxPlayers}} players max</h3>
+                <h3>{{room.maxPlayers}} Players</h3>
 
             </div>
 
             <div class="rooms-wait-list-players">
 
-                <h3>Players list</h3>
+                <!-- <h3>Players list</h3> -->
 
-                <div v-for="player in room.players" class="rooms-wait-list-player">
+                <div v-for="player in room.players" v-bind:class="{ 'rooms-wait-list-player': true, 'host': room.host == player.id }">
 
                     <div class="rooms-wait-list-player-picture" v-bind:style="{ backgroundImage: 'url(' +player.picture+ ')' }"></div>
 

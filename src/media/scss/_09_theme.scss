@@ -15,6 +15,12 @@
     color: $color-white-lighter;
 }
 
+svg{
+    fill: $color-white;
+    width: 25px;
+    height: 25px;
+}
+
 .zbtn{
     display: inline-block;
     transform-style: preserve-3d;
