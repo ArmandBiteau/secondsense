@@ -1,4 +1,4 @@
-#define FOG_DENSITY 0.00025
+#define FOG_DENSITY 0.00023
 
 precision highp float;
 precision highp int;

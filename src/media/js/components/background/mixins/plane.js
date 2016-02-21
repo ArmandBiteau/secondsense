@@ -66,7 +66,7 @@ export default {
                 transparent: false,
                 fog: true,
                 wireframe: true,
-                wireframeLinewidth: 1.5
+                wireframeLinewidth: 1
             });
 
             this._plane = new THREE.Mesh(geometry, this._planeMaterial);
