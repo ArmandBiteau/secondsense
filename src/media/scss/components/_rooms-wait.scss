@@ -4,11 +4,17 @@
     user-select: none;
     display: flex;
     align-items: center;
+    perspective: 1000;
     transform-style: preserve-3d;
-    transform: perspective(1000px) translateZ(0);
+    // transform: translateZ(0px);
+}
+
+.rooms-wait-wrapper *{
+    // transform-style: preserve-3d;
 }
 
 .rooms-wait-container {
+    transform-style: preserve-3d;
     position: relative;
     margin: 0 auto;
     height: 100%;
@@ -16,7 +22,6 @@
     width: 100%;
     max-width: 500px;
     transform: rotate3d(0, 1, 0, 0deg) translateZ(50px);
-    transform-style: preserve-3d;
     border: 2px solid $color-primary;
     padding: 2em;
     &::before{
@@ -43,6 +48,83 @@
         transform: translateZ(20px);
     }
 }
+
+.rooms-wait-rollinfos{
+    position: absolute;
+    top: 2em;
+    left: 105%;
+    width: 15em;
+    h3{
+        padding: 0;
+        margin-bottom: 1.5em;
+    }
+    h4{
+        padding: 0;
+        margin: 0;
+        margin-bottom: 0.5em;
+        margin-top: 1.5em;
+    }
+    h5{
+        margin: 0;
+        padding: 0;
+    }
+}
+
+
+.rooms-wait-leave-button, .rooms-wait-start-button{
+    transform: translateZ(0px);
+    display: block;
+    padding: 1em;
+    box-shadow: 0px 0px 0px 2px $color-white inset;
+    width: 9.5em;
+    cursor: pointer;
+    margin-bottom: 1em;
+    transition: transform 0.3s;
+    &:hover{
+        transform: translateZ(10px);
+        transition: transform 0.3s;
+        & .rooms-wait-leave-button-corner{
+            transition: all 0.3s;
+            transform: translateX(3px) translateY(-3px);
+        }
+        & .rooms-wait-start-button-corner{
+            transition: all 0.3s;
+            transform: translateX(3px) translateY(-3px);
+        }
+    }
+}
+
+.rooms-wait-leave-button-icon, .rooms-wait-start-button-icon{
+    margin: 0;
+    padding: 0;
+    height: 2.5em;
+    line-height: 2.5em;
+    display: block;
+    width: 100%;
+    border: 1px solid red;
+}
+
+.rooms-wait-leave-button-title, .rooms-wait-start-button-title{
+    margin: 0;
+    padding: 0;
+    margin-top: 1em;
+    margin-bottom: 1.2em;
+    display: block;
+}
+
+.rooms-wait-leave-button-corner, .rooms-wait-start-button-corner{
+    position: absolute;
+    top: 0.3em;
+    right: 0.3em;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 1em 1em 0;
+    border-color: transparent $color-white transparent transparent;
+    transition: all 0.3s;
+}
+
+
 
 .rooms-wait-list{
     float: right;
@@ -149,8 +231,7 @@
 }
 
 .rooms-wait-list-chat-iscroll{
-    transform-style: preserve-3d;
-    transform: perspective(1000px) translateZ(0px);
+    transform: translateZ(0px);
     position: relative;
     width: 100%;
     // max-width: 330px;
@@ -189,7 +270,6 @@
 }
 
 .rooms-wait-list-chat-iscroll-inner{
-    transform-style: preserve-3d;
     transform: translateZ(0px);
     position: relative;
     width: 100%;
@@ -223,6 +303,7 @@
 }
 
 .rooms-wait-list-chat-new{
+    transform: translateZ(0px);
     margin-top: -1px;
     input{
         box-shadow: none !important;
@@ -239,16 +320,15 @@
         padding-left: 20px;
         padding-right: 90px;
         z-index: 2;
-        transform-style: preserve-3d;
         transform: translateZ(0px);
         font-size: 0.8em;
         letter-spacing: .1em;
         line-height: 2em;
     }
     a{
+        transform: translateZ(0px);
         position: absolute;
         right: 0px;
-        bottom: 0px;
         min-width: 70px;
         text-align: center;
         background: $color-white;
@@ -259,8 +339,6 @@
         text-transform: none;
         float: right;
         z-index: 2;
-        transform-style: preserve-3d;
-        transform: translateZ(0px);
         font-size: 0.8em;
         letter-spacing: .1em;
         line-height: 2em;

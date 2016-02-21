@@ -5,8 +5,13 @@
     user-select: none;
     display: flex;
     align-items: center;
+    perspective: 1000;
     transform-style: preserve-3d;
-    transform: perspective(1000px) translateZ(0);
+    transform: translateZ(0);
+}
+
+.intro-wrapper *{
+    transform-style: preserve-3d;
 }
 
 .intro-container {
@@ -15,19 +20,18 @@
     height: auto;
     width: auto;
     transform: rotate3d(0, 1, 0, 0deg) translateZ(50px);
-    transform-style: preserve-3d;
 }
 
 .intro-title{
     margin-bottom: 30%;
     h1{
-        transform: perspective(1000px) translateZ(0px);
+        transform: translateZ(0px);
     }
     h2{
         text-align: right;
         margin-top: -0.3em;
         margin-right: 1em;
-        transform: perspective(1000px) translateZ(20px);
+        transform: translateZ(20px);
     }
 }
 
