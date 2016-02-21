@@ -124,7 +124,22 @@
     transition: all 0.3s;
 }
 
-
+.rooms-wait-waiting-button{
+    cursor: default;
+    opacity: 0.7;
+    &:hover{
+        transform: translateZ(0px);
+        transition: none;
+        & .rooms-wait-leave-button-corner{
+            transition: none;
+            transform: none;
+        }
+        & .rooms-wait-start-button-corner{
+            transition: none;
+            transform: none;
+        }
+    }
+}
 
 .rooms-wait-list{
     float: right;

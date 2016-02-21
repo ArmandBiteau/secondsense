@@ -21,7 +21,17 @@
 
             </div>
 
-            <div class="rooms-wait-start-button" v-on:click="exitRoom()">
+            <div class="rooms-wait-start-button rooms-wait-waiting-button" v-if="room.host != me.id">
+
+                <div class="rooms-wait-start-button-corner"></div>
+
+                <span class="rooms-wait-start-button-icon">0</span>
+
+                <h5 class=rooms-wait-start-button-title>Waiting...</h5>
+
+            </div>
+
+            <div class="rooms-wait-start-button" v-on:click="startGame()" v-if="room.host == me.id">
 
                 <div class="rooms-wait-start-button-corner"></div>
 

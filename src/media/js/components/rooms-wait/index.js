@@ -104,6 +104,12 @@ export default Vue.extend({
 
 		},
 
+		startGame: function() {
+
+			console.log('START GAME');
+
+		},
+
 		sendMessage: function(txt) {
 
 			if ((txt.replace(/\s/g, '')).length) {
