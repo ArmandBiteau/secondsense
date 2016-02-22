@@ -20,7 +20,7 @@ export default {
 
         this._cityMaterial = null;
 
-        this._cubeInstances = 2304;
+        this._cubeInstances = 608;
 
         this._cubeMaxHeight = 10;
 
@@ -155,11 +155,11 @@ export default {
 
 			this._city.scale.set(scaleAmount, scaleAmount, scaleAmount);
 
+            this._city.rotateX(-Math.PI/2);
+
             this._city.position.setX(0); // CENTER SCREEN
             this._city.position.setY(-600);
-            this._city.position.setZ(50);
-
-            this._city.rotateX(-Math.PI/2);
+            this._city.position.setZ(-3500);
 
 			this._scene.add(this._city);
 

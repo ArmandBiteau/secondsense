@@ -14,7 +14,7 @@ export default {
 
         this._spotLightIntensity = 1000;
 
-		this._spotLightPosition = new THREE.Vector3(1, 2, 2);
+		this._spotLightPosition = new THREE.Vector3(100, 200, 200);
 
 	},
 
@@ -32,7 +32,7 @@ export default {
 
             this._dirLight = new THREE.DirectionalLight(0xffffff, 1);
 
-			this._dirLight.position.set(10, 20, 20);
+			this._dirLight.position.set(100, 200, 200);
 
             this._dirLight.castShadow = true;
 
