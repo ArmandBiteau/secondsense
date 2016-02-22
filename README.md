@@ -1,4 +1,4 @@
-![Image of Secondsense](http://armandbiteau.com/secondsense.png)
+![Image of Secondsense](http://armandbiteau.com/secondsense.gif)
 
 Developed by [Armand Biteau](https://www.armandbiteau.com), [Jordi Bastide](https://www.jordi-bastide.com), and [Denis Tribouillois](https://fr.linkedin.com/pub/denis-tribouillois/b8/585/b39), 3 students of [IMAC](http://www.ingenieur-imac.fr/) Engineering school
 
