@@ -41,8 +41,6 @@ export default Vue.component('connection-component', {
 
 		connected: function() {
 
-				console.log('Connected as', this.me.name);
-
 				this.onConnected();
 
 		}
@@ -147,7 +145,7 @@ export default Vue.component('connection-component', {
 
             this.$http.get('/api/users/'+_this.me.id, (data) => {
 
-                console.log('Already exists :', data);
+                console.log('Already exists :', data.facebook_user_name);
 
 				// Update player informations
                 this.$http.put('/api/users/'+_this.me.id, player, (data) => {

@@ -108,8 +108,6 @@ export default Vue.extend({
 
 		startGame: function() {
 
-			console.log('START GAME');
-
 			Emitter.emit('NEW_GAME_REQUEST', this.room);
 
 		},

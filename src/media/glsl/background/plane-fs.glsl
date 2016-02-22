@@ -69,6 +69,8 @@ vec4 Caustic_Procedural()
 
 void main()
 {
+    vec2 vt = vUv;
+
     gl_FragColor = Caustic_Procedural();
 
     if (gl_FragColor.r < 0.4) discard;

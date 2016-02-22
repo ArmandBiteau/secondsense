@@ -172,7 +172,7 @@ export default Vue.extend({
 
 			this._scene = new THREE.Scene();
 
-			// this._scene.fog = new THREE.FogExp2(0x181d21, 0.5);
+			this._scene.fog = new THREE.FogExp2(0x181d21, 0.5);
 
 			// Camera
 
@@ -191,6 +191,8 @@ export default Vue.extend({
 			// Score
 
 			this._scoreContainer = new THREE.CSS3DObject(document.getElementById('game-score-wrapper'));
+
+			this._scoreContainer.rotation.x = 0.8;
 
 			this._scene.add(this._scoreContainer);
 
@@ -231,7 +233,7 @@ export default Vue.extend({
 
 			this.controlsInitialize();
 
-			// this.soundEmitterInitialize();
+			this.soundEmitterInitialize();
 
 			this.terrainInitialize();
 
@@ -256,7 +258,7 @@ export default Vue.extend({
 
 			this.controlsUpdate();
 
-			// this.soundEmitterUpdate();
+			this.soundEmitterUpdate();
 
 			this.terrainUpdate();
 
