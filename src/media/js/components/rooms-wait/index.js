@@ -4,6 +4,8 @@ import Vue from 'vue';
 
 import IScroll from 'iscroll';
 
+import Emitter from '../../core/emitter';
+
 export default Vue.extend({
 
 	inherit: true,
@@ -107,6 +109,8 @@ export default Vue.extend({
 		startGame: function() {
 
 			console.log('START GAME');
+
+			Emitter.emit('NEW_GAME_REQUEST', this.room);
 
 		},
 

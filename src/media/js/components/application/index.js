@@ -94,6 +94,8 @@ export default {
 
         addEventListener: function() {
 
+            Emitter.on('NEW_GAME_REQUEST', this.newGame);
+
         },
 
         initSounds: function() {
@@ -199,6 +201,12 @@ export default {
         switchView: function(toView) {
 
             this.currentView = toView;
+
+        },
+
+        newGame: function(room) {
+
+            console.log(room);
 
         }
 
