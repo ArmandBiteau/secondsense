@@ -81,6 +81,7 @@ Create a "secondsense" database, and import the sql export from : **/exports/sec
 
 Now you're ready to start server. Simply run :
 ```sh
+$ vagrant ssh
 $ node /vagrant/server/index.js
 ```
 
