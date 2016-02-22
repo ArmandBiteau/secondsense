@@ -74,7 +74,7 @@ $ exit
 With that, our phpMyAdmin installation is now operational. To access the interface, go to your server's domain name or public IP address followed by /phpmyadmin, in your web browser:
 
 ```sh
-http://secondsense.local/phpmyadmin
+http://secondsense.local/phpmyadmin/index.php
 ```
 
 Create a "secondsense" database, and import the sql export from : **/exports/secondsense_V2.sql**
