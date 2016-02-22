@@ -14,7 +14,7 @@ export default {
 
 		this._opponentsColor = {color: 0x9966CC};
 
-		this._opponentsPositionInitial = new THREE.Vector3(0, 0.4, 0);
+		this._opponentsPositionInitial = new THREE.Vector3(0.0, 0.0, 0.0);
 
 	},
 

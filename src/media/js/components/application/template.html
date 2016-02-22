@@ -6,7 +6,7 @@
 
         <background v-if="!isGameRunning"></background>
 
-        <game :socket="socket" :me="me" :gameRoom="gameRoom" v-if="isGameRunning"></game>
+        <game :socket="socket" :me="me" :game-room="GameRunningRoom" v-if="isGameRunning"></game>
 
     </div>
 

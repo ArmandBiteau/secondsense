@@ -214,8 +214,6 @@ export default {
 
             this.GameRunningRoom = room;
 
-            console.log(this.GameRunningRoom);
-
         }
 
 	},
