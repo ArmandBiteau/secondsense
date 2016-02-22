@@ -6,13 +6,15 @@ import THREE from 'three';
 
 import Stats from 'stats';
 
-import FirstPersonControls from '../../core/fpsControls';
+// import FirstPersonControls from '../../core/fpsControls';
 
 import gameScoreComponent from '../game-score';
 
 import gameEndComponent from '../game-end';
 
 import SoundEmitterMixin from './mixins/sound-emitter';
+
+import ControlsMixin from './mixins/controls';
 
 import TerrainMixin from './mixins/terrain';
 
@@ -58,6 +60,8 @@ export default Vue.extend({
 			_renderer: null,
 
 			_controls: null,
+
+			_ray: null,
 
 			_collidableMeshList: null,
 
@@ -108,8 +112,6 @@ export default Vue.extend({
 		this.sceneInitialize();
 
         this.addEventListener();
-
-		console.log(this.GameRoom);
 
 	},
 
@@ -170,13 +172,13 @@ export default Vue.extend({
 
 			this._scene = new THREE.Scene();
 
-			this._scene.fog = new THREE.FogExp2(0x181d21, 0.5);
+			// this._scene.fog = new THREE.FogExp2(0x181d21, 0.5);
 
 			// Camera
 
 			this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
 
-			this._camera.position.set(0, 0.5, 0);
+			this._camera.position.set(0, 0.25, 0);
 
 			this._listener = new THREE.AudioListener();
 
@@ -185,12 +187,6 @@ export default Vue.extend({
 			// Controls
 
 			// this._controls = new THREE.VRControls(this._camera);
-
-			this._controls = new FirstPersonControls(this._camera, 0.5); //lock the Y position to 0.5
-
-			this._controls.lookSpeed = 300;
-
-			this._controls.movementSpeed = 1000;
 
 			// Score
 
@@ -233,13 +229,15 @@ export default Vue.extend({
 
 			this.isSceneLoaded = true;
 
+			this.controlsInitialize();
+
 			// this.soundEmitterInitialize();
 
 			this.terrainInitialize();
 
 			this.lightInitialize();
 
-			this.opponentsInitialize(4);
+			this.opponentsInitialize();
 
 		},
 
@@ -256,29 +254,21 @@ export default Vue.extend({
 
 			this._clockElapsedTime = this._clock.getElapsedTime();
 
-			// this.soundEmitterUpdate();
+			this.controlsUpdate();
 
-			this.cameraUpdate();
+			// this.soundEmitterUpdate();
 
 			this.terrainUpdate();
 
 			this.lightsUpdate();
 
-			let posArray = [new THREE.Vector3(1, 0.4, 1), new THREE.Vector3(-1, 0.4, -1), new THREE.Vector3(-1, 0.4, 1), new THREE.Vector3(1, 0.4, -1)];
-
-			this.opponentsUpdate(posArray);
-
-		},
-
-		cameraUpdate: function() {
+			this.opponentsUpdate();
 
 		},
 
 		render: function() {
 
 			this._stats.begin();
-
-			this._controls.update(this._clock.getDelta());
 
 			// this._manager.render(this._scene, this._camera);
 
@@ -356,6 +346,7 @@ export default Vue.extend({
 
 	mixins: [
 
+		ControlsMixin,
 		TerrainMixin,
 		CubeMixin,
 		OpponentsMixin,
