@@ -46,6 +46,10 @@ export default {
 
             },
 
+            isGameRunning: false,
+
+            GameRunningRoom: {},
+
             socket: null
 
 		};
@@ -206,7 +210,11 @@ export default {
 
         newGame: function(room) {
 
-            console.log(room);
+            this.isGameRunning = true;
+
+            this.GameRunningRoom = room;
+
+            console.log(this.GameRunningRoom);
 
         }
 
