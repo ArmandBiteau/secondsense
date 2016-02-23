@@ -233,7 +233,7 @@ export default Vue.extend({
 
 			this.controlsInitialize();
 
-			this.soundEmitterInitialize();
+			// this.soundEmitterInitialize();
 
 			this.terrainInitialize();
 
@@ -258,7 +258,7 @@ export default Vue.extend({
 
 			this.controlsUpdate();
 
-			this.soundEmitterUpdate();
+			// this.soundEmitterUpdate();
 
 			this.terrainUpdate();
 

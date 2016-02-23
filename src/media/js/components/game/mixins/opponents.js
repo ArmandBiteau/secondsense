@@ -24,9 +24,7 @@ export default {
 
             this._opponents = [];
 
-            this._opponentsLength = this.GameRoom.players.length;
-
-            for (let i = 0; i < this._opponentsLength; i++) {
+            for (let i = 0; i < this._opponents.length; i++) {
 
                   let geometry = new THREE.SphereGeometry(0.1, 16, 16);
 
@@ -44,12 +42,30 @@ export default {
 
 		opponentsUpdate: function() {
 
-            for (let i = 0; i < this._opponentsLength; i++) {
+            for (let i = 0; i < this._opponents.length; i++) {
 
                 this._opponents[i].position.set(0, 0.5, 0);
 
             }
 
-		}
+		},
+
+        opponentById: function(id) {
+
+            for (let i = 0; i < this._opponents.length; i++) {
+
+                if (this._opponents[i].id === id) {
+
+                    return this._opponents[i];
+
+                }
+
+            }
+
+            return false;
+
+        }
+
 	}
+
 };

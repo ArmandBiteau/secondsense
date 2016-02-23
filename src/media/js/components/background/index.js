@@ -208,9 +208,9 @@ export default Vue.extend({
 
 			// this._multiBloomPass = new WAGNER.MultiPassBloomPass();
 
-			this._chromePass = new WAGNER.ChromaticAberrationPass();
+			// this._chromePass = new WAGNER.ChromaticAberrationPass();
 
-			this._fxaaPass = new WAGNER.FXAAPass();
+			// this._fxaaPass = new WAGNER.FXAAPass();
 
 			// this._vignettePass = new WAGNER.VignettePass();
 
@@ -282,9 +282,9 @@ export default Vue.extend({
 
 			this._composer.render(this._scene, this._camera);
 
-			this._composer.pass(this._fxaaPass);
+			// this._composer.pass(this._fxaaPass);
 
-			this._composer.pass(this._chromePass);
+			// this._composer.pass(this._chromePass);
 
 			// this._composer.pass(this._multiBloomPass);
 

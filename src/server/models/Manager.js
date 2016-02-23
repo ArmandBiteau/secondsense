@@ -53,6 +53,8 @@ class Manager {
 
 			client.on('new message', _this.onNewMessage);
 
+			client.on('update player position', _this.onUpdatePlayerPosition);
+
 		});
 
     }
@@ -152,6 +154,14 @@ class Manager {
         Secondsense.updateRooms(this);
 
 		this.emit('new message');
+
+    }
+
+	onUpdatePlayerPosition(data) {
+
+		var newData = this.room.updatePlayerPosition(data);
+
+		this.broadcast.emit('update player position', newData);
 
     }
 
