@@ -62,7 +62,8 @@ class Room {
 
 	updatePlayerPosition(data) {
 
-	    let player = this.playerForId(data.id);
+	    let player = this.playerById(data.id);
+		player.id = data.id;
 	    player.x = data.x;
 	    player.y = data.y;
 	    player.z = data.z;

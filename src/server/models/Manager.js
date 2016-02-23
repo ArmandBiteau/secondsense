@@ -159,9 +159,9 @@ class Manager {
 
 	onUpdatePlayerPosition(data) {
 
-		var newData = this.room.updatePlayerPosition(data);
+		var newDataPlayer = this.room.updatePlayerPosition(data);
 
-		this.broadcast.emit('update player position', newData);
+		this.broadcast.emit('update player position', newDataPlayer);
 
     }
 
