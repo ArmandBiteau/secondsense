@@ -53,6 +53,8 @@ class Manager {
 
 			client.on('new message', _this.onNewMessage);
 
+			client.on('new game', _this.onNewGame);
+
 			client.on('update player position', _this.onUpdatePlayerPosition);
 
 		});
@@ -156,6 +158,12 @@ class Manager {
 		this.emit('new message');
 
     }
+
+	onNewGame(room) {
+
+		this.broadcast.to(room.name).emit('new game', room);
+
+	}
 
 	onUpdatePlayerPosition(data) {
 

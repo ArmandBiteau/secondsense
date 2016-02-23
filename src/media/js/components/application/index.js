@@ -167,7 +167,11 @@ export default {
 
         createNodeSession: function() {
 
+            var _this = this;
+
             this.socket = io.connect('http://192.168.33.10:3000');
+
+            this.socket.on('new game', _this.onNewGameAsGuest);
 
         },
 
@@ -209,6 +213,16 @@ export default {
         },
 
         newGame: function(room) {
+
+            this.isGameRunning = true;
+
+            this.socket.emit('new game', room);
+
+            this.GameRunningRoom = room;
+
+        },
+
+        onNewGameAsGuest: function(room) {
 
             this.isGameRunning = true;
 

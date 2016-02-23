@@ -98,7 +98,7 @@ export default {
 
             this._ray = new THREE.Raycaster();
 
-			this._ray.ray.direction.set(0, -0.25, 0);
+			this._ray.ray.direction.set(0, -1, 0);
 
 		},
 
@@ -107,7 +107,7 @@ export default {
             this._controls.isOnObject(false);
 
 			this._ray.ray.origin.copy(this._controls.getObject().position);
-			this._ray.ray.origin.y -= 0.25;
+			this._ray.ray.origin.y -= 1;
 
 			var intersections = this._ray.intersectObjects(this._collidableMeshList);
 

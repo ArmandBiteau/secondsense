@@ -10,7 +10,7 @@ module.exports = function(camera) {
 	_this.pitchObject.add(camera);
 
 	_this.yawObject = new THREE.Object3D();
-	_this.yawObject.position.y = 0.25;
+	_this.yawObject.position.y = 0.5;
 	_this.yawObject.add(_this.pitchObject);
 
 	var moveForward = false;
@@ -127,7 +127,7 @@ module.exports = function(camera) {
 		velocity.x += (-velocity.x) * 0.08 * delta;
 		velocity.z += (-velocity.z) * 0.08 * delta;
 
-		velocity.y -= 0.25 * delta;
+		velocity.y -= 0.5 * delta;
 
 		if (moveForward) velocity.z -= 0.0025 * delta;
 		if (moveBackward) velocity.z += 0.0025 * delta;
@@ -145,10 +145,10 @@ module.exports = function(camera) {
 		_this.yawObject.translateY(velocity.y);
 		_this.yawObject.translateZ(velocity.z);
 
-		if (_this.yawObject.position.y < 0.25) {
+		if (_this.yawObject.position.y < 0.5) {
 
 			velocity.y = 0;
-			_this.yawObject.position.y = 0.25;
+			_this.yawObject.position.y = 0.5;
 
 			canJump = true;
 

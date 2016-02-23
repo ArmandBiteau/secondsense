@@ -1,6 +1,6 @@
 'use strict';
 
-import THREE from 'three';
+// import THREE from 'three';
 
 import Opponent from '../models/opponent';
 
@@ -10,13 +10,7 @@ export default {
 
 		// Opponents
 
-        this._opponentsLength = 0;
-
 		this._opponents = null;
-
-		this._opponentsColor = {color: 0x9966CC};
-
-		this._opponentsPositionInitial = new THREE.Vector3(0.0, 0.25, 0.0);
 
 	},
 
@@ -26,13 +20,17 @@ export default {
 
             this._opponents = [];
 
+            var j = 0;
+
             for (let i = 0; i < this.GameRoom.players.length; i++) {
 
                 if (this.GameRoom.players[i].id !== this.me.id) {
 
-                    this._opponents[i] = new Opponent(this.GameRoom.players[i].id, 0x9966CC, 0, 0.25, 0);
+                    this._opponents[j] = new Opponent(this.GameRoom.players[i].id, 0x9966CC, 0, 0.5, 0);
 
-                    this._scene.add(this._opponents[i].mesh);
+                    this._scene.add(this._opponents[j].mesh);
+
+                    j++;
 
                 }
 
@@ -40,15 +38,15 @@ export default {
 
             var _this = this;
 
-            // SHARE MY POSITION ~1s
+            // SHARE MY POSITION 12fps
             setInterval(() => {
 
                 var position = this._controls.getObject().position;
-                var data = {id: _this.me.id, x: position.x, y:position.y, z:position.z};
+                var data = {id: this.me.id, x: position.x, y:position.y, z:position.z};
 
                 this.socket.emit('update player position', data);
 
-            }, 40);
+            }, 80);
 
             // GET OPPONENTS POSITION
             this.socket.on('update player position', _this.onUpdateOpponentPosition);
@@ -57,25 +55,13 @@ export default {
 
 		opponentsUpdate: function() {
 
-            //for (let i = 0; i < this._opponents.length; i++) {
-
-            //    this._opponents[i].position.set(0, 0.5, 0);
-
-            //}
-
 		},
 
         onUpdateOpponentPosition: function(opponent) {
 
-            this.updateOpponentPosition(opponent.id, opponent.x, opponent.y, opponent.z);
+            let opp = this.opponentById(opponent.id);
 
-        },
-
-        updateOpponentPosition: function(id, x, y, z) {
-
-            let opp = this.opponentById(id);
-
-            opp.updateMeshPosition(x, y, z);
+            opp.updateMeshPosition(opponent.x, opponent.y, opponent.z);
 
         },
 
