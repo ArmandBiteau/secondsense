@@ -18,13 +18,9 @@ export default {
 
         this._controlsEnabled = false;
 
-        // var moveForward = false;
-        // var moveBackward = false;
-        // var moveLeft = false;
-        // var moveRight = false;
-        // var canJump = false;
-        // var prevTime = performance.now();
-        // var velocity = new THREE.Vector3();
+	},
+
+    ready: function() {
 
 	},
 
@@ -82,11 +78,13 @@ export default {
 
         },
 
-        addEventListener: function() {
-
-        },
-
 		controlsInitialize: function() {
+
+            document.querySelector('canvas').addEventListener('mousedown', () => {
+
+                document.body.requestPointerLock();
+
+            });
 
             this._controlsTime = Date.now();
 
