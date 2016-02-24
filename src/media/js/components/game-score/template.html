@@ -2,7 +2,11 @@
 
     <div class="game-score-container">
 
-        <h1>Score</h1>
+        <h1>3:12:26</h1>
+
+        <div v-for="player in GameRoom.players" class="game-score-player">
+            <h5>{{ player.name }} — {{ player.gems }} gems</h5>
+        </div>
 
     </div>
 

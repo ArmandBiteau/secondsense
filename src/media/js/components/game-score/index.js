@@ -6,6 +6,25 @@ export default Vue.component('game-score-component', {
 
 	template: require('./template.html'),
 
+	props: {
+
+		socket: {
+			type: Object,
+			required: true
+		},
+
+		me: {
+			type: Object,
+			required: true
+		},
+
+		GameRoom: {
+			type: Object,
+			required: true
+		}
+
+	},
+
 	data: function() {
 
 		return {

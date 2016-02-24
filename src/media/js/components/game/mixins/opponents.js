@@ -10,7 +10,7 @@ export default {
 
 		// Opponents
 
-		this._opponents = null;
+		this.opponents = null;
 
 	},
 
@@ -18,7 +18,7 @@ export default {
 
 		opponentsInitialize: function() {
 
-            this._opponents = [];
+            this.opponents = [];
 
             var j = 0;
 
@@ -26,9 +26,9 @@ export default {
 
                 if (this.GameRoom.players[i].id !== this.me.id) {
 
-                    this._opponents[j] = new Opponent(this.GameRoom.players[i].id, 0x9966CC, 0, 0.5, 0);
+                    this.opponents[j] = new Opponent(this.GameRoom.players[i].id, 0x9966CC, 0, 0.5, 0);
 
-                    this._scene.add(this._opponents[j].mesh);
+                    this._scene.add(this.opponents[j].mesh);
 
                     j++;
 
@@ -67,11 +67,11 @@ export default {
 
         opponentById: function(id) {
 
-            for (let i = 0; i < this._opponents.length; i++) {
+            for (let i = 0; i < this.opponents.length; i++) {
 
-                if (this._opponents[i].id === id) {
+                if (this.opponents[i].id === id) {
 
-                    return this._opponents[i];
+                    return this.opponents[i];
 
                 }
 
