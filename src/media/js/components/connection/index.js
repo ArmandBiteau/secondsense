@@ -59,6 +59,18 @@ export default Vue.component('connection-component', {
 
 		addEventListener: function() {
 
+			document.getElementById('FBlogin').addEventListener('mousedown', () => {
+
+				FB.login((response) => {
+
+					let token = response.authResponse.accessToken;
+
+					this.getFBInfos(token);
+
+				}, {scope: 'public_profile, email, user_friends'});
+
+			});
+
 		},
 
 		getFBInfos: function(token) {
@@ -99,35 +111,35 @@ export default Vue.component('connection-component', {
 
 		},
 
-		statusChangeCallback: function(response) {
-
-			if (response.status === 'connected') {
-
-				let token = response.authResponse.accessToken;
-
-				this.getFBInfos(token);
-
-			} else {
-
-				FB.login((response) => {
-
-					this.statusChangeCallback(response);
-
-				}, {scope: 'public_profile, email, user_friends'});
-
-			}
-
-		},
-
-		checkLoginState: function() {
-
-			FB.getLoginStatus((response) => {
-
-				this.statusChangeCallback(response);
-
-			});
-
-		},
+		// statusChangeCallback: function(response) {
+		//
+		// 	if (response.status === 'connected') {
+		//
+		// 		let token = response.authResponse.accessToken;
+		//
+		// 		this.getFBInfos(token);
+		//
+		// 	} else {
+		//
+		// 		FB.login((response) => {
+		//
+		// 			this.statusChangeCallback(response);
+		//
+		// 		}, {scope: 'public_profile, email, user_friends'});
+		//
+		// 	}
+		//
+		// },
+		//
+		// checkLoginState: function() {
+		//
+		// 	FB.getLoginStatus((response) => {
+		//
+		// 		this.statusChangeCallback(response);
+		//
+		// 	});
+		//
+		// },
 
 		checkDatabase: function() {
 
