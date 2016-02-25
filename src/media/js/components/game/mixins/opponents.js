@@ -20,17 +20,13 @@ export default {
 
             this.opponents = [];
 
-            var j = 0;
-
             for (let i = 0; i < this.GameRoom.players.length; i++) {
+
+                this.opponents[i] = new Opponent(this.GameRoom.players[i].id, 0x9966CC, 0, 0.5, 0);
 
                 if (this.GameRoom.players[i].id !== this.me.id) {
 
-                    this.opponents[j] = new Opponent(this.GameRoom.players[i].id, 0x9966CC, 0, 0.5, 0);
-
-                    this._scene.add(this.opponents[j].mesh);
-
-                    j++;
+                    this._scene.add(this.opponents[i].mesh);
 
                 }
 

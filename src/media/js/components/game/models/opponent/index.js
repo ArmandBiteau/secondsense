@@ -16,6 +16,8 @@ class Opponent {
 
 		this.z = z;
 
+		this.gems = 0;
+
         this.createGeometry();
 
         this.createMaterial();
@@ -61,6 +63,12 @@ class Opponent {
         this.mesh.position.set(x, y, z);
 
     }
+
+	addGem() {
+
+		this.gems++;
+
+	}
 
 }
 
