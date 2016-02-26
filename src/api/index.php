@@ -61,4 +61,30 @@ $app->put('/users/:id', function($id) use($user, $app) {
 
 });
 
+$app->put('/users/:id/friends', function($id) use($user, $app) {
+
+  $request = $app->request();
+  $body = $request->getBody();
+  $vo = json_decode($body);
+  $vo->facebook_user_id = $id;
+
+  foreach ($vo->friends as $friend) {
+
+    // Test if player friend exists in db
+    if (! $user->playerExists($friend->id)){
+      continue;
+    }
+
+    // Test if they are friends in db
+    if (! $user->areFriends($id, $friend->id)){
+
+      // Then add relationship
+      $user->addFriend($id, $friend->id);
+    }
+  }
+
+  //TO DO : Check if all db friends still are FB friends
+
+});
+
 $app->run();

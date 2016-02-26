@@ -33,7 +33,7 @@ export default Vue.component('connection-component', {
 
 	ready: function() {
 
-        this.addEventListener();
+		this.addEventListener();
 
 	},
 
@@ -41,9 +41,9 @@ export default Vue.component('connection-component', {
 
 		connected: function() {
 
-				console.log('Connected as', this.me.name);
+			console.log('Connected as', this.me.name);
 
-				this.onConnected();
+			this.onConnected();
 
 		}
 
@@ -53,145 +53,196 @@ export default Vue.component('connection-component', {
 
 		/*
 		 * Binding & Events
-		*/
+		 */
 
-		bind: function() {
+		 bind: function() {
 
-		},
+		 },
 
-		addEventListener: function() {
+		 addEventListener: function() {
 
-		},
+		 },
 
-		getFBInfos: function(token) {
+		 getFBInfos: function(token) {
 
-			FB.api('/me', 'get', {
+		 	FB.api('/me', 'get', {
 
-				access_token: token,
+		 		access_token: token,
 
-				fields: 'id, name, gender, picture, email'
+		 		fields: 'id, name, gender, picture, email'
 
-			}, (response) => {
+		 	}, (response) => {
 
-				this.me.id = response.id;
+		 		this.me.id = response.id;
 
-				this.me.name = response.name;
+		 		this.me.name = response.name;
 
-				this.me.email = response.email;
+		 		this.me.email = response.email;
 
-				this.me.gender = response.gender;
+		 		this.me.gender = response.gender;
 
-				this.me.picture = response.picture.data.url;
+		 		this.me.picture = response.picture.data.url;
 
-				this.checkDatabase();
+		 	});
 
-			});
+		 	FB.api('/me/friends', 'get', {
 
-			FB.api('/me/friends', 'get', {
+		 		access_token: token
 
-				access_token: token
+		 	}, (response) => {
 
-			}, (response) => {
+		 		this.me.friends = response.data;
+		 		console.log('Friends via FB API: ', this.me.friends);
+		 		this.checkDatabase();
 
-				this.me.friends = response.data;
+		 	});
 
-			});
+		 },
 
-		},
+		 statusChangeCallback: function(response) {
 
-		statusChangeCallback: function(response) {
+		 	if (response.status === 'connected') {
 
-			if (response.status === 'connected') {
+		 		let token = response.authResponse.accessToken;
 
-				let token = response.authResponse.accessToken;
+		 		this.getFBInfos(token);
 
-				this.getFBInfos(token);
+		 	} else {
 
-			} else {
+		 		FB.login((response) => {
 
-				FB.login((response) => {
+		 			this.statusChangeCallback(response);
 
-					this.statusChangeCallback(response);
+		 		}, {scope: 'public_profile, email, user_friends'});
 
-				}, {scope: 'public_profile, email, user_friends'});
+		 	}
 
-			}
+		 },
 
-		},
+		 checkLoginState: function() {
 
-		checkLoginState: function() {
+		 	FB.getLoginStatus((response) => {
 
-			FB.getLoginStatus((response) => {
+		 		this.statusChangeCallback(response);
 
-				this.statusChangeCallback(response);
+		 	});
 
-			});
+		 },
 
-		},
+		 checkDatabase: function() {
 
-		checkDatabase: function() {
+		 	this.getPlayerInfos().then(this.updatePlayerInfos).catch(this.setPlayerInfos).then(this.updatePlayerFriends).then(this.getPlayerFriends).then(this.getPlayerScore);
 
-			this.getPlayerInfos().then(this.updatePlayerInfos).catch(this.setPlayerInfos).then(this.getPlayerScore);
+		 	this.connected = true;
 
-			this.connected = true;
+		 },
 
-		},
+		 getPlayerInfos: function() {
 
-		getPlayerInfos: function() {
+		 	return new Promise((resolve, reject) => {
 
-			return new Promise((resolve, reject) => {
+		 		var _this = this;
 
-				var _this = this;
+		 		var player = {
 
-				var player = {
+		 			facebook_user_id: _this.me.id,
 
-					facebook_user_id: _this.me.id,
+		 			facebook_user_name: _this.me.name,
 
-					facebook_user_name: _this.me.name,
+		 			facebook_user_picture: _this.me.picture,
 
-					facebook_user_picture: _this.me.picture
+		 			friends: _this.me.friends
 
-				};
+		 		};
 
-				this.$http.get('/api/users/' + player.facebook_user_id, (data) => {
+		 		this.$http.get('/api/users/' + player.facebook_user_id, (data) => {
 
-	                if (!data) {
+		 			if (!data) {
 
-	                	console.log('This player doesn\'t exit yet');
-	                	reject(player);
+		 				console.log('This player doesn\'t exit yet');
+		 				reject(player);
 
-	                } else {
+		 			} else {
 
-	                	console.log('Already exists :', data);
-	                	resolve(player);
+		 				console.log('Already exists :', data);
+		 				resolve(player);
 
-					}
+		 			}
 
-	            }).error((data, status, request) => {
+		 		}).error((data, status, request) => {
 
-	                console.log(data, status, request);
+		 			console.log(data, status, request);
 
-	            });
+		 		});
 
-	        });
+		 	});
+        },
 
-            // this.$http.get('/api/users/'+_this.me.id+'/friends', (data) => {
-			//
-            //     this.me.friends = data;
-			//
-            // }).error((data, status, request) => {
-			//
-            //     console.log(data, status, request);
-			//
-            // });
+        setPlayerInfos: function(player) {
 
-		},
+        	this.$http.post('/api/users', player, (data) => {
 
-		setPlayerInfos: function(player) {
+        		console.log('New player added :', data);
 
-			this.$http.post('/api/users', player, (data) => {
+        	}).error((data, status, request) => {
 
-            	console.log('New player added :', data);
+        		console.log(data, status, request);
+
+        	});
+
+        	return player;
+        },
+
+        updatePlayerInfos: function(player) {
+
+        	this.$http.put('/api/users/' + player.facebook_user_id, player, (data) => {
+
+        		console.log('Player info updated  :', data.facebook_user_name);
+
+        	}).error((data, status, request) => {
+
+        		console.log(data, status, request);
+
+        	});
+
+        	return player;
+        },
+
+        updatePlayerFriends: function(player) {
+
+        	this.$http.put('/api/users/' + player.facebook_user_id + '/friends', player, (data) => {
+
+        		console.log('Player friends updated  :', data);
+
+        	}).error((data, status, request) => {
+
+        		console.log(data, status, request);
+
+        	});
+
+        	return player;
+        },
+
+        getPlayerScore: function(player) {
+
+        	this.$http.get('/api/users/' + player.facebook_user_id + '/score', (data) => {
+
+        		this.me.score = data;
+
+        	}).error((data, status, request) => {
+
+        		console.log(data, status, request);
+
+        	});
+
+        },
+
+        getPlayerFriends: function(player) {
+
+        	this.$http.get('/api/users/' + player.facebook_user_id + '/friends', player, (data) => {
+
+        		this.me.friends = data;
+        		console.log('Player friends via BDD:', this.me.friends);
 
             }).error((data, status, request) => {
 
@@ -200,53 +251,24 @@ export default Vue.component('connection-component', {
             });
 
             return player;
-		},
+        },
 
-		updatePlayerInfos: function(player) {
+        onConnected: function() {
 
-            this.$http.put('/api/users/' + player.facebook_user_id, player, (data) => {
+        	this.me.connected = true;
 
-            	console.log('Player info updated  :', data.facebook_user_name);
+        	setTimeout(() => {
 
-            }).error((data, status, request) => {
+        		this.$parent.$parent.switchView('rooms');
 
-                console.log(data, status, request);
+        	}, 2000);
 
-            });
+        }
 
-            return player;
-		},
+    },
 
-		getPlayerScore: function(player) {
+    components: {
 
-			this.$http.get('/api/users/' + player.facebook_user_id + '/score', (data) => {
-
-                this.me.score = data;
-
-            }).error((data, status, request) => {
-
-                console.log(data, status, request);
-
-            });
-
-		},
-
-		onConnected: function() {
-
-			this.me.connected = true;
-
-			setTimeout(() => {
-
-				this.$parent.$parent.switchView('rooms');
-
-			}, 2000);
-
-		}
-
-	},
-
-	components: {
-
-	}
+    }
 
 });

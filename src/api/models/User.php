@@ -15,7 +15,6 @@ class User
   {
     $db = Db::getInstance();
     $this->_dbh = $db->getConnection();
-
   }
 
   public function getAll()
@@ -29,7 +28,6 @@ class User
 
     } catch(PDOException $e) {
       echo '{"error":{"text":'. $e->getMessage() .'}}';
-
     }
   }
 
@@ -46,8 +44,25 @@ class User
 
     } catch(PDOException $e) {
       echo '{"error":{"text":'. $e->getMessage() .'}}';
-
     }
+  }
+
+  public function playerExists($id)
+  {
+    $sql = $this->_select . " WHERE facebook_user_id = :facebook_id ORDER BY facebook_user_name";
+
+    try {
+      $stmt = $this->_dbh->prepare($sql);
+      $stmt->bindParam("facebook_id", $id);
+      $stmt->execute();
+      $result = $stmt->fetchObject();
+
+    } catch(PDOException $e) {
+      echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
+
+    if ($result) { return True; }
+    else { return False; }
   }
 
   public function getByName($name)
@@ -64,7 +79,6 @@ class User
 
     } catch(PDOException $e) {
       echo '{"error":{"text":'. $e->getMessage() .'}}';
-
     }
   }
 
@@ -84,7 +98,40 @@ class User
 
     } catch(PDOException $e) {
       echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
+  }
 
+  public function areFriends($id, $id_friend)
+  {
+    $sql = "SELECT * FROM secondsense_friends WHERE facebook_user_id = :user_id AND facebook_user_id_friend = :friend_id";
+
+    try {
+      $stmt = $this->_dbh->prepare($sql);
+      $stmt->bindParam("user_id", $id);
+      $stmt->bindParam("friend_id", $id_friend);
+      $stmt->execute();
+      $result = $stmt->fetchObject();
+
+    } catch(PDOException $e) {
+      echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
+
+    if ($result) { return True; }
+    else { return False; }
+  }
+
+  public function addFriend($id, $id_friend)
+  {
+    $sql = "INSERT INTO secondsense.secondsense_friends(facebook_user_id, facebook_user_id_friend) VALUES(:facebook_id, :facebook_id_friend)";
+
+    try {
+      $stmt = $this->_dbh->prepare($sql);
+      $stmt->bindParam("facebook_id", $id);
+      $stmt->bindParam("facebook_id_friend", $id_friend);
+      $stmt->execute();
+
+    } catch(PDOException $e) {
+      echo '{"error":{"text":'. $e->getMessage() .'}}';
     }
   }
 
@@ -103,11 +150,10 @@ class User
 
     } catch(PDOException $e) {
       echo '{"error":{"text":'. $e->getMessage() .'}}';
-
     }
   }
 
-  public function insert_score()
+  public function insertScore()
   {
     $sql = "INSERT INTO secondsense.secondsense_scores() VALUES()";
 
@@ -126,7 +172,7 @@ class User
   {
     try {
         // Create new empty row in score table
-        $score_id = $this->insert_score();
+        $score_id = $this->insertScore();
 
         $stmt = $this->_dbh->prepare($this->_insert);
         $stmt->bindParam("facebook_id", $vo->facebook_user_id);
@@ -153,7 +199,6 @@ class User
 
     } catch(PDOException $e) {
       echo '{"error":{"text":'. $e->getMessage() .'}}';
-
     }
   }
 
@@ -167,8 +212,6 @@ class User
 
     } catch(PDOException $e) {
       echo '{"error":{"text":'. $e->getMessage() .'}}';
-
     }
   }
-
 }
