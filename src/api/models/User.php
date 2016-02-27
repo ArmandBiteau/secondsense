@@ -135,6 +135,25 @@ class User
     }
   }
 
+  public function getRewards($id)
+  {
+    $sql = "SELECT rewards.* FROM secondsense_rewards AS rewards 
+            INNER JOIN secondsense_has_reward ON secondsense_has_reward.reward_id = rewards.reward_id 
+            INNER JOIN secondsense_users AS me ON secondsense_has_reward.facebook_user_id = me.facebook_user_id 
+            WHERE me.facebook_user_id = :facebook_id";
+
+    try {
+      $stmt = $this->_dbh->prepare($sql);
+      $stmt->bindParam("facebook_id", $id);
+      $stmt->execute();
+      $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+      echo json_encode($result);
+
+    } catch(PDOException $e) {
+      echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
+  }
+
   public function getScore($id)
   {
     $sql = "SELECT scores.* FROM secondsense_scores AS scores 

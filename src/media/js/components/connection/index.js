@@ -132,7 +132,7 @@ export default Vue.component('connection-component', {
 		 checkDatabase: function() {
 
 		 	// Access to player infos
-		 	this.getPlayerInfos().catch(this.setPlayerInfos).then(this.updatePlayerInfos).then(this.updatePlayerFriends).then(this.getPlayerFriends).then(this.getPlayerScore).then(this.updatePlayerScore).then((player) =>
+		 	this.getPlayerInfos().catch(this.setPlayerInfos).then(this.updatePlayerInfos).then(this.updatePlayerFriends).then(this.getPlayerFriends).then(this.getPlayerScore).then(this.updatePlayerScore).then(this.getPlayerScore).then(this.getPlayerRewards).then((player) =>
 				{
 					console.log('All done !! : ', player);
 
@@ -248,7 +248,6 @@ export default Vue.component('connection-component', {
         	return new Promise((resolve, reject) => {
 
         		//TEST
-        		player.score = this.me.score;
 	        	player.game_score = 99999;
 	        	//
 
@@ -275,6 +274,7 @@ export default Vue.component('connection-component', {
 	        	this.$http.get('/api/users/' + player.facebook_user_id + '/score', (data) => {
 
 	        		this.me.score = data;
+	        		player.score = data;
 
 	        		resolve(player);
 
@@ -288,6 +288,27 @@ export default Vue.component('connection-component', {
 	        });
         },
 
+        getPlayerRewards: function(player) {
+
+        	return new Promise((resolve, reject) => {
+
+	        	this.$http.get('/api/users/' + player.facebook_user_id + '/rewards', (data) => {
+
+	        		this.me.rewards = data;
+	        		player.rewards = data;
+
+	        		resolve(player);
+
+	        	}).error((data, status, request) => {
+
+	        		console.log(data, status, request);
+
+	        		reject('Error while accessing to Player rewards');
+
+	        	});
+	        });
+        },
+
         getPlayerFriends: function(player) {
 
         	return new Promise((resolve, reject) => {
@@ -295,6 +316,7 @@ export default Vue.component('connection-component', {
 	        	this.$http.get('/api/users/' + player.facebook_user_id + '/friends', player, (data) => {
 
 	        		this.me.friends = data;
+	        		player.friends = data;
 
 	        		resolve(player);
 
