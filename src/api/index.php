@@ -95,7 +95,7 @@ $app->put('/users/:id/friends', function($id) use($user, $app) {
     if (! $user->areFriends($id, $friend->id)) {
       
       $user->addFriend($id, $friend->id);
-    
+      $user->addFriend($friend->id, $id);
     }
   }
 
