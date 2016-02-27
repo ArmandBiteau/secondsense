@@ -92,7 +92,7 @@ export default Vue.component('connection-component', {
 		 	}, (response) => {
 
 		 		this.me.friends = response.data;
-		 		console.log('Friends via FB API: ', this.me.friends);
+
 		 		this.checkDatabase();
 
 		 	});
@@ -131,10 +131,13 @@ export default Vue.component('connection-component', {
 
 		 checkDatabase: function() {
 
-		 	this.getPlayerInfos().then(this.updatePlayerInfos).catch(this.setPlayerInfos).then(this.updatePlayerFriends).then(this.getPlayerFriends).then(this.getPlayerScore);
+		 	// Access to player infos
+		 	this.getPlayerInfos().catch(this.setPlayerInfos).then(this.updatePlayerInfos).then(this.updatePlayerFriends).then(this.getPlayerFriends).then(this.getPlayerScore).then(this.updatePlayerScore).then((player) =>
+				{
+					console.log('All done !! : ', player);
 
-		 	this.connected = true;
-
+					this.connected = true;
+		 		});
 		 },
 
 		 getPlayerInfos: function() {
@@ -160,11 +163,13 @@ export default Vue.component('connection-component', {
 		 			if (!data) {
 
 		 				console.log('This player doesn\'t exit yet');
+
 		 				reject(player);
 
 		 			} else {
 
-		 				console.log('Already exists :', data);
+		 				console.log('This player already exists');
+
 		 				resolve(player);
 
 		 			}
@@ -180,77 +185,126 @@ export default Vue.component('connection-component', {
 
         setPlayerInfos: function(player) {
 
-        	this.$http.post('/api/users', player, (data) => {
+        	return new Promise((resolve, reject) => {
 
-        		console.log('New player added :', data);
+	        	this.$http.post('/api/users', player, () => {
 
-        	}).error((data, status, request) => {
+	        		console.log('New player added');
 
-        		console.log(data, status, request);
+	        		resolve(player);
 
-        	});
+	        	}).error((data, status, request) => {
 
-        	return player;
+	        		console.log(data, status, request);
+
+	        		reject('Error during player creation');
+
+	        	});
+	        });
         },
 
         updatePlayerInfos: function(player) {
 
-        	this.$http.put('/api/users/' + player.facebook_user_id, player, (data) => {
+        	return new Promise((resolve, reject) => {
 
-        		console.log('Player info updated  :', data.facebook_user_name);
+	        	this.$http.put('/api/users/' + player.facebook_user_id, player, (data) => {
 
-        	}).error((data, status, request) => {
+	        		console.log('Player info updated  :', data.facebook_user_name);
 
-        		console.log(data, status, request);
+	        		resolve(player);
 
-        	});
+	        	}).error((data, status, request) => {
 
-        	return player;
+	        		console.log(data, status, request);
+
+	        		reject('Error during Player Infos update');
+
+	        	});
+	        });
         },
 
         updatePlayerFriends: function(player) {
 
-        	this.$http.put('/api/users/' + player.facebook_user_id + '/friends', player, (data) => {
+        	return new Promise((resolve, reject) => {
 
-        		console.log('Player friends updated  :', data);
+	        	this.$http.put('/api/users/' + player.facebook_user_id + '/friends', player, () => {
 
-        	}).error((data, status, request) => {
+	        		console.log('Player friends updated');
 
-        		console.log(data, status, request);
+	        		resolve(player);
 
-        	});
+	        	}).error((data, status, request) => {
 
-        	return player;
+	        		console.log(data, status, request);
+
+	        		reject('Error during Player Friends update');
+
+	        	});
+	        });
+        },
+// This function updatePlayerScore will move in an other component soon
+        updatePlayerScore: function(player) {
+
+        	return new Promise((resolve, reject) => {
+
+        		//TEST
+        		player.score = this.me.score;
+	        	player.game_score = 99999;
+	        	//
+
+	        	this.$http.put('/api/users/' + player.facebook_user_id + '/score', player, () => {
+
+	        		console.log('Player score updated');
+
+	        		resolve(player);
+
+	        	}).error((data, status, request) => {
+
+	        		console.log(data, status, request);
+
+	        		reject('Error during Player score update');
+
+	        	});
+	        });
         },
 
         getPlayerScore: function(player) {
 
-        	this.$http.get('/api/users/' + player.facebook_user_id + '/score', (data) => {
+        	return new Promise((resolve, reject) => {
 
-        		this.me.score = data;
+	        	this.$http.get('/api/users/' + player.facebook_user_id + '/score', (data) => {
 
-        	}).error((data, status, request) => {
+	        		this.me.score = data;
 
-        		console.log(data, status, request);
+	        		resolve(player);
 
-        	});
+	        	}).error((data, status, request) => {
 
+	        		console.log(data, status, request);
+
+	        		reject('Error while accessing to Player score');
+
+	        	});
+	        });
         },
 
         getPlayerFriends: function(player) {
 
-        	this.$http.get('/api/users/' + player.facebook_user_id + '/friends', player, (data) => {
+        	return new Promise((resolve, reject) => {
 
-        		this.me.friends = data;
-        		console.log('Player friends via BDD:', this.me.friends);
+	        	this.$http.get('/api/users/' + player.facebook_user_id + '/friends', player, (data) => {
 
-            }).error((data, status, request) => {
+	        		this.me.friends = data;
 
-                console.log(data, status, request);
+	        		resolve(player);
 
-            });
+	            }).error((data, status, request) => {
 
-            return player;
+	                console.log(data, status, request);
+
+	                reject('Error while accessing to Player friends');
+	            });
+	        });
         },
 
         onConnected: function() {

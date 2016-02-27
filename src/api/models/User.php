@@ -146,7 +146,7 @@ class User
       $stmt->bindParam("facebook_id", $id);
       $stmt->execute();
       $result = $stmt->fetchAll(PDO::FETCH_OBJ);
-      echo json_encode($result);
+      echo json_encode($result[0]);
 
     } catch(PDOException $e) {
       echo '{"error":{"text":'. $e->getMessage() .'}}';
@@ -166,6 +166,29 @@ class User
     }
 
     return $this->_dbh->lastInsertId();
+  }
+
+  public function updateScore($vo)
+  {
+    $sql = "UPDATE secondsense_scores SET ";
+    $params = array(':game_count' => $vo->score->game_count + 1, ':sum_score' => $vo->score->sum_score + $vo->game_score, ':score_id' => $vo->score->score_id);
+
+    if ($vo->score->high_score > $vo->game_score) 
+    {
+      $sql = $sql . "high_score = :highscore, ";
+      $params[':highscore'] = $vo->game_score;
+    }
+
+    $sql = $sql . "game_count = :game_count, sum_score = :sum_score WHERE score_id = :score_id";
+
+    try {
+      $stmt = $this->_dbh->prepare($sql);
+      $stmt->execute($params);
+      echo json_encode($vo);
+
+    } catch(PDOException $e) {
+        echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
   }
 
   public function insert($vo)
