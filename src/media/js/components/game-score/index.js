@@ -21,6 +21,11 @@ export default Vue.component('game-score-component', {
 		GameRoom: {
 			type: Object,
 			required: true
+		},
+
+		opponents: {
+			type: Array,
+			required: true
 		}
 
 	},
@@ -42,6 +47,8 @@ export default Vue.component('game-score-component', {
 	ready: function() {
 
         this.addEventListener();
+
+		this.createTimer();
 
 	},
 
@@ -65,6 +72,36 @@ export default Vue.component('game-score-component', {
 
 		},
 
+		createTimer: function() {
+
+			var timeLeft = 3*60;
+			var r = document.getElementById('timer');
+
+			var w = 0;
+			var per = 100 / timeLeft;
+
+			var timer = setInterval(function() {
+				timeLeft--;
+				var m =(timeLeft / 60) >> 0;
+				var s = (timeLeft - m*60) + '';
+				w += per;
+
+				r.innerHTML = '<span class="minutes">' + (m.length > 1 ? '' : '0') + m + '</span>' + ':' + '<span class="seconds">' + (s.length > 1 ? '' : '0') + s + '</span>';
+
+				TweenMax.to('#timer-bar-done', 0.1, {
+					width: w + '%'
+				});
+
+				if (timeLeft === 0) {
+
+					clearInterval(timer);
+
+				}
+
+			}, 1000);
+
+		},
+
 		onMouseMove: function() {
 
 		}
@@ -72,6 +109,12 @@ export default Vue.component('game-score-component', {
 	},
 
 	components: {
+
+	},
+
+	partials: {
+
+		boxPartial: require('../../partials/box-partial/index.html')
 
 	}
 

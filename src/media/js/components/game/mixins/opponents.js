@@ -10,8 +10,6 @@ export default {
 
 		// Opponents
 
-		this.opponents = null;
-
 	},
 
 	methods: {
@@ -32,20 +30,20 @@ export default {
 
             }
 
-            var _this = this;
-
-            // SHARE MY POSITION 12fps
-            setInterval(() => {
-
-                var position = this._controls.getObject().position;
-                var data = {id: this.me.id, x: position.x, y:position.y, z:position.z};
-
-                this.socket.emit('update player position', data);
-
-            }, 80);
-
-            // GET OPPONENTS POSITION
-            this.socket.on('update player position', _this.onUpdateOpponentPosition);
+            // var _this = this;
+            //
+            // // SHARE MY POSITION 12fps
+            // setInterval(() => {
+            //
+            //     var position = this._controls.getObject().position;
+            //     var data = {id: this.me.id, x: position.x, y:position.y, z:position.z};
+            //
+            //     this.socket.emit('update player position', data);
+            //
+            // }, 80);
+            //
+            // // GET OPPONENTS POSITION
+            // this.socket.on('update player position', _this.onUpdateOpponentPosition);
 
 		},
 

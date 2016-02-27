@@ -1,12 +1,12 @@
 .game-score-wrapper {
     position: absolute;
-    background: $color-white;
-    top: 0;
-    right: 0;
+    top: 2em;;
+    right: 2em;
     user-select: none;
-    color: $color-black;
+    color: $color-white;
     perspective: 1000;
-    -webkit-perspective: 1000;
+    transform-style: preserve-3d;
+    transform: translateZ(0);
 }
 
 .game-score-container {
@@ -14,5 +14,81 @@
     height: 100%;
     width: 100%;
     transform-style: preserve-3d;
-    -webkit-transform-style: preserve-3d;
+    transform: translateZ(0px);
+}
+
+.game-score-timer{
+    position: relative;
+    display: inline-block;
+    transform-style: preserve-3d;
+    transform: translateZ(0px);
+    width: 100%;
+    height: 2.5em;
+}
+
+.game-score-timer-count{
+    position: absolute;
+    margin-top: 0;
+    display: inline-block;
+    transform-style: preserve-3d;
+    transform: translateZ(0px);
+    color: $color-white;
+    font-size: 1.8em;
+    .minutes{
+    }
+    .seconds{
+    }
+}
+
+.game-score-timer-bar{
+    position: absolute;
+    left: -8px;
+    top: 8px;
+    height: 2em;
+    width: 6.5em;
+    background: $color-white-lighter;
+}
+.game-score-timer-bar-done{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+    width: 0%;
+    background: $color-primary;
+}
+
+
+.game-score-players{
+    position: relative;
+    display: block;
+    transform-style: preserve-3d;
+    transform: translateZ(0px);
+    margin-top: 2em;
+}
+
+.game-score-player{
+    margin-bottom: 1em;
+}
+
+.game-score-player-name{
+    display: block;
+    margin: 0;
+    padding: 0;
+    h5{
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.game-score-player-gems{
+    margin: 0;
+    margin-left: -0.4em;
+    margin-top: 0.3em;
+    padding: 0;
+    display: block;
+    svg{
+        display: inline-block;
+        height: 0.8em;
+        margin-right: -0.8em;
+    }
 }

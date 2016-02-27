@@ -28,24 +28,24 @@ export default Vue.extend({
 
 	template: require('./template.html'),
 
-	props: {
-
-		socket: {
-			type: Object,
-			required: true
-		},
-
-		me: {
-			type: Object,
-			required: true
-		},
-
-		GameRoom: {
-			type: Object,
-			required: true
-		}
-
-	},
+	// props: {
+	//
+	// 	socket: {
+	// 		type: Object,
+	// 		required: true
+	// 	},
+	//
+	// 	me: {
+	// 		type: Object,
+	// 		required: true
+	// 	},
+	//
+	// 	GameRoom: {
+	// 		type: Object,
+	// 		required: true
+	// 	}
+	//
+	// },
 
 	data: function() {
 
@@ -87,7 +87,9 @@ export default Vue.extend({
 
 			_manager: null,
 
-			_scoreContainer: null
+			_scoreContainer: null,
+
+			opponents: []
 
 		};
 
@@ -96,6 +98,42 @@ export default Vue.extend({
 	created: function() {
 
 		this._clock = new THREE.Clock(true);
+
+		this.me = {
+			id: '1234',
+			name: 'Armand Bto'
+		};
+
+		this.GameRoom = {
+			id: 'testroom',
+			name: 'My room',
+			maxPlayers: 5,
+			players: [{
+				id: '1234',
+				name: 'Armand Bto',
+				score: {
+
+				},
+				gems: 1,
+				picture: 'test.jpg'
+			},{
+				id: '1234',
+				name: 'Denis Tribouillois',
+				score: {
+
+				},
+				gems: 3,
+				picture: 'test.jpg'
+			},{
+				id: '1234',
+				name: 'Jordi Bastide',
+				score: {
+
+				},
+				gems: 0,
+				picture: 'test.jpg'
+			}]
+		};
 
 		this.bind();
 
