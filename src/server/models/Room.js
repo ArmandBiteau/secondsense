@@ -2,13 +2,17 @@
 
 class Room {
 
-	constructor(roomName, maxPlayers) {
+	constructor(id, roomName, maxPlayers) {
+
+		this.id = id;
 
 		this.name = roomName;
 
 		this.maxPlayers = maxPlayers;
 
 		this.players = [];
+
+		this.messages = [];
 
 	}
 
@@ -28,6 +32,16 @@ class Room {
 
 		}
 
+	}
+
+	addMessage(player, txt) {
+
+		let message = {
+			player: player,
+			content: txt
+		};
+
+		this.messages.push(message);
 	}
 
 	removePlayer(socket, player) {

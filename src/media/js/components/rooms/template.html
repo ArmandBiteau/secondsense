@@ -1,4 +1,4 @@
-<div id="rooms-wrapper" class="rooms-wrapper">
+<div id="rooms-wrapper" class="rooms-wrapper" v-show="!isanActiveRoom">
 
     <div v-el:container class="rooms-container">
 
@@ -37,7 +37,7 @@
 
                 <div id="rooms-list-iscroll-inner" class="rooms-list-iscroll-inner">
 
-                    <div v-for="room in rooms" class="rooms-list-item" v-on:click="onSwitchRoom(room.name)" v-if="room.players.length < room.maxPlayers">
+                    <div v-for="room in rooms" class="rooms-list-item" v-on:click="onSwitchRoom(room)" v-if="room.players.length < room.maxPlayers">
 
                         <div class="rooms-list-item-corner"></div>
 
@@ -80,7 +80,7 @@
 
                 <div class="rooms-create-form-element rooms-create-form-name">
 
-                    <input type="text" v-model="newRoomName" placeholder="Room name" maxlength="10"/>
+                    <input type="text" v-model="newRoomName" placeholder="Room name" maxlength="10" v-on:keyup.enter="createRoom(newRoomName, newRoomPlayers)"/>
 
                 </div>
 
@@ -108,3 +108,7 @@
     </div>
 
 </div>
+
+
+<rooms-wait-component :socket="socket" :me="me" :room="activeRoom" v-if="isanActiveRoom"></rooms-wait-component>
+<!-- <rooms-wait-component :socket="socket" :me="me" :room="activeRoom"></rooms-wait-component> -->

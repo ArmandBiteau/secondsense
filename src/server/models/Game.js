@@ -10,9 +10,9 @@ class Game {
 
 	}
 
-    addRoom(roomName, maxPlayers) {
+    addRoom(id, roomName, maxPlayers) {
 
-        this.rooms.push(new Room(roomName, maxPlayers));
+        this.rooms.push(new Room(id, roomName, maxPlayers));
 
     }
 
@@ -36,11 +36,11 @@ class Game {
 
     }
 
-    roomByName(roomName) {
+    roomById(id) {
 
         for (var i = 0; i < this.rooms.length; i++) {
 
-    		if (this.rooms[i].name === roomName)
+    		if (this.rooms[i].id === id)
 
     			return this.rooms[i];
 

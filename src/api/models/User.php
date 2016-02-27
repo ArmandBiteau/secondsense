@@ -186,8 +186,8 @@ class User
 
   public function getScore($id)
   {
-    $sql = "SELECT scores.* FROM secondsense_scores AS scores 
-            INNER JOIN secondsense_users ON secondsense_users.score_id = scores.score_id 
+    $sql = "SELECT scores.* FROM secondsense_scores AS scores
+            INNER JOIN secondsense_users ON secondsense_users.score_id = scores.score_id
             WHERE secondsense_users.facebook_user_id = :facebook_id";
 
     try {

@@ -337,11 +337,11 @@ export default Vue.component('connection-component', {
 
         		this.$parent.$parent.switchView('rooms');
 
-        	}, 2000);
+			}, 500);
 
-        }
+		}
 
-    },
+	},
 
     components: {
 

@@ -1,0 +1,73 @@
+<div id="rooms-wait-wrapper" class="rooms-wait-wrapper">
+
+    <div v-el:waitcontainer class="rooms-wait-container">
+
+        <div class="rooms-wait-title">
+
+            <h2>Wait for</h2>
+            <h1>Start</h1>
+
+            <div v-on:click="exitRoom()">BACK</div>
+
+        </div>
+
+        <div class="rooms-wait-list">
+
+            <div class="rooms-wait-list-title">
+
+                <h2>{{room.name}}</h2>
+                <h3>{{room.maxPlayers}} players max</h3>
+
+            </div>
+
+            <div class="rooms-wait-list-players">
+
+                <h3>Players list</h3>
+
+                <div v-for="player in room.players" class="rooms-wait-list-player">
+
+                    <div class="rooms-wait-list-player-picture" v-bind:style="{ backgroundImage: 'url(' +player.picture+ ')' }"></div>
+
+                    <div class="rooms-wait-list-player-infos">
+                        <h5 class="rooms-wait-list-player-title">{{ player.name }}</h5>
+                        <span class="rooms-wait-list-player-score">{{ player.score.sum_score }}</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="rooms-wait-list-chat">
+
+                <div class="rooms-list-chat-title">
+
+                    <h3>Quick chat</h3>
+
+                </div>
+
+                <div id="rooms-wait-list-chat-iscroll" class="rooms-wait-list-chat-iscroll">
+
+                    <div id="rooms-wait-list-chat-iscroll-inner" class="rooms-wait-list-chat-iscroll-inner">
+
+                        <div v-for="message in room.messages" class="rooms-list-message">
+
+                            <p class="rooms-list-message-content"><span>{{ message.player }}: </span>{{ message.content }}</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="rooms-wait-list-chat-new">
+                    <input type="text" v-model="newMessage" placeholder="Your message..." v-on:keyup.enter="sendMessage(newMessage)"/>
+                    <a v-on:click="sendMessage(newMessage)" class="is-sound">Send</a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
