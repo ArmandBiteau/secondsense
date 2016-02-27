@@ -30,6 +30,12 @@ $app->get('/users/:id/score', function($id) use($user) {
 
 });
 
+$app->get('/users/:id/rewards', function($id) use($user) {
+
+  $user->getRewards($id);
+
+});
+
 $app->get('/users/search/:name', function($name) use($user) {
 
   $user->getByName($name);
@@ -58,6 +64,42 @@ $app->put('/users/:id', function($id) use($user, $app) {
   $vo = json_decode($body);
   $vo->facebook_user_id = $id;
   $user->update($vo);
+
+});
+
+$app->put('/users/:id/score', function($id) use($user, $app) {
+
+  $request = $app->request();
+  $body = $request->getBody();
+  $vo = json_decode($body);
+  $vo->facebook_user_id = $id;
+  $user->updateScore($vo);
+
+});
+
+$app->put('/users/:id/friends', function($id) use($user, $app) {
+
+  $request = $app->request();
+  $body = $request->getBody();
+  $vo = json_decode($body);
+  $vo->facebook_user_id = $id;
+
+  foreach ($vo->friends as $friend) {
+
+    if (! $user->playerExists($friend->id)) {
+      
+      continue;
+
+    }
+
+    if (! $user->areFriends($id, $friend->id)) {
+      
+      $user->addFriend($id, $friend->id);
+      $user->addFriend($friend->id, $id);
+    }
+  }
+
+  //TO DO : Check if all db friends still are FB friends
 
 });
 

@@ -113,49 +113,60 @@ export default {
 
         testPHPApi: function() {
 
-            // GET ALL PLAYERS
-            this.$http.get('/api/users', (data) => {
+            // // GET ALL PLAYERS
+            // this.$http.get('/api/users', (data) => {
 
-                console.log('/api/users :', data);
+            //     console.log('/api/users :', data);
 
-            }).error((data, status, request) => {
+            // }).error((data, status, request) => {
 
-                console.log(data, status, request);
+            //     console.log(data, status, request);
 
-            });
+            // });
 
-            // GET Armand Bto
-            this.$http.get('/api/users/1259753977383932', (data) => {
+            // // GET Armand Bto
+            // this.$http.get('/api/users/1259753977383932', (data) => {
 
-                console.log('/api/users/1259753977383932 :', data);
+            //     console.log('/api/users/1259753977383932 :', data);
 
-            }).error((data, status, request) => {
+            // }).error((data, status, request) => {
 
-                console.log(data, status, request);
+            //     console.log(data, status, request);
 
-            });
+            // });
 
-            // GET Armand Bto's friends
-            this.$http.get('/api/users/1259753977383932/friends', (data) => {
+            // // GET Armand Bto's friends
+            // this.$http.get('/api/users/1259753977383932/friends', (data) => {
 
-                console.log('/api/users/1259753977383932/friends :', data);
+            //     console.log('/api/users/1259753977383932/friends :', data);
 
-            }).error((data, status, request) => {
+            // }).error((data, status, request) => {
 
-                console.log(data, status, request);
+            //     console.log(data, status, request);
 
-            });
+            // });
 
-            // GET Jordi score
-            this.$http.get('/api/users/10207942504911437/score', (data) => {
+            // // GET Jordi score
+            // this.$http.get('/api/users/10207942504911437/score', (data) => {
 
-                console.log('/api/users/10207942504911437/score :', data);
+            //     console.log('/api/users/10207942504911437/score :', data);
 
-            }).error((data, status, request) => {
+            // }).error((data, status, request) => {
 
-                console.log(data, status, request);
+            //     console.log(data, status, request);
 
-            });
+            // });
+
+            // Test Update Friends
+            // this.$http.put('/api/users/1259753977383932/friends', (data) => {
+
+            //     console.log('/api/users/1259753977383932/friends :', data);
+
+            // }).error((data, status, request) => {
+
+            //     console.log(data, status, request);
+
+            // });
 
         },
 
