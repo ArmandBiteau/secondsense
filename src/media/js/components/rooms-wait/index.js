@@ -4,6 +4,8 @@ import Vue from 'vue';
 
 import IScroll from 'iscroll';
 
+import Emitter from '../../core/emitter';
+
 export default Vue.extend({
 
 	inherit: true,
@@ -104,13 +106,25 @@ export default Vue.extend({
 
 		},
 
+		startGame: function() {
+
+			console.log('START GAME');
+
+			Emitter.emit('NEW_GAME_REQUEST', this.room);
+
+		},
+
 		sendMessage: function(txt) {
 
-			this.socket.emit('new message', {player: this.me.name, content: txt});
+			if ((txt.replace(/\s/g, '')).length) {
 
-			this.socket.on('new message', this.IscrollRefresh);
+				this.socket.emit('new message', {player: this.me.name, content: txt});
 
-			this.newMessage = '';
+				this.socket.on('new message', this.IscrollRefresh);
+
+				this.newMessage = '';
+
+			}
 
 		},
 
@@ -130,6 +144,15 @@ export default Vue.extend({
 	},
 
 	components: {
+
+	},
+
+	partials: {
+
+		joypadPartial: require('../../partials/joypad-partial/index.html'),
+		clockPartial: require('../../partials/clock-partial/index.html'),
+		outPartial: require('../../partials/out-partial/index.html'),
+		inPartial: require('../../partials/in-partial/index.html')
 
 	}
 

@@ -1,11 +1,16 @@
 .connection-wrapper {
     user-select: none;
+    perspective: 1000;
+    transform-style: preserve-3d;
+}
+
+.connection-wrapper *{
+    transform-style: preserve-3d;
 }
 
 .connection-container {
     position: relative;
 }
-
 
 .connection-container {
     position: relative;
@@ -13,7 +18,6 @@
     height: auto;
     width: auto;
     transform: rotate3d(0, 1, 0, 0deg) translateZ(50px);
-    transform-style: preserve-3d;
 }
 
 .connection-title{
@@ -23,7 +27,7 @@
     }
     span{
         font-family: "Order";
-        transform: perspective(1000px) translateZ(20px);
+        transform:translateZ(20px);
         display: inline-block;
         color: $color-white;
     }
@@ -35,5 +39,5 @@
     display: flex;
     flex-flow: row wrap;
     justify-content: space-around;
-    transform: perspective(1000px) translateZ(20px);
+    transform: translateZ(20px);
 }

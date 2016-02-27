@@ -46,6 +46,10 @@ export default {
 
             },
 
+            isGameRunning: false,
+
+            GameRunningRoom: {},
+
             socket: null
 
 		};
@@ -93,6 +97,8 @@ export default {
         },
 
         addEventListener: function() {
+
+            Emitter.on('NEW_GAME_REQUEST', this.newGame);
 
         },
 
@@ -210,6 +216,14 @@ export default {
         switchView: function(toView) {
 
             this.currentView = toView;
+
+        },
+
+        newGame: function(room) {
+
+            this.isGameRunning = true;
+
+            this.GameRunningRoom = room;
 
         }
 

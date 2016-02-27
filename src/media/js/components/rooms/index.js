@@ -272,6 +272,7 @@ export default Vue.extend({
 
 				let newRoom = {
 					id: (name + '-' + (new Date()).getTime()).replace(/\s/g, ''),
+					host: this.me.id,
 					name: name,
 					maxPlayers: parseInt(players, 10)
 				};

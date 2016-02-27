@@ -6,13 +6,15 @@ import THREE from 'three';
 
 import Stats from 'stats';
 
-import FirstPersonControls from '../../core/fpsControls';
+// import FirstPersonControls from '../../core/fpsControls';
 
 import gameScoreComponent from '../game-score';
 
 import gameEndComponent from '../game-end';
 
 import SoundEmitterMixin from './mixins/sound-emitter';
+
+import ControlsMixin from './mixins/controls';
 
 import TerrainMixin from './mixins/terrain';
 
@@ -26,6 +28,25 @@ export default Vue.extend({
 
 	template: require('./template.html'),
 
+	props: {
+
+		socket: {
+			type: Object,
+			required: true
+		},
+
+		me: {
+			type: Object,
+			required: true
+		},
+
+		GameRoom: {
+			type: Object,
+			required: true
+		}
+
+	},
+
 	data: function() {
 
 		return {
@@ -34,23 +55,21 @@ export default Vue.extend({
 
 			_scene: null,
 
-			_collidableMeshList: [],
-
 			isSceneLoaded: false,
 
 			_renderer: null,
 
 			_controls: null,
 
+			_ray: null,
+
+			_collidableMeshList: null,
+
 			// Camera
 
 			_camera: null,
 
-			_cameraBox: null,
-
 			_listener: null,
-
-			_distanceMove: 0,
 
 			// Clock
 
@@ -137,8 +156,6 @@ export default Vue.extend({
 
 			document.addEventListener('resize', this.onWindowResize);
 
-			// document.getElementsByTagName('canvas')[0].addEventListener('mousedown', this.moveForward, false);
-
 		},
 
 		removeEventListener: function() {
@@ -155,37 +172,21 @@ export default Vue.extend({
 
 			this._scene = new THREE.Scene();
 
-			this._scene.fog = new THREE.FogExp2(0x181d21, 0.5);
+			// this._scene.fog = new THREE.FogExp2(0x181d21, 0.5);
 
 			// Camera
 
 			this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
 
-			this._camera.position.set(0, 0.5, 0);
+			this._camera.position.set(0, 0.25, 0);
 
 			this._listener = new THREE.AudioListener();
 
 			this._camera.add(this._listener);
 
-			// let cameraBoxGeometry = new THREE.SphereGeometry(0.3, 5, 5);
-
-            // let cameraBoxMaterial = new THREE.MeshBasicMaterial({ color: 0x00FF00});
-
-            // this._cameraBox = new THREE.Mesh(cameraBoxGeometry, cameraBoxMaterial);
-
-            // this._cameraBox.position.set(this._camera.position.x, this._camera.position.y, this._camera.position.z);
-
-			// this._scene.add(this._cameraBox);
-
 			// Controls
 
 			// this._controls = new THREE.VRControls(this._camera);
-
-			this._controls = new FirstPersonControls(this._camera, 0.5); //lock the Y position to 0.5
-
-			this._controls.lookSpeed = 300;
-
-			this._controls.movementSpeed = 1000;
 
 			// Score
 
@@ -228,13 +229,15 @@ export default Vue.extend({
 
 			this.isSceneLoaded = true;
 
-			this.soundEmitterInitialize();
+			this.controlsInitialize();
+
+			// this.soundEmitterInitialize();
 
 			this.terrainInitialize();
 
 			this.lightInitialize();
 
-			this.opponentsInitialize(4);
+			this.opponentsInitialize();
 
 		},
 
@@ -251,32 +254,21 @@ export default Vue.extend({
 
 			this._clockElapsedTime = this._clock.getElapsedTime();
 
-			this.cameraUpdate();
+			this.controlsUpdate();
 
-			this.soundEmitterUpdate();
+			// this.soundEmitterUpdate();
 
 			this.terrainUpdate();
 
 			this.lightsUpdate();
 
-			let posArray = [new THREE.Vector3(1, 0.4, 1), new THREE.Vector3(-1, 0.4, -1), new THREE.Vector3(-1, 0.4, 1), new THREE.Vector3(1, 0.4, -1)];
-
-			this.opponentsUpdate(posArray);
-
-		},
-
-		cameraUpdate: function() {
-
-			// this._cameraBox.position.set(this._camera.position.x, this._camera.position.y, this._camera.position.z);
+			this.opponentsUpdate();
 
 		},
 
 		render: function() {
 
 			this._stats.begin();
-
-			// this._controls.update();
-			this._controls.update(this._clock.getDelta());
 
 			// this._manager.render(this._scene, this._camera);
 
@@ -318,60 +310,6 @@ export default Vue.extend({
 
 		},
 
-		// canMoveForward: function() {
-		//
-		// 	let vector = new THREE.Vector3(0, 0, -1);
-		//
-		// 	let cameraLookVector = vector.applyQuaternion(this._camera.quaternion);
-		//
-		// 	let originPoint = this._cameraBox.position.clone();
-		//
-		// 	 // console.log(originPoint);
-		//
-		// 	originPoint = new THREE.Vector3(originPoint.x + cameraLookVector.x * 0.5, originPoint.y, originPoint.z + cameraLookVector.z * 0.5);
-		//
-		// 	// console.log(originPoint);
-		//
-		// 	for (let vertexIndex = 0; vertexIndex < this._cameraBox.geometry.vertices.length; vertexIndex++) {
-		//
-		// 		let localVertex = this._cameraBox.geometry.vertices[vertexIndex].clone();
-		//
-		// 		let globalVertex = localVertex.applyMatrix4(this._cameraBox.matrix);
-		//
-		// 		let directionVector = globalVertex.sub(this._cameraBox.position);
-		//
-		// 		let ray = new THREE.Raycaster(originPoint, directionVector.clone().normalize());
-		//
-		// 		let collisionResults = ray.intersectObjects(this._collidableMeshList);
-		//
-		// 		if (collisionResults.length > 0 && collisionResults[0].distance < directionVector.length()) {
-		//
-		// 			return false;
-		//
-		// 		}
-		//
-		// 	}
-		//
-		// 	return true;
-		//
-		// },
-
-		// moveForward: function() {
-		//
-		// 	this._distanceMove = 0.5;
-		//
-		// 	let canMove = this.canMoveForward();
-		//
-		// 	if (canMove) {
-		//
-		// 		this._camera.translateZ(-this._distanceMove);
-		//
-		// 		this._camera.position.y = 0.5;
-		//
-		// 	}
-		//
-		// },
-
 		/*
 		 * Start & stop
 		*/
@@ -408,14 +346,11 @@ export default Vue.extend({
 
 	mixins: [
 
+		ControlsMixin,
 		TerrainMixin,
-
 		CubeMixin,
-
 		OpponentsMixin,
-
 		LightsMixin,
-
 		SoundEmitterMixin
 
 	],
