@@ -154,6 +154,36 @@ class User
     }
   }
 
+  public function addRewardToPlayer($id, $reward_id)
+  {
+    $sql = "INSERT INTO secondsense.secondsense_has_reward(facebook_user_id, reward_id) VALUES(:facebook_id, :reward_id)";
+
+    try {
+      $stmt = $this->_dbh->prepare($sql);
+      $stmt->bindParam("facebook_id", $id);
+      $stmt->bindParam("reward_id", $reward_id);
+      $stmt->execute();
+
+    } catch(PDOException $e) {
+      echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
+  }
+
+  public function delRewardToPlayer($id, $reward_id)
+  {
+    $sql = "DELETE FROM secondsense.secondsense_has_reward WHERE facebook_user_id = :facebook_id AND reward_id = :reward_id";
+
+    try {
+      $stmt = $this->_dbh->prepare($sql);
+      $stmt->bindParam("facebook_id", $id);
+      $stmt->bindParam("reward_id", $reward_id);
+      $stmt->execute();
+
+    } catch(PDOException $e) {
+      echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
+  }
+
   public function getScore($id)
   {
     $sql = "SELECT scores.* FROM secondsense_scores AS scores 
