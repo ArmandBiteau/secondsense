@@ -60,7 +60,31 @@ class Room {
 
 	}
 
-    playerById() {
+	updatePlayerPosition(data) {
+
+	    let player = this.playerById(data.id);
+		player.id = data.id;
+	    player.x = data.x;
+	    player.y = data.y;
+	    player.z = data.z;
+
+		return player;
+
+	}
+
+    playerById(id) {
+
+	    for (let i = 0; i < this.players.length; i++) {
+
+	        if (this.players[i].id === id) {
+
+				return this.players[i];
+
+	        }
+
+	    }
+
+	    return false;
 
     }
 

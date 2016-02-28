@@ -18,6 +18,14 @@ class Player {
 
 		this.z = 0;
 
+		this.gems = 0;
+
+	}
+
+	addGem() {
+
+		this.gems++;
+
 	}
 
 }

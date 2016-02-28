@@ -165,7 +165,7 @@ export default Vue.extend({
 
 		onNewPlayer: function(data) {
 
-			console.log('New player : ' + data.name + ' => ' + data.room);
+			console.log(data.name + ' => ' + data.room);
 
 		},
 

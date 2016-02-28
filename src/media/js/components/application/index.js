@@ -12,6 +12,8 @@ import background from '../background';
 
 import Emitter from '../../core/emitter';
 
+import Detectizr from '../../utils/detectizr';
+
 // import {
 //     ROOT_URL
 // } from '../../core/config';
@@ -69,6 +71,8 @@ export default {
         this.addEventListener();
 
         this.createNodeSession();
+
+        console.log('Device: '+Detectizr.device.type);
 
         this.createFbSDK();
 
@@ -178,22 +182,43 @@ export default {
 
         createNodeSession: function() {
 
+            var _this = this;
+
             this.socket = io.connect('http://192.168.33.10:3000');
+
+            this.socket.on('new game', _this.onNewGameAsGuest);
 
         },
 
         createFbSDK: function() {
 
-            window.fbAsyncInit = () => {
+            if (Detectizr.device.type === 'desktop') {
 
-                FB.init({
-                    appId: '1653645381585414',
-                    cookie: true,
-                    xfbml: true,
-                    version: 'v2.5'
-                });
+                window.fbAsyncInit = () => {
 
-            };
+                    FB.init({
+                        appId: '1653645381585414',
+                        cookie: true,
+                        xfbml: true,
+                        version: 'v2.5'
+                    });
+
+                };
+
+            } else {
+
+                window.fbAsyncInit = () => {
+
+                    FB.init({
+                        appId: '1675245199416729',
+                        cookie: true,
+                        xfbml: true,
+                        version: 'v2.5'
+                    });
+
+                };
+
+            }
 
             (function(d, s, id) {
 
@@ -220,6 +245,16 @@ export default {
         },
 
         newGame: function(room) {
+
+            this.isGameRunning = true;
+
+            this.socket.emit('new game', room);
+
+            this.GameRunningRoom = room;
+
+        },
+
+        onNewGameAsGuest: function(room) {
 
             this.isGameRunning = true;
 

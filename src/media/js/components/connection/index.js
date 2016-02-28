@@ -41,8 +41,6 @@ export default Vue.component('connection-component', {
 
 		connected: function() {
 
-			console.log('Connected as', this.me.name);
-
 			this.onConnected();
 
 		}
@@ -61,9 +59,21 @@ export default Vue.component('connection-component', {
 
 		 addEventListener: function() {
 
-		 },
+			document.getElementById('FBlogin').addEventListener('mousedown', () => {
 
-		 getFBInfos: function(token) {
+				FB.login((response) => {
+
+					let token = response.authResponse.accessToken;
+
+					this.getFBInfos(token);
+
+				}, {scope: 'public_profile, email, user_friends'});
+
+			});
+
+		},
+
+		getFBInfos: function(token) {
 
 		 	FB.api('/me', 'get', {
 
@@ -99,45 +109,45 @@ export default Vue.component('connection-component', {
 
 		 },
 
-		 statusChangeCallback: function(response) {
-
-		 	if (response.status === 'connected') {
-
-		 		let token = response.authResponse.accessToken;
-
-		 		this.getFBInfos(token);
-
-		 	} else {
-
-		 		FB.login((response) => {
-
-		 			this.statusChangeCallback(response);
-
-		 		}, {scope: 'public_profile, email, user_friends'});
-
-		 	}
-
-		 },
-
-		 checkLoginState: function() {
-
-		 	FB.getLoginStatus((response) => {
-
-		 		this.statusChangeCallback(response);
-
-		 	});
-
-		 },
+		//  statusChangeCallback: function(response) {
+		 //
+		//  	if (response.status === 'connected') {
+		 //
+		//  		let token = response.authResponse.accessToken;
+		 //
+		//  		this.getFBInfos(token);
+		 //
+		//  	} else {
+		 //
+		//  		FB.login((response) => {
+		 //
+		//  			this.statusChangeCallback(response);
+		 //
+		//  		}, {scope: 'public_profile, email, user_friends'});
+		 //
+		//  	}
+		 //
+		//  },
+		 //
+		//  checkLoginState: function() {
+		 //
+		//  	FB.getLoginStatus((response) => {
+		 //
+		//  		this.statusChangeCallback(response);
+		 //
+		//  	});
+		 //
+		//  },
 
 		 checkDatabase: function() {
 
 		 	// Access to player infos
-		 	this.getPlayerInfos().catch(this.setPlayerInfos).then(this.updatePlayerInfos).then(this.updatePlayerFriends).then(this.getPlayerFriends).then(this.getPlayerScore).then(this.updatePlayerScore).then(this.getPlayerScore).then(this.getPlayerRewards).then((player) =>
-				{
-					console.log('All done !! : ', player);
+		 	this.getPlayerInfos().catch(this.setPlayerInfos).then(this.updatePlayerInfos).then(this.updatePlayerFriends).then(this.getPlayerFriends).then(this.getPlayerScore).then(this.updatePlayerScore).then(this.getPlayerScore).then(this.getPlayerRewards).then((player) => {
+				console.log('All done !! : ', player);
 
-					this.connected = true;
-		 		});
+				this.connected = true;
+	 		});
+
 		 },
 
 		 getPlayerInfos: function() {
@@ -242,7 +252,8 @@ export default Vue.component('connection-component', {
 	        	});
 	        });
         },
-// This function updatePlayerScore will move in an other component soon
+
+		// This function updatePlayerScore will move in an other component soon
         updatePlayerScore: function(player) {
 
         	return new Promise((resolve, reject) => {
