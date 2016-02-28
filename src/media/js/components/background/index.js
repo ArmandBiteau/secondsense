@@ -208,11 +208,11 @@ export default Vue.extend({
 
 			// this._multiBloomPass = new WAGNER.MultiPassBloomPass();
 
-			// this._chromePass = new WAGNER.ChromaticAberrationPass();
+			this._chromePass = new WAGNER.ChromaticAberrationPass();
 
 			// this._fxaaPass = new WAGNER.FXAAPass();
 
-			// this._vignettePass = new WAGNER.VignettePass();
+			this._vignettePass = new WAGNER.VignettePass();
 
 			// this._multiBloomPass.params.blurAmount = 2;
 
@@ -284,7 +284,7 @@ export default Vue.extend({
 
 			// this._composer.pass(this._fxaaPass);
 
-			// this._composer.pass(this._chromePass);
+			this._composer.pass(this._chromePass);
 
 			// this._composer.pass(this._multiBloomPass);
 
