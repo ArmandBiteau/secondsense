@@ -206,11 +206,13 @@ export default Vue.extend({
 
 			this._collidableMeshList = [];
 
+			this._collidableMeshDiamond = [];
+
 			// Scene
 
 			this._scene = new THREE.Scene();
 
-			this._scene.fog = new THREE.FogExp2(0x181d21, 0.5);
+			this._scene.fog = new THREE.FogExp2(0x181d21, 0.1);
 
 			// Camera
 
@@ -271,7 +273,7 @@ export default Vue.extend({
 
 			this.controlsInitialize();
 
-			// this.soundEmitterInitialize();
+			this.soundEmitterInitialize();
 
 			this.terrainInitialize();
 
@@ -296,7 +298,7 @@ export default Vue.extend({
 
 			this.controlsUpdate();
 
-			// this.soundEmitterUpdate();
+			this.soundEmitterUpdate();
 
 			this.terrainUpdate();
 

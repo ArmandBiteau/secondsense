@@ -104,24 +104,61 @@ export default {
 
             this._controls.isOnObject(false);
 
-			this._ray.ray.origin.copy(this._controls.getObject().position);
-			this._ray.ray.origin.y -= 1;
 
-			var intersections = this._ray.intersectObjects(this._collidableMeshList);
+      var point = new THREE.Vector3(0, 0, -1);
+      point.applyMatrix4(this._camera.matrixWorld);
 
-			if (intersections.length > 0) {
+      var point2 = new THREE.Vector3(0, 0, 0);
+      point2.copy(this._controls.getObject().position);
 
-				var distance = intersections[0].distance;
+      var lookAt = new THREE.Vector3(point.x - point2.x, point.y - point2.y, point.z - point2.z);
 
-				if (distance > 0 && distance < 1) {
+      this._ray.ray.origin.copy(this._controls.getObject().position);
+			this._ray.ray.direction = lookAt;
+      this._ray.ray.direction.normalize();
+      this._ray.ray.direction.y = 0.5;
+      //console.log(this._ray.ray.origin);
+      //console.log(this._ray.ray.direction);
 
-                    console.log('collide');
 
-					this._controls.isOnObject(true);
+
+      // Collision mur
+
+
+			var intersectionWalls = this._ray.intersectObjects(this._collidableMeshList);
+
+			if (intersectionWalls.length > 0) {
+
+				var distance = intersectionWalls[0].distance;
+
+				if (distance > 0 && distance < 0.5) {
+
+            console.log('collide wall');
+
+  					this._controls.isOnObject(true);
 
 				}
 
 			}
+
+      // Collision diamand
+
+      var intersectionDiamond = this._ray.intersectObjects(this._collidableMeshDiamond);
+
+			if (intersectionDiamond.length > 0) {
+
+				var distance2 = intersectionDiamond[0].distance;
+
+				if (distance2 > 0 && distance2 < 0.5) {
+
+            console.log('collide diamond');
+
+	          this._controls.isOnObject(true);
+
+				}
+
+			}
+
 
 			this._controls.update(Date.now() - this._controlsTime);
 

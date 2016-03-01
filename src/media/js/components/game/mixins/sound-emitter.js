@@ -14,7 +14,7 @@ export default {
 
 		this._soundEmitterColor = '#FFFFFF';
 
-		this._soundEmitterPositionInitial = new THREE.Vector3(0.75, 0, -1);
+		this._soundEmitterPositionInitial = new THREE.Vector3(2, 0, 0);
 
 	},
 
@@ -30,9 +30,11 @@ export default {
 
             let dimensions = new THREE.Box3().setFromObject(this._soundEmitter);
 
-            this._soundEmitter.position.set(this._soundEmitterPositionInitial.x, this._soundEmitterPositionInitial.y + dimensions.max.y + 0.25, this._soundEmitterPositionInitial.z);
+            this._soundEmitter.position.set(this._soundEmitterPositionInitial.x, this._soundEmitterPositionInitial.y + dimensions.max.y + 0.5, this._soundEmitterPositionInitial.z);
 
-			this._scene.add(this._soundEmitter);
+      this._collidableMeshDiamond.push(this._soundEmitter);
+
+      this._scene.add(this._soundEmitter);
 
             this._sound = new THREE.Audio(this._listener);
 
