@@ -2,7 +2,7 @@
 
 // import THREE from 'three';
 
-var PointerLockControls = require('../../../core/pointerLockControls');
+var PointerLockControls = require('../../../../core/pointerLockControls');
 
 // import {
 //     PATH_GLSL

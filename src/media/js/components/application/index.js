@@ -192,33 +192,16 @@ export default {
 
         createFbSDK: function() {
 
-            if (Detectizr.device.type === 'desktop') {
+            window.fbAsyncInit = () => {
 
-                window.fbAsyncInit = () => {
+                FB.init({
+                    appId: '1653645381585414',
+                    cookie: true,
+                    xfbml: true,
+                    version: 'v2.5'
+                });
 
-                    FB.init({
-                        appId: '1653645381585414',
-                        cookie: true,
-                        xfbml: true,
-                        version: 'v2.5'
-                    });
-
-                };
-
-            } else {
-
-                window.fbAsyncInit = () => {
-
-                    FB.init({
-                        appId: '1675245199416729',
-                        cookie: true,
-                        xfbml: true,
-                        version: 'v2.5'
-                    });
-
-                };
-
-            }
+            };
 
             (function(d, s, id) {
 

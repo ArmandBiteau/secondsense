@@ -1,5 +1,9 @@
 'use strict';
 
+var ControlsMixin;
+
+import Detectizr from '../../utils/detectizr';
+
 import Vue from 'vue';
 
 import THREE from 'three';
@@ -14,7 +18,19 @@ import gameEndComponent from '../game-end';
 
 import SoundEmitterMixin from './mixins/sound-emitter';
 
-import ControlsMixin from './mixins/controls';
+import ControlsDesktopMixin from './mixins/controls/desktop';
+
+import ControlsMobileMixin from './mixins/controls/mobile';
+
+if (Detectizr.device.type === 'desktop') {
+
+	ControlsMixin =  ControlsDesktopMixin;
+
+} else {
+
+	ControlsMixin =  ControlsMobileMixin;
+
+}
 
 import TerrainMixin from './mixins/terrain';
 
@@ -28,28 +44,30 @@ export default Vue.extend({
 
 	template: require('./template.html'),
 
-	// props: {
-	//
-	// 	socket: {
-	// 		type: Object,
-	// 		required: true
-	// 	},
-	//
-	// 	me: {
-	// 		type: Object,
-	// 		required: true
-	// 	},
-	//
-	// 	GameRoom: {
-	// 		type: Object,
-	// 		required: true
-	// 	}
-	//
-	// },
+	props: {
+
+		socket: {
+			type: Object,
+			required: true
+		},
+
+		me: {
+			type: Object,
+			required: true
+		},
+
+		GameRoom: {
+			type: Object,
+			required: true
+		}
+
+	},
 
 	data: function() {
 
 		return {
+
+			device: '',
 
 			isGameComplete: false,
 
@@ -99,47 +117,49 @@ export default Vue.extend({
 
 		this._clock = new THREE.Clock(true);
 
-		this.me = {
-			id: '1234',
-			name: 'Armand Bto'
-		};
-
-		this.GameRoom = {
-			id: 'testroom',
-			name: 'My room',
-			maxPlayers: 5,
-			players: [{
-				id: '1234',
-				name: 'Armand Bto',
-				score: {
-
-				},
-				gems: 1,
-				picture: 'test.jpg'
-			},{
-				id: '1234',
-				name: 'Denis Tribouillois',
-				score: {
-
-				},
-				gems: 3,
-				picture: 'test.jpg'
-			},{
-				id: '1234',
-				name: 'Jordi Bastide',
-				score: {
-
-				},
-				gems: 0,
-				picture: 'test.jpg'
-			}]
-		};
+		// this.me = {
+		// 	id: '1234',
+		// 	name: 'Armand Bto'
+		// };
+		//
+		// this.GameRoom = {
+		// 	id: 'testroom',
+		// 	name: 'My room',
+		// 	maxPlayers: 5,
+		// 	players: [{
+		// 		id: '1234',
+		// 		name: 'Armand Bto',
+		// 		score: {
+		//
+		// 		},
+		// 		gems: 1,
+		// 		picture: 'test.jpg'
+		// 	},{
+		// 		id: '1234',
+		// 		name: 'Denis Tribouillois',
+		// 		score: {
+		//
+		// 		},
+		// 		gems: 3,
+		// 		picture: 'test.jpg'
+		// 	},{
+		// 		id: '1234',
+		// 		name: 'Jordi Bastide',
+		// 		score: {
+		//
+		// 		},
+		// 		gems: 0,
+		// 		picture: 'test.jpg'
+		// 	}]
+		// };
 
 		this.bind();
 
 	},
 
 	ready: function() {
+
+		this.device = Detectizr.device.type;
 
 		window.WebVRConfig = {
 
@@ -222,10 +242,6 @@ export default Vue.extend({
 
 			this._camera.add(this._listener);
 
-			// Controls
-
-			// this._controls = new THREE.VRControls(this._camera);
-
 			// Score
 
 			this._scoreContainer = new THREE.CSS3DObject(document.getElementById('game-score-wrapper'));
@@ -246,13 +262,17 @@ export default Vue.extend({
 
 			document.getElementById('game-canvas').appendChild(this._renderer.domElement);
 
-			// Effect
+			// Effect if VR
 
-			// this._effect = new THREE.VREffect(this._renderer);
+			if (this.device !== 'desktop') {
 
-			// this._effect.setSize(window.innerWidth, window.innerHeight);
+				this._VReffect = new THREE.VREffect(this._renderer);
 
-			// this._manager = new WebVRManager(this._renderer, this._effect, {hideButton: false});
+				this._VReffect.setSize(window.innerWidth, window.innerHeight);
+
+				this._VRmanager = new WebVRManager(this._renderer, this._VReffect, {hideButton: false});
+
+			}
 
 			this.sceneLoad();
 
@@ -271,7 +291,7 @@ export default Vue.extend({
 
 			this.controlsInitialize();
 
-			// this.soundEmitterInitialize();
+			this.soundEmitterInitialize();
 
 			this.terrainInitialize();
 
@@ -296,7 +316,7 @@ export default Vue.extend({
 
 			this.controlsUpdate();
 
-			// this.soundEmitterUpdate();
+			this.soundEmitterUpdate();
 
 			this.terrainUpdate();
 
@@ -310,13 +330,24 @@ export default Vue.extend({
 
 			this._stats.begin();
 
+			if (this.device !== 'desktop') {
+
+				this._VRmanager.render(this._scene, this._camera);
+
+			} else {
+
+				this._renderer.render(this._scene, this._camera);
+
+			}
+
 			// this._manager.render(this._scene, this._camera);
 
-			this._renderer.render(this._scene, this._camera);
+			// this._renderer.render(this._scene, this._camera);
 
 			this._renderer.autoClearColor = true;
 
 			this._stats.end();
+
 		},
 
 		initStats: function() {
