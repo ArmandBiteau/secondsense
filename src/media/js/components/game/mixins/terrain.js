@@ -24,7 +24,7 @@ export default {
 
 		this._terrainPositionInitial = new THREE.Vector3(0, 0, 0);
 
-        this._terrainSize = 20;
+        this._terrainSize = 40;
 
 	},
 
@@ -98,22 +98,35 @@ export default {
                 fragmentShader: glslify('../../../../glsl/terrain-fs.glsl')
             });
 
-            for (let i = 0; i < 15; i++) {
+            // for (let i = 0; i < 15; i++) {
+            //
+            //     let obstacleGeo = new THREE.BoxGeometry(Math.random()*3, Math.random()*3, Math.random()*6);
+            //     let obstacleMesh = new THREE.Mesh(obstacleGeo);
+            //
+            //     obstacleMesh.position.set((Math.random() * 2 - 1) * this._terrainSize / 2, (Math.random() * 2 - 1) * this._terrainSize / 2, 0.5);
+            //     obstacleMesh.rotation.set(Math.floor(Math.random() * 90), Math.floor(Math.random() * 90), Math.floor(Math.random() * 90));
+            //
+            //     obstacleMesh.updateMatrix();
+            //     obstaclesGeo.merge(obstacleMesh.geometry, obstacleMesh.matrix);
+            //
+            // }
 
-                let obstacleGeo = new THREE.BoxGeometry(Math.random()*3, Math.random()*3, Math.random()*6);
-                let obstacleMesh = new THREE.Mesh(obstacleGeo);
+            // Obstacle 1
+            {
 
-                obstacleMesh.position.set((Math.random() * 2 - 1) * this._terrainSize / 2, (Math.random() * 2 - 1) * this._terrainSize / 2, 0.5);
-                obstacleMesh.rotation.set(Math.floor(Math.random() * 90), Math.floor(Math.random() * 90), Math.floor(Math.random() * 90));
+                let obstacle1Geo = new THREE.BoxGeometry(2, 2, 2);
+                let obstacle1Mesh = new THREE.Mesh(obstacle1Geo);
 
-                obstacleMesh.updateMatrix();
-                obstaclesGeo.merge(obstacleMesh.geometry, obstacleMesh.matrix);
+                obstacle1Mesh.position.set(0, 1, -3);
+                obstacle1Mesh.rotation.set(0, 0, 0);
+
+                obstacle1Mesh.updateMatrix();
+                obstaclesGeo.merge(obstacle1Mesh.geometry, obstacle1Mesh.matrix);
 
             }
 
-            this._obstacles = new THREE.Mesh(obstaclesGeo, obstaclesMat);
 
-            this._obstacles.rotation.x = -Math.PI / 2;
+            this._obstacles = new THREE.Mesh(obstaclesGeo, obstaclesMat);
 
             this._collidableMeshList.push(this._obstacles);
 
