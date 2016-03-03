@@ -10,6 +10,8 @@ import THREE from 'three';
 
 import Stats from 'stats';
 
+import Emitter from '../../core/emitter';
+
 // import FirstPersonControls from '../../core/fpsControls';
 
 import gameScoreComponent from '../game-score';
@@ -117,41 +119,41 @@ export default Vue.extend({
 
 		this._clock = new THREE.Clock(true);
 
-		// this.me = {
-		// 	id: '1234',
-		// 	name: 'Armand Bto'
-		// };
-		//
-		// this.GameRoom = {
-		// 	id: 'testroom',
-		// 	name: 'My room',
-		// 	maxPlayers: 5,
-		// 	players: [{
-		// 		id: '1234',
-		// 		name: 'Armand Bto',
-		// 		score: {
-		//
-		// 		},
-		// 		gems: 1,
-		// 		picture: 'test.jpg'
-		// 	},{
-		// 		id: '1234',
-		// 		name: 'Denis Tribouillois',
-		// 		score: {
-		//
-		// 		},
-		// 		gems: 3,
-		// 		picture: 'test.jpg'
-		// 	},{
-		// 		id: '1234',
-		// 		name: 'Jordi Bastide',
-		// 		score: {
-		//
-		// 		},
-		// 		gems: 0,
-		// 		picture: 'test.jpg'
-		// 	}]
-		// };
+		this.me = {
+			id: '1234',
+			name: 'Armand Bto'
+		};
+
+		this.GameRoom = {
+			id: 'testroom',
+			name: 'My room',
+			maxPlayers: 5,
+			players: [{
+				id: '1234',
+				name: 'Armand Bto',
+				score: {
+
+				},
+				gems: 1,
+				picture: 'test.jpg'
+			},{
+				id: '1234',
+				name: 'Denis Tribouillois',
+				score: {
+
+				},
+				gems: 3,
+				picture: 'test.jpg'
+			},{
+				id: '1234',
+				name: 'Jordi Bastide',
+				score: {
+
+				},
+				gems: 0,
+				picture: 'test.jpg'
+			}]
+		};
 
 		this.bind();
 
@@ -213,6 +215,8 @@ export default Vue.extend({
 		addEventListener: function() {
 
 			document.addEventListener('resize', this.onWindowResize);
+
+			Emitter.on('GAME_END_REQUEST', this.onGameCompleted);
 
 		},
 
@@ -380,6 +384,12 @@ export default Vue.extend({
 			this._camera.updateProjectionMatrix();
 
 			this._renderer.setSize(window.innerWidth, window.innerHeight);
+
+		},
+
+		onGameCompleted: function() {
+
+				this.isGameComplete = true;
 
 		},
 

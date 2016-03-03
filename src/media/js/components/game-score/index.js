@@ -2,6 +2,8 @@
 
 import Vue from 'vue';
 
+import Emitter from '../../core/emitter';
+
 export default Vue.component('game-score-component', {
 
 	template: require('./template.html'),
@@ -74,7 +76,7 @@ export default Vue.component('game-score-component', {
 
 		createTimer: function() {
 
-			var timeLeft = 3*60;
+			var timeLeft = 3*60 + 51;
 			var r = document.getElementById('timer');
 
 			var w = 0;
@@ -92,9 +94,11 @@ export default Vue.component('game-score-component', {
 					width: w + '%'
 				});
 
-				if (timeLeft === 0) {
+				if (timeLeft <= 0) {
 
 					clearInterval(timer);
+
+					Emitter.emit('GAME_END_REQUEST');
 
 				}
 

@@ -62,10 +62,11 @@ module.exports = function(camera) {
 			// 	moveRight = true;
 			// 	break;
 			//
-			// case 32: // space
-			// 	if (canJump === true) velocity.y += 1;
-			// 	canJump = false;
-			// 	break;
+			case 32: // space
+				moveForward = true;
+				// if (canJump === true) velocity.y += 1;
+				// canJump = false;
+				break;
 
 		}
 
@@ -94,6 +95,10 @@ module.exports = function(camera) {
 			// case 68: // d
 			// 	moveRight = false;
 			// 	break;
+
+			case 32: // space
+				moveForward = false;
+				break;
 
 		}
 

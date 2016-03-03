@@ -32,15 +32,17 @@ export default {
 
             this._soundEmitter.position.set(this._soundEmitterPositionInitial.x, this._soundEmitterPositionInitial.y + dimensions.max.y + 0.5, this._soundEmitterPositionInitial.z);
 
-      this._collidableMeshDiamond.push(this._soundEmitter);
+            this._collidableMeshDiamond.push(this._soundEmitter);
 
-      this._scene.add(this._soundEmitter);
+            this._scene.add(this._soundEmitter);
 
             this._sound = new THREE.Audio(this._listener);
 
-            let randomSound = Math.floor(Math.random() * 3) + 1;
+            // let randomSound = Math.floor(Math.random() * 3) + 1;
 
-			this._sound.load('/media/sounds/'+randomSound+'.ogg');
+            // this._sound.load('/media/sounds/'+randomSound+'.ogg');
+
+            this._sound.load('/media/sounds/lazerkut.mp3');
 
             this._sound.setRefDistance(10);
 
