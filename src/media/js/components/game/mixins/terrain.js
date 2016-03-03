@@ -125,7 +125,6 @@ export default {
 
             }
 
-
             this._obstacles = new THREE.Mesh(obstaclesGeo, obstaclesMat);
 
             this._collidableMeshList.push(this._obstacles);
