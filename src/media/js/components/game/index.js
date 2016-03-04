@@ -109,7 +109,15 @@ export default Vue.extend({
 
 			_scoreContainer: null,
 
-			opponents: []
+			opponents: [{
+				id: '',
+				name: '',
+				color: '',
+				gems: 0,
+				x: 0,
+				y: 0,
+				z: 0
+			}]
 
 		};
 
@@ -119,41 +127,41 @@ export default Vue.extend({
 
 		this._clock = new THREE.Clock(true);
 
-		this.me = {
-			id: '1234',
-			name: 'Armand Bto'
-		};
-
-		this.GameRoom = {
-			id: 'testroom',
-			name: 'My room',
-			maxPlayers: 5,
-			players: [{
-				id: '1234',
-				name: 'Armand Bto',
-				score: {
-
-				},
-				gems: 1,
-				picture: 'test.jpg'
-			},{
-				id: '1234',
-				name: 'Denis Tribouillois',
-				score: {
-
-				},
-				gems: 3,
-				picture: 'test.jpg'
-			},{
-				id: '1234',
-				name: 'Jordi Bastide',
-				score: {
-
-				},
-				gems: 0,
-				picture: 'test.jpg'
-			}]
-		};
+		// this.me = {
+		// 	id: '1234',
+		// 	name: 'Armand Bto'
+		// };
+		//
+		// this.GameRoom = {
+		// 	id: 'testroom',
+		// 	name: 'My room',
+		// 	maxPlayers: 5,
+		// 	players: [{
+		// 		id: '1234',
+		// 		name: 'Armand Bto',
+		// 		score: {
+		//
+		// 		},
+		// 		gems: 1,
+		// 		picture: 'test.jpg'
+		// 	},{
+		// 		id: '1234',
+		// 		name: 'Denis Tribouillois',
+		// 		score: {
+		//
+		// 		},
+		// 		gems: 3,
+		// 		picture: 'test.jpg'
+		// 	},{
+		// 		id: '1234',
+		// 		name: 'Jordi Bastide',
+		// 		score: {
+		//
+		// 		},
+		// 		gems: 0,
+		// 		picture: 'test.jpg'
+		// 	}]
+		// };
 
 		this.bind();
 
@@ -217,6 +225,8 @@ export default Vue.extend({
 			document.addEventListener('resize', this.onWindowResize);
 
 			Emitter.on('GAME_END_REQUEST', this.onGameCompleted);
+
+			Emitter.on('GET_GEM', this.onGemCatch);
 
 		},
 
@@ -297,7 +307,7 @@ export default Vue.extend({
 
 			this.controlsInitialize();
 
-			// this.soundEmitterInitialize();
+			this.soundEmitterInitialize();
 
 			this.terrainInitialize();
 
@@ -322,7 +332,7 @@ export default Vue.extend({
 
 			this.controlsUpdate();
 
-			// this.soundEmitterUpdate();
+			this.soundEmitterUpdate();
 
 			this.terrainUpdate();
 
@@ -387,9 +397,41 @@ export default Vue.extend({
 
 		},
 
+		playerById: function(id) {
+
+			for (let i = 0; i < this.GameRoom.players.length; i++) {
+
+				if (this.GameRoom.players[i].id === id) {
+
+					return this.GameRoom.players[i];
+
+				}
+
+			}
+
+			return false;
+
+		},
+
+		onGemCatch: function(id) {
+
+			let player = this.playerById(id);
+			player.gems++;
+
+			let opp = this.opponentById(id);
+			opp.addGem();
+
+			this.socket.emit('add player gem', {id: this.me.id});
+
+		},
+
+		updateGems: function() {
+
+		},
+
 		onGameCompleted: function() {
 
-				this.isGameComplete = true;
+			this.isGameComplete = true;
 
 		},
 

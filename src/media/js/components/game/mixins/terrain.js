@@ -32,8 +32,8 @@ export default {
 
         createObstacle: function(posX, posZ) {
 
-          let obstacleGeo = new THREE.BoxGeometry(2, 2, 2);
-          let obstacleMesh = new THREE.Mesh(obstacleGeo);
+          var obstacleGeo = new THREE.BoxGeometry(2, 2, 2);
+          var obstacleMesh = new THREE.Mesh(obstacleGeo);
 
           obstacleMesh.position.set(posX, 1, posZ);
 

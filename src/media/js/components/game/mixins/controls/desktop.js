@@ -8,6 +8,8 @@ var PointerLockControls = require('../../../../core/pointerLockControls');
 //     PATH_GLSL
 // } from '../../../core/config';
 
+import Emitter from '../../../../core/emitter';
+
 export default {
 
     created: function() {
@@ -116,8 +118,6 @@ export default {
             this._ray.ray.direction = lookAt;
             this._ray.ray.direction.normalize();
             this._ray.ray.direction.y = 0.5;
-            //console.log(this._ray.ray.origin);
-            //console.log(this._ray.ray.direction);
 
             // Collision mur
 
@@ -148,6 +148,8 @@ export default {
                 if (distance2 > 0 && distance2 < 0.5) {
 
                     console.log('collide diamond');
+
+                    Emitter.emit('GET_GEM', this.me.id);
 
                     this._controls.isOnObject(true);
 

@@ -23,11 +23,6 @@ export default Vue.component('game-score-component', {
 		GameRoom: {
 			type: Object,
 			required: true
-		},
-
-		opponents: {
-			type: Array,
-			required: true
 		}
 
 	},

@@ -4,9 +4,11 @@ import THREE from 'three';
 
 class Opponent {
 
-	constructor(id, color, x, y, z) {
+	constructor(id, name, color, x, y, z) {
 
 		this.id = id;
+
+		this.name = name;
 
         this.color = color;
 

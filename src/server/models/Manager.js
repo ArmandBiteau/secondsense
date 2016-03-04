@@ -57,6 +57,8 @@ class Manager {
 
 			client.on('update player position', _this.onUpdatePlayerPosition);
 
+			client.on('add player gem', _this.onAddPlayerGem);
+
 		});
 
     }
@@ -172,6 +174,14 @@ class Manager {
 		this.broadcast.emit('update player position', newDataPlayer);
 
     }
+
+	onAddPlayerGem(data) {
+
+		var newDataPlayer = this.room.updatePlayerGems(data);
+
+		this.broadcast.emit('add player gem', newDataPlayer);
+
+	}
 
 }
 
