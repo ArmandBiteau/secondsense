@@ -20,7 +20,7 @@ export default {
 
             for (let i = 0; i < this.GameRoom.players.length; i++) {
 
-                this.opponents[i] = new Opponent(this.GameRoom.players[i].id, 0x9966CC, 0, 0.5, 0);
+                this.opponents[i] = new Opponent(this.GameRoom.players[i].id, this.GameRoom.players[i].name, 0x9966CC, 0, 0.5, 0);
 
                 if (this.GameRoom.players[i].id !== this.me.id) {
 
@@ -30,20 +30,22 @@ export default {
 
             }
 
-            // var _this = this;
-            //
-            // // SHARE MY POSITION 12fps
-            // setInterval(() => {
-            //
-            //     var position = this._controls.getObject().position;
-            //     var data = {id: this.me.id, x: position.x, y:position.y, z:position.z};
-            //
-            //     this.socket.emit('update player position', data);
-            //
-            // }, 80);
-            //
-            // // GET OPPONENTS POSITION
-            // this.socket.on('update player position', _this.onUpdateOpponentPosition);
+            var _this = this;
+
+            // SHARE MY POSITION 12fps
+            setInterval(() => {
+
+                var position = this._controls.getObject().position;
+                var data = {id: this.me.id, x: position.x, y:position.y, z:position.z};
+
+                this.socket.emit('update player position', data);
+
+            }, 80);
+
+            // GET OPPONENTS POSITION
+            this.socket.on('update player position', _this.onUpdateOpponentPosition);
+
+            this.socket.on('add player gem', _this.onAddOpponentGem);
 
 		},
 
@@ -56,6 +58,15 @@ export default {
             let opp = this.opponentById(opponent.id);
 
             opp.updateMeshPosition(opponent.x, opponent.y, opponent.z);
+
+        },
+
+        onAddOpponentGem: function(opponent) {
+
+            this.opponentById(opponent.id).addGem();
+
+            let player = this.playerById(opponent.id);
+			player.gems++;
 
         },
 

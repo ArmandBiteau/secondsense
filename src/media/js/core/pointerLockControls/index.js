@@ -44,28 +44,29 @@ module.exports = function(camera) {
 		switch (event.keyCode) {
 
 			case 38: // up
-			case 87: // w
+			case 90: // z
 				moveForward = true;
 				break;
 
-			case 37: // left
-			case 65: // a
-				moveLeft = true; break;
-
-			case 40: // down
-			case 83: // s
-				moveBackward = true;
-				break;
-
-			case 39: // right
-			case 68: // d
-				moveRight = true;
-				break;
-
-			// case 32: // space
-			// 	if (canJump === true) velocity.y += 1;
-			// 	canJump = false;
+			// case 37: // left
+			// case 81: // q
+			// 	moveLeft = true; break;
+			//
+			// case 40: // down
+			// case 83: // s
+			// 	moveBackward = true;
 			// 	break;
+			//
+			// case 39: // right
+			// case 68: // d
+			// 	moveRight = true;
+			// 	break;
+			//
+			case 32: // space
+				moveForward = true;
+				// if (canJump === true) velocity.y += 1;
+				// canJump = false;
+				break;
 
 		}
 
@@ -76,23 +77,27 @@ module.exports = function(camera) {
 		switch (event.keyCode) {
 
 			case 38: // up
-			case 87: // w
+			case 90: // z
 				moveForward = false;
 				break;
 
-			case 37: // left
-			case 65: // a
-				moveLeft = false;
-				break;
+			// case 37: // left
+			// case 81: // q
+			// 	moveLeft = false;
+			// 	break;
+			//
+			// case 40: // down
+			// case 83: // a
+			// 	moveBackward = false;
+			// 	break;
+			//
+			// case 39: // right
+			// case 68: // d
+			// 	moveRight = false;
+			// 	break;
 
-			case 40: // down
-			case 83: // a
-				moveBackward = false;
-				break;
-
-			case 39: // right
-			case 68: // d
-				moveRight = false;
+			case 32: // space
+				moveForward = false;
 				break;
 
 		}
@@ -137,7 +142,8 @@ module.exports = function(camera) {
 
 		if (isOnObject === true) {
 
-			velocity.y = Math.max(0, velocity.y);
+			velocity.x = 0;
+			velocity.z = 0;
 
 		}
 

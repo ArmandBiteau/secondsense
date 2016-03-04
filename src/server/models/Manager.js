@@ -57,6 +57,10 @@ class Manager {
 
 			client.on('update player position', _this.onUpdatePlayerPosition);
 
+			client.on('add player gem', _this.onAddPlayerGem);
+
+			client.on('update gem position', _this.onUpdateGemPosition);
+
 		});
 
     }
@@ -169,9 +173,23 @@ class Manager {
 
 		var newDataPlayer = this.room.updatePlayerPosition(data);
 
-		this.broadcast.emit('update player position', newDataPlayer);
+		this.broadcast.to(this.room.name).emit('update player position', newDataPlayer);
 
     }
+
+	onAddPlayerGem(data) {
+
+		var newDataPlayer = this.room.updatePlayerGems(data);
+
+		this.broadcast.to(this.room.name).emit('add player gem', newDataPlayer);
+
+	}
+
+	onUpdateGemPosition(data) {
+
+		this.broadcast.to(this.room.name).emit('update gem position', data);
+
+	}
 
 }
 

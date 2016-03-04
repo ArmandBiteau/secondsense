@@ -2,11 +2,13 @@
 
 // import THREE from 'three';
 
-var PointerLockControls = require('../../../core/pointerLockControls');
+var PointerLockControls = require('../../../../core/pointerLockControls');
 
 // import {
 //     PATH_GLSL
 // } from '../../../core/config';
+
+import Emitter from '../../../../core/emitter';
 
 export default {
 
@@ -17,6 +19,8 @@ export default {
 		this._controls = null;
 
         this._controlsEnabled = false;
+
+        this.isEnableCollisionDiamond = true;
 
 	},
 
@@ -104,29 +108,67 @@ export default {
 
             this._controls.isOnObject(false);
 
-			this._ray.ray.origin.copy(this._controls.getObject().position);
-			this._ray.ray.origin.y -= 1;
+            var point = new THREE.Vector3(0, 0, -1);
+            point.applyMatrix4(this._camera.matrixWorld);
 
-			var intersections = this._ray.intersectObjects(this._collidableMeshList);
+            var point2 = new THREE.Vector3(0, 0, 0);
+            point2.copy(this._controls.getObject().position);
 
-			if (intersections.length > 0) {
+            var lookAt = new THREE.Vector3(point.x - point2.x, point.y - point2.y, point.z - point2.z);
 
-				var distance = intersections[0].distance;
+            this._ray.ray.origin.copy(this._controls.getObject().position);
+            this._ray.ray.direction = lookAt;
+            this._ray.ray.direction.normalize();
+            this._ray.ray.direction.y = 0.5;
 
-				if (distance > 0 && distance < 1) {
+            // Collision mur
 
-                    console.log('collide');
+            var intersectionWalls = this._ray.intersectObjects(this._collidableMeshList);
 
-					this._controls.isOnObject(true);
+            if (intersectionWalls.length > 0) {
 
-				}
+                var distance = intersectionWalls[0].distance;
 
-			}
+                if (distance > 0 && distance < 0.5) {
 
-			this._controls.update(Date.now() - this._controlsTime);
+                    // console.log('collide wall');
 
-			this._controlsTime = Date.now();
+                    this._controls.isOnObject(true);
 
-		}
+                }
+
+            }
+
+            // Collision diamand
+
+            if (this.isEnableCollisionDiamond) {
+
+                var intersectionDiamond = this._ray.intersectObjects(this._collidableMeshDiamond);
+
+                if (intersectionDiamond.length > 0) {
+
+                    var distance2 = intersectionDiamond[0].distance;
+
+                    if (distance2 > 0 && distance2 < 0.5) {
+
+                        // console.log('collide diamond');
+
+                        this.isEnableCollisionDiamond = false;
+
+                        Emitter.emit('GET_GEM', this.me.id);
+
+                        this._controls.isOnObject(true);
+
+                    }
+
+                }
+
+            }
+
+            this._controls.update(Date.now() - this._controlsTime);
+
+            this._controlsTime = Date.now();
+
+        }
 	}
 };

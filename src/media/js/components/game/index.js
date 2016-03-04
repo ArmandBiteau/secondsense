@@ -1,10 +1,16 @@
 'use strict';
 
+var ControlsMixin;
+
+import Detectizr from '../../utils/detectizr';
+
 import Vue from 'vue';
 
 import THREE from 'three';
 
 import Stats from 'stats';
+
+import Emitter from '../../core/emitter';
 
 // import FirstPersonControls from '../../core/fpsControls';
 
@@ -14,7 +20,19 @@ import gameEndComponent from '../game-end';
 
 import SoundEmitterMixin from './mixins/sound-emitter';
 
-import ControlsMixin from './mixins/controls';
+import ControlsDesktopMixin from './mixins/controls/desktop';
+
+import ControlsMobileMixin from './mixins/controls/mobile';
+
+if (Detectizr.device.type === 'desktop') {
+
+	ControlsMixin =  ControlsDesktopMixin;
+
+} else {
+
+	ControlsMixin =  ControlsMobileMixin;
+
+}
 
 import TerrainMixin from './mixins/terrain';
 
@@ -28,28 +46,30 @@ export default Vue.extend({
 
 	template: require('./template.html'),
 
-	// props: {
-	//
-	// 	socket: {
-	// 		type: Object,
-	// 		required: true
-	// 	},
-	//
-	// 	me: {
-	// 		type: Object,
-	// 		required: true
-	// 	},
-	//
-	// 	GameRoom: {
-	// 		type: Object,
-	// 		required: true
-	// 	}
-	//
-	// },
+	props: {
+
+		socket: {
+			type: Object,
+			required: true
+		},
+
+		me: {
+			type: Object,
+			required: true
+		},
+
+		GameRoom: {
+			type: Object,
+			required: true
+		}
+
+	},
 
 	data: function() {
 
 		return {
+
+			device: '',
 
 			isGameComplete: false,
 
@@ -89,7 +109,15 @@ export default Vue.extend({
 
 			_scoreContainer: null,
 
-			opponents: []
+			opponents: [{
+				id: '',
+				name: '',
+				color: '',
+				gems: 0,
+				x: 0,
+				y: 0,
+				z: 0
+			}]
 
 		};
 
@@ -99,47 +127,49 @@ export default Vue.extend({
 
 		this._clock = new THREE.Clock(true);
 
-		this.me = {
-			id: '1234',
-			name: 'Armand Bto'
-		};
-
-		this.GameRoom = {
-			id: 'testroom',
-			name: 'My room',
-			maxPlayers: 5,
-			players: [{
-				id: '1234',
-				name: 'Armand Bto',
-				score: {
-
-				},
-				gems: 1,
-				picture: 'test.jpg'
-			},{
-				id: '1234',
-				name: 'Denis Tribouillois',
-				score: {
-
-				},
-				gems: 3,
-				picture: 'test.jpg'
-			},{
-				id: '1234',
-				name: 'Jordi Bastide',
-				score: {
-
-				},
-				gems: 0,
-				picture: 'test.jpg'
-			}]
-		};
+		// this.me = {
+		// 	id: '1234',
+		// 	name: 'Armand Bto'
+		// };
+		//
+		// this.GameRoom = {
+		// 	id: 'testroom',
+		// 	name: 'My room',
+		// 	maxPlayers: 5,
+		// 	players: [{
+		// 		id: '1234',
+		// 		name: 'Armand Bto',
+		// 		score: {
+		//
+		// 		},
+		// 		gems: 1,
+		// 		picture: 'test.jpg'
+		// 	},{
+		// 		id: '1234',
+		// 		name: 'Denis Tribouillois',
+		// 		score: {
+		//
+		// 		},
+		// 		gems: 3,
+		// 		picture: 'test.jpg'
+		// 	},{
+		// 		id: '1234',
+		// 		name: 'Jordi Bastide',
+		// 		score: {
+		//
+		// 		},
+		// 		gems: 0,
+		// 		picture: 'test.jpg'
+		// 	}]
+		// };
 
 		this.bind();
 
 	},
 
 	ready: function() {
+
+		this.device = Detectizr.device.type;
 
 		window.WebVRConfig = {
 
@@ -194,6 +224,12 @@ export default Vue.extend({
 
 			document.addEventListener('resize', this.onWindowResize);
 
+			Emitter.on('GAME_END_REQUEST', this.onGameCompleted);
+
+			Emitter.on('GET_GEM', this.onGemCatch);
+
+			this.socket.on('update gem position', this.onUpdateGemPosition);
+
 		},
 
 		removeEventListener: function() {
@@ -206,11 +242,13 @@ export default Vue.extend({
 
 			this._collidableMeshList = [];
 
+			this._collidableMeshDiamond = [];
+
 			// Scene
 
 			this._scene = new THREE.Scene();
 
-			this._scene.fog = new THREE.FogExp2(0x181d21, 0.5);
+			// this._scene.fog = new THREE.FogExp2(0x181d21, 0.1);
 
 			// Camera
 
@@ -221,10 +259,6 @@ export default Vue.extend({
 			this._listener = new THREE.AudioListener();
 
 			this._camera.add(this._listener);
-
-			// Controls
-
-			// this._controls = new THREE.VRControls(this._camera);
 
 			// Score
 
@@ -246,13 +280,17 @@ export default Vue.extend({
 
 			document.getElementById('game-canvas').appendChild(this._renderer.domElement);
 
-			// Effect
+			// Effect if VR
 
-			// this._effect = new THREE.VREffect(this._renderer);
+			if (this.device !== 'desktop') {
 
-			// this._effect.setSize(window.innerWidth, window.innerHeight);
+				this._VReffect = new THREE.VREffect(this._renderer);
 
-			// this._manager = new WebVRManager(this._renderer, this._effect, {hideButton: false});
+				this._VReffect.setSize(window.innerWidth, window.innerHeight);
+
+				this._VRmanager = new WebVRManager(this._renderer, this._VReffect, {hideButton: false});
+
+			}
 
 			this.sceneLoad();
 
@@ -271,7 +309,7 @@ export default Vue.extend({
 
 			this.controlsInitialize();
 
-			// this.soundEmitterInitialize();
+			this.soundEmitterInitialize();
 
 			this.terrainInitialize();
 
@@ -296,7 +334,7 @@ export default Vue.extend({
 
 			this.controlsUpdate();
 
-			// this.soundEmitterUpdate();
+			this.soundEmitterUpdate();
 
 			this.terrainUpdate();
 
@@ -310,13 +348,24 @@ export default Vue.extend({
 
 			this._stats.begin();
 
+			if (this.device !== 'desktop') {
+
+				this._VRmanager.render(this._scene, this._camera);
+
+			} else {
+
+				this._renderer.render(this._scene, this._camera);
+
+			}
+
 			// this._manager.render(this._scene, this._camera);
 
-			this._renderer.render(this._scene, this._camera);
+			// this._renderer.render(this._scene, this._camera);
 
 			this._renderer.autoClearColor = true;
 
 			this._stats.end();
+
 		},
 
 		initStats: function() {
@@ -347,6 +396,122 @@ export default Vue.extend({
 			this._camera.updateProjectionMatrix();
 
 			this._renderer.setSize(window.innerWidth, window.innerHeight);
+
+		},
+
+		playerById: function(id) {
+
+			for (let i = 0; i < this.GameRoom.players.length; i++) {
+
+				if (this.GameRoom.players[i].id === id) {
+
+					return this.GameRoom.players[i];
+
+				}
+
+			}
+
+			return false;
+
+		},
+
+		onGemCatch: function(id) {
+
+			let player = this.playerById(id);
+			player.gems++;
+
+			let opp = this.opponentById(id);
+			opp.addGem();
+
+			this.socket.emit('add player gem', {id: this.me.id});
+
+			this.changeGemPosition();
+
+		},
+
+		changeGemPosition: function() {
+
+			Emitter.emit('SOUND_MANAGER_REQUEST_SOUND_GETGEM');
+
+			var newPosition = this.getRandomSoundEmitterPosition(this.soundEmitter.position);
+
+			// On change le diamand de place
+			this.socket.emit('update gem position', newPosition);
+
+			TweenMax.to(this.soundEmitter.scale, 0.1, {
+				x: 0.001,
+				y: 0.001,
+				z: 0.001,
+				ease: Power2.easeIn,
+				onComplete: () => {
+
+					// Change position
+					this.soundEmitter.position.x = newPosition.x;
+					this.soundEmitter.position.y = newPosition.y;
+					this.soundEmitter.position.z = newPosition.z;
+
+					// Give back its scale
+					TweenMax.to(this.soundEmitter.scale, 0.3, {
+						x: 1,
+						y: 1,
+						z: 1,
+						ease: Power2.easeOut
+					});
+
+				}
+
+			});
+
+			setTimeout(() => {
+
+				this.isEnableCollisionDiamond = true;
+
+			}, 1000);
+
+		},
+
+		onUpdateGemPosition(data) {
+
+			Emitter.emit('SOUND_MANAGER_REQUEST_SOUND_GETGEM');
+
+			TweenMax.to(this.soundEmitter.scale, 0.1, {
+				x: 0.001,
+				y: 0.001,
+				z: 0.001,
+				ease: Power2.easeIn,
+				onComplete: () => {
+
+					// Change position
+					this.soundEmitter.position.x = data.x;
+					this.soundEmitter.position.y = data.y;
+					this.soundEmitter.position.z = data.z;
+
+					// Give back its scale
+					TweenMax.to(this.soundEmitter.scale, 0.3, {
+						x: 1,
+						y: 1,
+						z: 1,
+						ease: Power2.easeOut
+					});
+
+				}
+			});
+
+			setTimeout(() => {
+
+				this.isEnableCollisionDiamond = true;
+
+			}, 1000);
+
+		},
+
+		updateGems: function() {
+
+		},
+
+		onGameCompleted: function() {
+
+			this.isGameComplete = true;
 
 		},
 

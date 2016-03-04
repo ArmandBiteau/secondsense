@@ -1,4 +1,4 @@
-#define FOG_DENSITY 0.5
+#define FOG_DENSITY 0.0
 
 uniform float time;
 uniform vec2 resolution;

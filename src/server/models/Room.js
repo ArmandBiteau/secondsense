@@ -72,6 +72,15 @@ class Room {
 
 	}
 
+	updatePlayerGems(data) {
+
+	    let player = this.playerById(data.id);
+		player.gems++;
+
+		return player;
+
+	}
+
     playerById(id) {
 
 	    for (let i = 0; i < this.players.length; i++) {
