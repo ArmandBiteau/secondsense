@@ -99,3 +99,5 @@ export const DEVICE_PIXEL_RATIO = window.devicePixelRatio;
 export const SOUND_AMBIANCE = 'ambiance';
 
 export const SOUND_CLICK = 'click';
+
+export const SOUND_GEM = 'click';

@@ -20,6 +20,8 @@ export default {
 
         this._controlsEnabled = false;
 
+        this.isEnableCollisionDiamond = true;
+
 	},
 
     ready: function() {
@@ -129,7 +131,7 @@ export default {
 
                 if (distance > 0 && distance < 0.5) {
 
-                    console.log('collide wall');
+                    // console.log('collide wall');
 
                     this._controls.isOnObject(true);
 
@@ -139,19 +141,25 @@ export default {
 
             // Collision diamand
 
-            var intersectionDiamond = this._ray.intersectObjects(this._collidableMeshDiamond);
+            if (this.isEnableCollisionDiamond) {
 
-            if (intersectionDiamond.length > 0) {
+                var intersectionDiamond = this._ray.intersectObjects(this._collidableMeshDiamond);
 
-                var distance2 = intersectionDiamond[0].distance;
+                if (intersectionDiamond.length > 0) {
 
-                if (distance2 > 0 && distance2 < 0.5) {
+                    var distance2 = intersectionDiamond[0].distance;
 
-                    console.log('collide diamond');
+                    if (distance2 > 0 && distance2 < 0.5) {
 
-                    Emitter.emit('GET_GEM', this.me.id);
+                        // console.log('collide diamond');
 
-                    this._controls.isOnObject(true);
+                        this.isEnableCollisionDiamond = false;
+
+                        Emitter.emit('GET_GEM', this.me.id);
+
+                        this._controls.isOnObject(true);
+
+                    }
 
                 }
 

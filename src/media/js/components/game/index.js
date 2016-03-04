@@ -228,6 +228,8 @@ export default Vue.extend({
 
 			Emitter.on('GET_GEM', this.onGemCatch);
 
+			this.socket.on('update gem position', this.onUpdateGemPosition);
+
 		},
 
 		removeEventListener: function() {
@@ -422,6 +424,84 @@ export default Vue.extend({
 			opp.addGem();
 
 			this.socket.emit('add player gem', {id: this.me.id});
+
+			this.changeGemPosition();
+
+		},
+
+		changeGemPosition: function() {
+
+			Emitter.emit('SOUND_MANAGER_REQUEST_SOUND_GETGEM');
+
+			var newPosition = this.getRandomSoundEmitterPosition(this.soundEmitter.position);
+
+			// On change le diamand de place
+			this.socket.emit('update gem position', newPosition);
+
+			TweenMax.to(this.soundEmitter.scale, 0.1, {
+				x: 0.001,
+				y: 0.001,
+				z: 0.001,
+				ease: Power2.easeIn,
+				onComplete: () => {
+
+					// Change position
+					this.soundEmitter.position.x = newPosition.x;
+					this.soundEmitter.position.y = newPosition.y;
+					this.soundEmitter.position.z = newPosition.z;
+
+					// Give back its scale
+					TweenMax.to(this.soundEmitter.scale, 0.3, {
+						x: 1,
+						y: 1,
+						z: 1,
+						ease: Power2.easeOut
+					});
+
+				}
+
+			});
+
+			setTimeout(() => {
+
+				this.isEnableCollisionDiamond = true;
+
+			}, 1000);
+
+		},
+
+		onUpdateGemPosition(data) {
+
+			Emitter.emit('SOUND_MANAGER_REQUEST_SOUND_GETGEM');
+
+			TweenMax.to(this.soundEmitter.scale, 0.1, {
+				x: 0.001,
+				y: 0.001,
+				z: 0.001,
+				ease: Power2.easeIn,
+				onComplete: () => {
+
+					// Change position
+					this.soundEmitter.position.x = data.x;
+					this.soundEmitter.position.y = data.y;
+					this.soundEmitter.position.z = data.z;
+
+					// Give back its scale
+					TweenMax.to(this.soundEmitter.scale, 0.3, {
+						x: 1,
+						y: 1,
+						z: 1,
+						ease: Power2.easeOut
+					});
+
+				}
+			});
+
+			setTimeout(() => {
+
+				this.isEnableCollisionDiamond = true;
+
+			}, 1000);
 
 		},
 
