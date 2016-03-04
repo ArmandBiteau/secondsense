@@ -16,7 +16,7 @@ export default {
 
 		this._borders = null;
 
-        this._bordersColor = {color: 0x181d21};
+        this._bordersColor = {color: 0xFF66CC};
 
         this._obstacles = null;
 
@@ -29,6 +29,18 @@ export default {
 	},
 
 	methods: {
+
+    createObstacle: function(sizeX, sizeZ, posX, posZ, obstacles) {
+
+      let obstacleGeo = new THREE.BoxGeometry(sizeX, 3, sizeZ);
+      let obstacleMesh = new THREE.Mesh(obstacleGeo);
+
+      obstacleMesh.position.set(posX, 1, posZ);
+
+      obstacleMesh.updateMatrix();
+      obstacles.merge(obstacleMesh.geometry, obstacleMesh.matrix);
+
+    },
 
 		terrainInitialize: function() {
 
@@ -111,19 +123,85 @@ export default {
             //
             // }
 
-            // Obstacle 1
-            {
+            // Obstacles
+            this.createObstacle(3, 3, -17, -17,  obstaclesGeo);
 
-                let obstacle1Geo = new THREE.BoxGeometry(2, 2, 2);
-                let obstacle1Mesh = new THREE.Mesh(obstacle1Geo);
+            this.createObstacle(3, 3, -17, 6,  obstaclesGeo);
 
-                obstacle1Mesh.position.set(0, 1, -3);
-                obstacle1Mesh.rotation.set(0, 0, 0);
+            this.createObstacle(3, 3, -17, 13,  obstaclesGeo);
 
-                obstacle1Mesh.updateMatrix();
-                obstaclesGeo.merge(obstacle1Mesh.geometry, obstacle1Mesh.matrix);
+            this.createObstacle(3, 3, -16, 2,  obstaclesGeo);
 
-            }
+            this.createObstacle(3, 3, -16, -12,  obstaclesGeo);
+
+            this.createObstacle(3, 3, -16, -6,  obstaclesGeo);
+
+            this.createObstacle(3, 3, -15, 17,  obstaclesGeo);
+
+            this.createObstacle(3, 3, -13, -9,  obstaclesGeo);
+
+            this.createObstacle(3, 3, -13, 9,  obstaclesGeo);
+
+            this.createObstacle(3, 3, -10, 6,  obstaclesGeo);
+
+            this.createObstacle(3, 3, -10, -6,  obstaclesGeo);
+
+            this.createObstacle(3, 3, -12, -17,  obstaclesGeo);
+
+            this.createObstacle(3, 3, -8, 13,  obstaclesGeo);
+
+            this.createObstacle(3, 3, -4, 13,  obstaclesGeo);
+
+            this.createObstacle(3, 3, -4, 6,  obstaclesGeo);
+
+            this.createObstacle(3, 3, -1, 3,  obstaclesGeo);
+
+            this.createObstacle(3, 3, 2, 0,  obstaclesGeo);
+
+            this.createObstacle(3, 3, -6, -15,  obstaclesGeo);
+
+            this.createObstacle(3, 3, -3, -16,  obstaclesGeo);
+
+            this.createObstacle(3, 3, 0, -15,  obstaclesGeo);
+
+            this.createObstacle(3, 3, 0, -11,  obstaclesGeo);
+
+            this.createObstacle(3, 3, -3, -8,  obstaclesGeo);
+
+            this.createObstacle(3, 3, 3, 15,  obstaclesGeo);
+
+            this.createObstacle(3, 3, 6, 12,  obstaclesGeo);
+
+            this.createObstacle(3, 3, 10, 18,  obstaclesGeo);
+
+            this.createObstacle(3, 3, 13, 15,  obstaclesGeo);
+
+            this.createObstacle(3, 3, 13, -18,  obstaclesGeo);
+
+            this.createObstacle(3, 3, 10, -15,  obstaclesGeo);
+
+            this.createObstacle(3, 3, 7, -12,  obstaclesGeo);
+
+            this.createObstacle(3, 3, 14, -9,  obstaclesGeo);
+
+            this.createObstacle(3, 3, 14, -5,  obstaclesGeo);
+
+            this.createObstacle(3, 3, 17, -2,  obstaclesGeo);
+
+            this.createObstacle(3, 3, 17, 7,  obstaclesGeo);
+
+            this.createObstacle(3, 3, 5, -4,  obstaclesGeo);
+
+            this.createObstacle(3, 3, 8, -1,  obstaclesGeo);
+
+            this.createObstacle(3, 3, 8, 3,  obstaclesGeo);
+
+            this.createObstacle(3, 3, 8, 7,  obstaclesGeo);
+
+
+
+
+
 
             this._obstacles = new THREE.Mesh(obstaclesGeo, obstaclesMat);
 
