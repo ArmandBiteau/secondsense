@@ -28,7 +28,7 @@ export default {
 
 		return {
 
-            currentView: 'game',
+            currentView: 'intro',
 
             me: {
 
