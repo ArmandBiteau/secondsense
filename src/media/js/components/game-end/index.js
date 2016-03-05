@@ -69,6 +69,12 @@ export default Vue.component('game-end-component', {
 
 		},
 
+		updateScores: function() {
+
+			console.log('UPDATE SCORES');
+
+		},
+
 		exitRoom: function() {
 
 			// this.socket.emit('exit room');
@@ -97,6 +103,32 @@ export default Vue.component('game-end-component', {
 	partials: {
 
 		outPartial: require('../../partials/out-partial/index.html')
+
+	},
+
+	transitions: {
+
+		'gameend': {
+
+			beforeEnter: function() {
+
+				this.updateScores();
+
+			},
+
+			enter: function() {
+
+			},
+
+			beforeLeave: function() {
+
+			},
+
+			leave: function() {
+
+			}
+
+		}
 
 	}
 
