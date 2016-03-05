@@ -12,7 +12,7 @@ export default {
 
 		this._ground = null;
 
-        this._groundColor = {color: 0x181d21};
+        this._groundColor = {color: 0xf6f6f6};
 
 		this._borders = null;
 
@@ -25,6 +25,8 @@ export default {
 		this._terrainPositionInitial = new THREE.Vector3(0, 0, 0);
 
         this._terrainSize = 40;
+
+        this._frame = 0;
 
 	},
 
@@ -44,10 +46,54 @@ export default {
 
 		terrainInitialize: function() {
 
+            var gridGeometry = new THREE.PlaneGeometry(40, 40, 40, 40);
+            var gridMaterial = new THREE.RawShaderMaterial({
+                uniforms: {
+                    time: {
+                        type: 'f',
+                        value: 0.0
+                    },
+                    speed: {
+                        type: 'f',
+                        value: 1.3
+                    },
+                    resolution: {
+                        type: 'f',
+                        value: 1.0
+                    },
+                    color: {
+                        type: 'c',
+                        value: new THREE.Color(0xf3f3f3)
+                    },
+                    ghostify: {
+                        type: 'f',
+                        value: 5.0
+                    },
+                    brightness: {
+                        type: 'f',
+                        value: 0.2
+                    }
+                },
+                vertexShader: glslify('./../../../../glsl/game/grid-vs.glsl'),
+                fragmentShader: glslify('./../../../../glsl/game/grid-fs.glsl'),
+                side: THREE.DoubleSide,
+                transparent: false,
+                fog: true,
+                wireframe: true,
+                wireframeLinewidth: 2
+            });
+            this._grid = new THREE.Mesh(gridGeometry, gridMaterial);
+            this._grid.position.set(this._terrainPositionInitial.x, this._terrainPositionInitial.y, this._terrainPositionInitial.z);
+            this._grid.rotation.x = -Math.PI / 2;
+			this._scene.add(this._grid);
+
             // Ground
-            let ground = new THREE.PlaneGeometry(this._terrainSize, this._terrainSize);
-            let groundMaterial = new THREE.MeshBasicMaterial(this._groundColor);
-            this._ground = new THREE.Mesh(ground, groundMaterial);
+            var groundGeometry = new THREE.PlaneGeometry(this._terrainSize, this._terrainSize);
+            var groundMaterial = new THREE.ShaderMaterial({
+                vertexShader: glslify('../../../../glsl/game/ground-vs.glsl'),
+                fragmentShader: glslify('../../../../glsl/game/ground-fs.glsl')
+            });
+            this._ground = new THREE.Mesh(groundGeometry, groundMaterial);
             this._ground.position.set(this._terrainPositionInitial.x, this._terrainPositionInitial.y, this._terrainPositionInitial.z);
             this._ground.rotation.x = -Math.PI / 2;
 			this._scene.add(this._ground);
@@ -66,7 +112,6 @@ export default {
             let border4Geo = new THREE.BoxGeometry(this._terrainSize+1, 2, 2);
             let border4Mesh = new THREE.Mesh(border4Geo);
             border4Mesh.position.set(0, -this._terrainSize/2-1, 1);
-
             border1Mesh.updateMatrix();
             bordersGeo.merge(border1Mesh.geometry, border1Mesh.matrix);
             border2Mesh.updateMatrix();
@@ -75,20 +120,26 @@ export default {
             bordersGeo.merge(border3Mesh.geometry, border3Mesh.matrix);
             border4Mesh.updateMatrix();
             bordersGeo.merge(border4Mesh.geometry, border4Mesh.matrix);
-            this._borders = new THREE.Mesh(bordersGeo, new THREE.MeshBasicMaterial(this._bordersColor));
+
+            this._borders = new THREE.Mesh(bordersGeo, groundMaterial);
             this._borders.rotation.x = -Math.PI / 2;
             this._collidableMeshList.push(this._borders);
             this._scene.add(this._borders);
 
             // Obstacles
             this._obstaclesGeo = new THREE.Geometry();
+            // this._obstaclesMat = new THREE.MeshPhongMaterial({
+            //     color: 0xffffff,
+            //     shininess: 10,
+            //     shading: THREE.SmoothShading
+            // });
             this._obstaclesMat = new THREE.ShaderMaterial({
                 uniforms: {
                     time: { type: 'f', value: 1.0 },
                     resolution: { type: 'v2', value: new THREE.Vector2() }
                 },
-                vertexShader: glslify('../../../../glsl/terrain-vs.glsl'),
-                fragmentShader: glslify('../../../../glsl/terrain-fs.glsl')
+                vertexShader: glslify('../../../../glsl/game/obstacle-vs.glsl'),
+                fragmentShader: glslify('../../../../glsl/game/obstacle-fs.glsl')
             });
 
             // for (let i = 0; i < 15; i++) {
@@ -181,16 +232,19 @@ export default {
             this._scene.add(this._obstacles);
 
             // Grid helper
-
-            let helper = new THREE.GridHelper(20, 2);
-  			helper.color1.setHex(0x4249d6);
-  			helper.color2.setHex(0x4249d6);
-  			helper.position.y = 0;
-            this._scene.add(helper);
+            // let helper = new THREE.GridHelper(40, 1);
+  	        // helper.color1.setHex(0x4249d6);
+  	        // helper.color2.setHex(0x4249d6);
+  	        // helper.position.y = 0;
+            // this._scene.add(helper);
 
 		},
 
 		terrainUpdate: function() {
+
+            this._grid.material.uniforms.time.value = this._frame/100;
+
+            this._frame++;
 
             this._obstacles.material.uniforms.time.value += 0.1;
 

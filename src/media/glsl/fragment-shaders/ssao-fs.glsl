@@ -20,7 +20,7 @@ float sampleDepth( vec2 uv ) {
 }
 
 float occlusion = 0.;
-float depth = sampleDepth( vUv );
+float depth;
 float ac = 0.;
 
 void checkDepth( vec2 uv ) { // from iq's tutorial
@@ -30,7 +30,9 @@ void checkDepth( vec2 uv ) { // from iq's tutorial
 }
 
 void main() {
-	
+
+	depth = sampleDepth( vUv );
+
 	float r = 4.;
 	float xi = r / resolution.x;
 	float yi = r / resolution.y;

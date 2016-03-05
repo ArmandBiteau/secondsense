@@ -2,6 +2,8 @@
 
 var ControlsMixin;
 
+var glslify = require('glslify');
+
 import Detectizr from '../../utils/detectizr';
 
 import Vue from 'vue';
@@ -140,26 +142,26 @@ export default Vue.extend({
 		// 		id: '1234',
 		// 		name: 'Armand Bto',
 		// 		score: {
-		//
+		// 			sum_score: 12
 		// 		},
 		// 		gems: 1,
-		// 		picture: 'test.jpg'
+		// 		picture: 'https://pbs.twimg.com/profile_images/606867814025162752/Q3_J5qKH.jpg'
 		// 	},{
 		// 		id: '1234',
 		// 		name: 'Denis Tribouillois',
 		// 		score: {
-		//
+		// 			sum_score: 20
 		// 		},
 		// 		gems: 3,
-		// 		picture: 'test.jpg'
+		// 		picture: 'https://pbs.twimg.com/profile_images/606867814025162752/Q3_J5qKH.jpg'
 		// 	},{
 		// 		id: '1234',
 		// 		name: 'Jordi Bastide',
 		// 		score: {
-		//
+		// 			sum_score: 14
 		// 		},
 		// 		gems: 0,
-		// 		picture: 'test.jpg'
+		// 		picture: 'https://pbs.twimg.com/profile_images/606867814025162752/Q3_J5qKH.jpg'
 		// 	}]
 		// };
 
@@ -248,7 +250,7 @@ export default Vue.extend({
 
 			this._scene = new THREE.Scene();
 
-			// this._scene.fog = new THREE.FogExp2(0x181d21, 0.1);
+			// this._scene.fog = new THREE.Fog(0x181d21, 0, 10);
 
 			// Camera
 
@@ -276,7 +278,7 @@ export default Vue.extend({
 
 			this._renderer.setSize(window.innerWidth, window.innerHeight);
 
-			this._renderer.setClearColor(0xffffff, 0);
+			this._renderer.setClearColor(0x181d24, 1);
 
 			document.getElementById('game-canvas').appendChild(this._renderer.domElement);
 
@@ -300,7 +302,7 @@ export default Vue.extend({
 
 			// new THREE.JSONLoader().load(PATH_MODELS + '/labyrinthe.json', this.onSceneLoaded);
 
-			this.onSceneLoaded(); //toDelete
+			this.onSceneLoaded();
 		},
 
 		onSceneLoaded: function() {
@@ -316,6 +318,36 @@ export default Vue.extend({
 			this.lightInitialize();
 
 			this.opponentsInitialize();
+
+			if (this.device === 'desktop') {
+
+				this.effectsInitialize();
+
+			}
+
+		},
+
+		effectsInitialize: function() {
+
+			this._composer = new WAGNER.Composer(this._renderer, {useRGBA: true});
+
+			this._ssaoPass = new WAGNER.SSAOPass();
+			this._ssaoPass.params.onlyOcclusion = true;
+
+			this._composer.setSize(window.innerWidth, window.innerHeight);
+
+			this._depthMaterial = new THREE.MeshBasicMaterial();
+			this._depthMaterial = new THREE.ShaderMaterial({
+				uniforms: {
+					mNear: { type: 'f', value: this._camera.near },
+					mFar: { type: 'f', value: this._camera.far }
+				},
+				vertexShader: glslify('./../../../glsl/vertex-shaders/packed-depth-vs.glsl'),
+				fragmentShader: glslify('./../../../glsl/fragment-shaders/packed-depth-fs.glsl'),
+				shading: THREE.SmoothShading
+			});
+
+			this._depthTexture = WAGNER.Pass.prototype.getOfflineTexture(window.innerWidth, window.innerHeight, true);
 
 		},
 
@@ -348,21 +380,33 @@ export default Vue.extend({
 
 			this._stats.begin();
 
-			if (this.device !== 'desktop') {
+			this._renderer.autoClearColor = true;
 
-				this._VRmanager.render(this._scene, this._camera);
+			if (this.device === 'desktop') {
+
+				this._composer.reset();
+
+				// this._scene.overrideMaterial = this._depthMaterial;
+
+				this._composer.renderer.clear();
+
+				// this._composer.render(this._scene, this._camera, null, this._depthTexture);
+				//
+				// this._ssaoPass.params.texture = this._depthTexture;
+				//
+				// this._scene.overrideMaterial = null;
+
+				this._composer.render(this._scene, this._camera);
+
+				// this._composer.pass(this._ssaoPass);
+
+				this._composer.toScreen();
 
 			} else {
 
-				this._renderer.render(this._scene, this._camera);
+				this._VRmanager.render(this._scene, this._camera);
 
 			}
-
-			// this._manager.render(this._scene, this._camera);
-
-			// this._renderer.render(this._scene, this._camera);
-
-			this._renderer.autoClearColor = true;
 
 			this._stats.end();
 
@@ -417,15 +461,19 @@ export default Vue.extend({
 
 		onGemCatch: function(id) {
 
-			let player = this.playerById(id);
-			player.gems++;
+			if (!this.isGameComplete) {
 
-			let opp = this.opponentById(id);
-			opp.addGem();
+				let player = this.playerById(id);
+				player.gems++;
 
-			this.socket.emit('add player gem', {id: this.me.id});
+				let opp = this.opponentById(id);
+				opp.addGem();
 
-			this.changeGemPosition();
+				this.socket.emit('add player gem', {id: this.me.id});
+
+				this.changeGemPosition();
+
+			}
 
 		},
 
@@ -435,7 +483,6 @@ export default Vue.extend({
 
 			var newPosition = this.getRandomSoundEmitterPosition(this.soundEmitter.position);
 
-			// On change le diamand de place
 			this.socket.emit('update gem position', newPosition);
 
 			TweenMax.to(this.soundEmitter.scale, 0.1, {
