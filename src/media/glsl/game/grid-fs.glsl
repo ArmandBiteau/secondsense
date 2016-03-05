@@ -1,4 +1,4 @@
-#define FOG_DENSITY 0.3
+#define FOG_DENSITY 0.2
 
 precision highp float;
 precision highp int;
@@ -73,7 +73,7 @@ void main()
 
     gl_FragColor = Caustic_Procedural();
 
-    if (gl_FragColor.r < 0.4) discard;
+    if (gl_FragColor.b < 0.4) discard;
 
 	float fogDistance = gl_FragCoord.z / gl_FragCoord.w;
 	float fogAmount = fog_exp2(fogDistance, FOG_DENSITY);

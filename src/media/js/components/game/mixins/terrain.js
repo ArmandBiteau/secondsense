@@ -55,7 +55,7 @@ export default {
                     },
                     speed: {
                         type: 'f',
-                        value: 1.0
+                        value: 1.3
                     },
                     resolution: {
                         type: 'f',
@@ -71,7 +71,7 @@ export default {
                     },
                     brightness: {
                         type: 'f',
-                        value: 0.3
+                        value: 0.2
                     }
                 },
                 vertexShader: glslify('./../../../../glsl/game/grid-vs.glsl'),
@@ -80,7 +80,7 @@ export default {
                 transparent: false,
                 fog: true,
                 wireframe: true,
-                wireframeLinewidth: 1
+                wireframeLinewidth: 2
             });
             this._grid = new THREE.Mesh(gridGeometry, gridMaterial);
             this._grid.position.set(this._terrainPositionInitial.x, this._terrainPositionInitial.y, this._terrainPositionInitial.z);
@@ -128,6 +128,11 @@ export default {
 
             // Obstacles
             this._obstaclesGeo = new THREE.Geometry();
+            // this._obstaclesMat = new THREE.MeshPhongMaterial({
+            //     color: 0xffffff,
+            //     shininess: 10,
+            //     shading: THREE.SmoothShading
+            // });
             this._obstaclesMat = new THREE.ShaderMaterial({
                 uniforms: {
                     time: { type: 'f', value: 1.0 },
