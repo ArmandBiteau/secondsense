@@ -14,6 +14,25 @@ export default Vue.component('game-end-component', {
 
 	},
 
+	props: {
+
+		socket: {
+			type: Object,
+			required: true
+		},
+
+		me: {
+			type: Object,
+			required: true
+		},
+
+		GameRoom: {
+			type: Object,
+			required: true
+		}
+
+	},
+
 	created: function() {
 
 		this.bind();
@@ -42,11 +61,42 @@ export default Vue.component('game-end-component', {
 
 		addEventListener: function() {
 
+			document.getElementById('game-end-wrapper').addEventListener('mousemove', (event) => {
+
+				this.updateContainer3D(event);
+
+			});
+
+		},
+
+		exitRoom: function() {
+
+			// this.socket.emit('exit room');
+
+		},
+
+		updateContainer3D: function(event) {
+
+			let x = event.clientX - window.innerWidth/2;
+			let y = event.clientY - window.innerHeight/2;
+
+			TweenMax.to(this.$els.waitcontainer, 0.001, {
+				css: {
+					'transform': 'rotateX('+ -y/60 +'deg) rotateY('+ x/100 +'deg) translateZ(50px)'
+				}
+			});
+
 		}
 
 	},
 
 	components: {
+
+	},
+
+	partials: {
+
+		outPartial: require('../../partials/out-partial/index.html')
 
 	}
 

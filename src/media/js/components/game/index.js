@@ -142,26 +142,26 @@ export default Vue.extend({
 		// 		id: '1234',
 		// 		name: 'Armand Bto',
 		// 		score: {
-		//
+		// 			sum_score: 12
 		// 		},
 		// 		gems: 1,
-		// 		picture: 'test.jpg'
+		// 		picture: 'https://pbs.twimg.com/profile_images/606867814025162752/Q3_J5qKH.jpg'
 		// 	},{
 		// 		id: '1234',
 		// 		name: 'Denis Tribouillois',
 		// 		score: {
-		//
+		// 			sum_score: 20
 		// 		},
 		// 		gems: 3,
-		// 		picture: 'test.jpg'
+		// 		picture: 'https://pbs.twimg.com/profile_images/606867814025162752/Q3_J5qKH.jpg'
 		// 	},{
 		// 		id: '1234',
 		// 		name: 'Jordi Bastide',
 		// 		score: {
-		//
+		// 			sum_score: 14
 		// 		},
 		// 		gems: 0,
-		// 		picture: 'test.jpg'
+		// 		picture: 'https://pbs.twimg.com/profile_images/606867814025162752/Q3_J5qKH.jpg'
 		// 	}]
 		// };
 
@@ -461,15 +461,19 @@ export default Vue.extend({
 
 		onGemCatch: function(id) {
 
-			let player = this.playerById(id);
-			player.gems++;
+			if (!this.isGameComplete) {
 
-			let opp = this.opponentById(id);
-			opp.addGem();
+				let player = this.playerById(id);
+				player.gems++;
 
-			this.socket.emit('add player gem', {id: this.me.id});
+				let opp = this.opponentById(id);
+				opp.addGem();
 
-			this.changeGemPosition();
+				this.socket.emit('add player gem', {id: this.me.id});
+
+				this.changeGemPosition();
+
+			}
 
 		},
 
@@ -479,7 +483,6 @@ export default Vue.extend({
 
 			var newPosition = this.getRandomSoundEmitterPosition(this.soundEmitter.position);
 
-			// On change le diamand de place
 			this.socket.emit('update gem position', newPosition);
 
 			TweenMax.to(this.soundEmitter.scale, 0.1, {

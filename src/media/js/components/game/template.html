@@ -5,7 +5,7 @@
         <div id="game-canvas" class="game-canvas" v-el="canvas"></div>
 
         <game-score-component :socket="socket" :me="me" :game-room="GameRoom" v-if="!isGameComplete"></game-score-component>
-        <game-end-component v-if="isGameComplete"></game-end-component>
+        <game-end-component :socket="socket" :me="me" :game-room="GameRoom" v-if="isGameComplete"></game-end-component>
 
     </div>
 
