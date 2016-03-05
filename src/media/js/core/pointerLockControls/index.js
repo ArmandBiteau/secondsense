@@ -23,6 +23,8 @@ module.exports = function(camera) {
 
 	var velocity = new THREE.Vector3();
 
+	var speedUp = false;
+
 	var PI_2 = Math.PI / 2;
 
 	var onMouseMove = function(event) {
@@ -123,6 +125,12 @@ module.exports = function(camera) {
 
 	};
 
+	this.bonusPickedUp = function(boolean) {
+
+		speedUp = true;
+
+	};
+
 	this.update = function(delta) {
 
 		if (_this.enabled === false) return;
@@ -134,7 +142,14 @@ module.exports = function(camera) {
 
 		velocity.y -= 0.5 * delta;
 
-		if (moveForward) velocity.z -= 0.0025 * delta;
+		if (moveForward) {
+			velocity.z -= 0.0025 * delta;
+			console.log(velocity.z);
+			if (speedUp && velocity.z > -0.0625) {
+				velocity.z *= 2;
+				console.log(velocity.z);
+			}
+		}
 		if (moveBackward) velocity.z += 0.0025 * delta;
 
 		if (moveLeft) velocity.x -= 0.0025 * delta;

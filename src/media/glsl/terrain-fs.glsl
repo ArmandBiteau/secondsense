@@ -1,26 +1,102 @@
-#define FOG_DENSITY 0.0
+// #define FOG_DENSITY 0.0
+//
+// uniform float time;
+// uniform vec2 resolution;
+varying vec2 vUv;
+//
+// #pragma glslify: fog_exp2 = require(glsl-fog/exp2)
+//
+// void main() {
+//
+//     float fogDistance = gl_FragCoord.z / gl_FragCoord.w;
+//     float fogAmount = fog_exp2(fogDistance, FOG_DENSITY);
+//
+//     vec4 fogColor = vec4(0.0, 0.0, 0.0, 0.0);
+//
+//     vec2 position = -1.0 + 2.0 * vUv;
+//
+//     float red = abs( sin( position.x * position.y + time / 5.0 ) );
+//     float green = abs( sin( position.x * position.y + time / 4.0 ) );
+//     float blue = abs( sin( position.x * position.y + time / 3.0 ) );
+//
+//     vec4 vertexColor = vec4(red,green,blue,1.0);
+//
+//     gl_FragColor = mix(vertexColor, fogColor, fogAmount);
+//
+// }
+
+float ripple(float dist, float shift)
+{
+	return cos(64.0 * dist + shift) / (1.0 + 1.0 * dist);
+}
+
+
+#define POLES 4
+
+#define REFLECTIONS 10.0
+uniform vec2 resolution;
+
+vec3 iResolution = vec3(1000,1000,0);
 
 uniform float time;
-uniform vec2 resolution;
-varying vec2 vUv;
+float iGlobalTime = time;
 
-#pragma glslify: fog_exp2 = require(glsl-fog/exp2)
 
-void main() {
+void main()
+{
+	float larger = max(iResolution.x, iResolution.y);
+	//vec2 uv = (gl_FragCoord.xy - .5*iResolution.xy) / larger;
+	vec2 uv = vUv;
+	vec2 uvflip = vec2(uv.x, -uv.y);
+	vec2 cursor = (vec2(0,0) - .5*iResolution.xy) / larger;
+	vec2 blessr = vec2(-cursor.x, cursor.y);
 
-    float fogDistance = gl_FragCoord.z / gl_FragCoord.w;
-    float fogAmount = fog_exp2(fogDistance, FOG_DENSITY);
+	//float on = float(abs(uv.x)<.25 && abs(uv.y)<.25);
 
-    vec4 fogColor = vec4(0.0, 0.0, 0.0, 0.0);
+	float lum = .5 +
+		/*.1 * ripple(length(cursor - uv), -iGlobalTime) +
+		.1 * ripple(length(blessr - uv), -iGlobalTime) +
+		.1 * ripple(length(cursor - uvflip), -iGlobalTime) +
+		.1 * ripple(length(blessr - uvflip), -iGlobalTime) +*/
+		.1 * ripple(length(uv), 0.0) +
+		//.1 * cos(64.0*uv.y - iGlobalTime) +
+		//.1 * cos(64.0*(uv.x*uv.x) - iGlobalTime) +
+		0.0;
 
-    vec2 position = -1.0 + 2.0 * vUv;
+	float twopi = 2.0*3.141592654;
+	const int count = POLES;
+	float fcount = float(count);
+	vec2 rot = vec2(cos(twopi*.618), sin(twopi*.618));
+	vec2 tor = vec2(-sin(twopi*.618), cos(twopi*.618));
+	for (int i = 0; i < count; ++i)
+	{
+		lum += .2 * ripple(length(cursor - uv), -iGlobalTime);
+		cursor = cursor.x*rot + cursor.y*tor;
+	}
 
-    float red = abs( sin( position.x * position.y + time / 5.0 ) );
-    float green = abs( sin( position.x * position.y + time / 4.0 ) );
-    float blue = abs( sin( position.x * position.y + time / 3.0 ) );
+	/*float lum = .5, dist;
+	vec2 part, flip = vec2(1.0, 1.0);
 
-    vec4 vertexColor = vec4(red,green,blue,1.0);
+	//float freq = 64.0, phase = -iGlobalTime;
+	float freq = 32.0, phase  = 0.0; // * pow(4.0, cos(iGlobalTime/8.0)), phase = 0.0;
 
-    gl_FragColor = mix(vertexColor, fogColor, fogAmount);
+	for (float ox = -REFLECTIONS; ox <= REFLECTIONS; ox += 1.0)
+	{
+		for (float oy = -REFLECTIONS; oy <= REFLECTIONS; oy += 1.0)
+		{
+			dist = length((cursor*flip-uv)+vec2(ox, oy));
+			lum += cos(freq * dist - phase) / (5.0 + 10.0*dist);
 
+			flip.y *= -1.0;
+		}
+		flip.x *= -1.0;
+	}*/
+
+	lum = 3.0*lum*lum - 2.0*lum*lum*lum;
+	gl_FragColor = vec4(lum, lum, lum, 1.0);
+
+
+	/*fragColor = vec4(.5+.5*sin(3000.0*iGlobalTime),
+		.5+.5*sin(4997.0*iGlobalTime+iResolution.x*3910.0),
+		.5+.5*cos(2872.0*iGlobalTime+iResolution.y*8721.0), 1.0);*/
 }

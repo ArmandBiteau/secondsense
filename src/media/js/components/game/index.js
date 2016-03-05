@@ -20,6 +20,8 @@ import gameEndComponent from '../game-end';
 
 import SoundEmitterMixin from './mixins/sound-emitter';
 
+import BonusMixin from './mixins/bonus';
+
 import ControlsDesktopMixin from './mixins/controls/desktop';
 
 import ControlsMobileMixin from './mixins/controls/mobile';
@@ -244,6 +246,8 @@ export default Vue.extend({
 
 			this._collidableMeshDiamond = [];
 
+			this._collidableMeshBonus = [];
+
 			// Scene
 
 			this._scene = new THREE.Scene();
@@ -310,6 +314,8 @@ export default Vue.extend({
 			this.controlsInitialize();
 
 			this.soundEmitterInitialize();
+
+			this.bonusInitialize();
 
 			this.terrainInitialize();
 
@@ -556,7 +562,8 @@ export default Vue.extend({
 		CubeMixin,
 		OpponentsMixin,
 		LightsMixin,
-		SoundEmitterMixin
+		SoundEmitterMixin,
+		BonusMixin
 
 	],
 
