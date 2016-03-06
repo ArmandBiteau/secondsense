@@ -30,10 +30,16 @@ export default {
 
             }
 
+            this.shareOpponentPosition();
+
+		},
+
+        shareOpponentPosition: function() {
+
             var _this = this;
 
             // SHARE MY POSITION 12fps
-            setInterval(() => {
+            var shareInterval = setInterval(() => {
 
                 var position = this._controls.getObject().position;
                 var data = {id: this.me.id, x: position.x, y:position.y, z:position.z};
@@ -44,10 +50,15 @@ export default {
 
             // GET OPPONENTS POSITION
             this.socket.on('update player position', _this.onUpdateOpponentPosition);
-
             this.socket.on('add player gem', _this.onAddOpponentGem);
 
-		},
+            if (this.isGameComplete) {
+
+                clearInterval(shareInterval);
+
+            }
+
+        },
 
 		opponentsUpdate: function() {
 

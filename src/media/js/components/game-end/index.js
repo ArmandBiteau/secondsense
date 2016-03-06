@@ -77,7 +77,7 @@ export default Vue.component('game-end-component', {
 
 		exitRoom: function() {
 
-			// this.socket.emit('exit room');
+			this.socket.emit('exit room');
 
 		},
 

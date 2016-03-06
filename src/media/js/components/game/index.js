@@ -355,7 +355,11 @@ export default Vue.extend({
 
 			this._raf = window.requestAnimationFrame(this.run);
 
-			this.update();
+			if (!this.isGameComplete) {
+
+				this.update();
+
+			}
 
 			this.render();
 		},
