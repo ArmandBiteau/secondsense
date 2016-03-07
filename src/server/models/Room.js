@@ -10,7 +10,9 @@ class Room {
 
 		this.name = roomName;
 
-		this.available = true;
+		this.display = true;
+
+		this.isRunning = false;
 
 		this.maxPlayers = maxPlayers;
 
@@ -105,15 +107,27 @@ class Room {
 
     }
 
+	run() {
+
+		this.isRunning = true;
+
+		this.display = false;
+
+	}
+
 	lock() {
 
-		this.available = false;
+		console.log(this.name+' locked');
+
+		this.display = false;
 
 	}
 
 	unlock() {
 
-		this.available = true;
+		console.log(this.name+' unlocked');
+
+		this.display = true;
 
 	}
 
