@@ -71,11 +71,69 @@ export default Vue.component('game-end-component', {
 
 		},
 
-		updateScores: function() {
+		updateScores: function(my_score) {
 
-			console.log('UPDATE SCORES');
+			this.me.game_score = my_score;
+			this.me.score.game_count++;
+
+			return new Promise((resolve, reject) => {
+
+	        	this.$http.put('/api/users/' + this.me.id + '/score', this.me, (data) => {
+
+	        		console.log('Player score updated : ', data);
+
+	        		resolve();
+
+	        	}).error((data, status, request) => {
+
+	        		console.log(data, status, request);
+
+	        		reject('Error during Player score update');
+
+	        	});
+	        });
 
 		},
+
+		getPlayerScore: function() {
+
+        	return new Promise((resolve, reject) => {
+
+	        	this.$http.get('/api/users/' + this.me.id + '/score', (data) => {
+
+	        		this.me.score = data;
+
+	        		resolve();
+
+	        	}).error((data, status, request) => {
+
+	        		console.log(data, status, request);
+
+	        		reject('Error while accessing to Player score');
+
+	        	});
+	        });
+        },
+
+        getPlayerRewards: function() {
+
+        	return new Promise((resolve, reject) => {
+
+	        	this.$http.get('/api/users/' + this.me.id + '/rewards', (data) => {
+
+	        		this.me.rewards = data;
+
+	        		resolve();
+
+	        	}).error((data, status, request) => {
+
+	        		console.log(data, status, request);
+
+	        		reject('Error while accessing to Player rewards');
+
+	        	});
+	        });
+        },
 
 		exitRoom: function() {
 
@@ -114,7 +172,11 @@ export default Vue.component('game-end-component', {
 
 			beforeEnter: function() {
 
-				this.updateScores();
+				var myRoomProfile = this.GameRoom.players.filter((obj) => {	return obj.id === this.me.id; })[0];
+
+				this.updateScores(myRoomProfile.gems).then(this.getPlayerScore).then(this.getPlayerRewards).then(() => {
+					console.log('All data updated !! : ', this.me);
+				});
 
 			},
 

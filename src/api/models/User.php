@@ -135,6 +135,20 @@ class User
     }
   }
 
+  public function getAllRewards()
+  {
+    $sql = "SELECT * FROM secondsense_rewards";
+
+    try {
+      $stmt = $this->_dbh->query($sql);
+      $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+      return $result;
+
+    } catch(PDOException $e) {
+      echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
+  }
+
   public function getRewards($id)
   {
     $sql = "SELECT rewards.* FROM secondsense_rewards AS rewards 
@@ -154,15 +168,58 @@ class User
     }
   }
 
-  public function addRewardToPlayer($id, $reward_id)
+  public function hasReward($id, $reward_id)
+  {
+    $sql = "SELECT * FROM secondsense_has_reward WHERE facebook_user_id = :user_id AND reward_id = :reward_id";
+
+    try {
+      $stmt = $this->_dbh->prepare($sql);
+      $stmt->bindParam("user_id", $id);
+      $stmt->bindParam("reward_id", $reward_id);
+      $stmt->execute();
+      $result = $stmt->fetchObject();
+
+    } catch(PDOException $e) {
+      echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
+
+    if ($result) { return True; }
+    else { return False; }
+  }
+
+  public function updatePlayerRewards($id, $game_score, $player_scores)
+  {
+    $all_rewards = $this->getAllRewards();
+    $rewards_to_add = array();
+
+    foreach ($all_rewards as $reward) {
+      
+      if ( !$this->hasReward($id, $reward->reward_id) ) {
+
+        if ( (!is_null($reward->game_count_condition) and $player_scores->game_count >= $reward->game_count_condition) or
+             (!is_null($reward->score_condition) and $game_score >= $reward->score_condition) ) {
+
+          array_push($rewards_to_add, $reward->reward_id);
+        }
+      }
+    }
+
+    $this->addRewardsToPlayer($id, $rewards_to_add);
+
+  }
+
+  public function addRewardsToPlayer($id, $reward_id)
   {
     $sql = "INSERT INTO secondsense.secondsense_has_reward(facebook_user_id, reward_id) VALUES(:facebook_id, :reward_id)";
 
     try {
       $stmt = $this->_dbh->prepare($sql);
       $stmt->bindParam("facebook_id", $id);
-      $stmt->bindParam("reward_id", $reward_id);
-      $stmt->execute();
+
+      foreach ($reward_id as $reward) {
+        $stmt->bindParam("reward_id", $reward);
+        $stmt->execute();
+      }
 
     } catch(PDOException $e) {
       echo '{"error":{"text":'. $e->getMessage() .'}}';
@@ -220,9 +277,9 @@ class User
   public function updateScore($vo)
   {
     $sql = "UPDATE secondsense_scores SET ";
-    $params = array(':game_count' => $vo->score->game_count + 1, ':sum_score' => $vo->score->sum_score + $vo->game_score, ':score_id' => $vo->score->score_id);
+    $params = array(':game_count' => $vo->score->game_count, ':sum_score' => $vo->score->sum_score + $vo->game_score, ':score_id' => $vo->score->score_id);
 
-    if ($vo->score->high_score > $vo->game_score) 
+    if ($vo->score->high_score < $vo->game_score) 
     {
       $sql = $sql . "high_score = :highscore, ";
       $params[':highscore'] = $vo->game_score;
