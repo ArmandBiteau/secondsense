@@ -111,6 +111,8 @@ export default Vue.extend({
 
 			_scoreContainer: null,
 
+			shareInterval: null,
+
 			opponents: [{
 				id: '',
 				name: '',
@@ -170,6 +172,8 @@ export default Vue.extend({
 	},
 
 	ready: function() {
+
+		this.isGameComplete = false;
 
 		this.device = Detectizr.device.type;
 
@@ -465,7 +469,7 @@ export default Vue.extend({
 
 		onGemCatch: function(id) {
 
-			if (!this.isGameComplete) {
+			if (this.isGameComplete === false) {
 
 				let player = this.playerById(id);
 				player.gems++;
@@ -563,6 +567,8 @@ export default Vue.extend({
 		onGameCompleted: function() {
 
 			this.isGameComplete = true;
+
+            clearInterval(this.shareInterval);
 
 		},
 

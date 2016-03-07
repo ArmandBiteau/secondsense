@@ -123,6 +123,8 @@ class Manager {
 
 	onExitRoom() {
 
+		console.log(this.player.name+' exit '+this.room.name);
+
 		if (this.room) {
 
 			this.room.removePlayer(this, this.player);
@@ -171,9 +173,13 @@ class Manager {
 
 	onUpdatePlayerPosition(data) {
 
-		var newDataPlayer = this.room.updatePlayerPosition(data);
+		if (this.room) {
 
-		this.broadcast.to(this.room.name).emit('update player position', newDataPlayer);
+			var newDataPlayer = this.room.updatePlayerPosition(data);
+
+			this.broadcast.to(this.room.name).emit('update player position', newDataPlayer);
+
+		}
 
     }
 
