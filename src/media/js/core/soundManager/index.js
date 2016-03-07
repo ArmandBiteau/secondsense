@@ -54,6 +54,8 @@ class SoundManager {
 
 		Emitter.on('NEW_GAME_REQUEST', this.onNewGamerequested);
 
+		Emitter.on('NEW_GAME_AS_GUEST_REQUEST', this.onNewGamerequested);
+
 		Emitter.on('SOUND_MANAGER_REQUEST_SOUND_TOGGLE', this.toogleSound);
 
 		Emitter.on('SOUND_MANAGER_REQUEST_SOUND_CLICK', this.onClickrequested);

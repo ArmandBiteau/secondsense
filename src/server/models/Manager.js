@@ -29,7 +29,7 @@ class Manager {
 
         console.log('Server running at http://192.168.33.10:3000/');
 
-        Secondsense.addRoom('FristRoomidtest', '1259753977383932', 'First room', 3);
+        // Secondsense.addRoom('FristRoomidtest', '1259753977383932', 'First room', 3);
 
     }
 
@@ -167,7 +167,7 @@ class Manager {
 
 	onNewGame(room) {
 
-		this.broadcast.to(room.name).emit('new game', room);
+		Secondsense.newGame(this, room);
 
 	}
 
