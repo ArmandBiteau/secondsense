@@ -40,8 +40,6 @@ class Room {
 
 	removePlayer(socket, player) {
 
-		socket.leave(this.name);
-
 		let playerToDelete = this.players.indexOf(player);
 
 	    if (playerToDelete !== -1) {
@@ -49,6 +47,14 @@ class Room {
 	    	this.players.splice(playerToDelete, 1);
 
 	    }
+
+		if (player.id === this.host && this.players.length > 0) {
+
+			this.host = this.players[0].id;
+
+		}
+
+		socket.leave(this.name);
 
 	}
 
