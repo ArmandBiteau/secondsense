@@ -44,16 +44,6 @@ class Room {
 
 	}
 
-	addMessage(player, txt) {
-
-		let message = {
-			player: player,
-			content: txt
-		};
-
-		this.messages.push(message);
-	}
-
 	removePlayer(socket, player) {
 
 		socket.leave(this.name);
@@ -72,6 +62,16 @@ class Room {
 
 		}
 
+	}
+
+	addMessage(player, txt) {
+
+		let message = {
+			player: player,
+			content: txt
+		};
+
+		this.messages.push(message);
 	}
 
 	updatePlayerPosition(data) {
