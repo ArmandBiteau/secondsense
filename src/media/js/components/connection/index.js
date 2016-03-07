@@ -142,7 +142,7 @@ export default Vue.component('connection-component', {
 		 checkDatabase: function() {
 
 		 	// Access to player infos
-		 	this.getPlayerInfos().catch(this.setPlayerInfos).then(this.updatePlayerInfos).then(this.updatePlayerFriends).then(this.getPlayerFriends).then(this.getPlayerScore).then(this.updatePlayerScore).then(this.getPlayerScore).then(this.getPlayerRewards).then((player) => {
+		 	this.getPlayerInfos().catch(this.setPlayerInfos).then(this.updatePlayerInfos).then(this.updatePlayerFriends).then(this.getPlayerFriends).then(this.getPlayerScore).then(this.getPlayerRewards).then((player) => {
 				console.log('All done !! : ', player);
 
 				this.connected = true;
@@ -248,31 +248,6 @@ export default Vue.component('connection-component', {
 	        		console.log(data, status, request);
 
 	        		reject('Error during Player Friends update');
-
-	        	});
-	        });
-        },
-
-		// This function updatePlayerScore will move in an other component soon
-        updatePlayerScore: function(player) {
-
-        	return new Promise((resolve, reject) => {
-
-        		//TEST
-	        	player.game_score = 99999;
-	        	//
-
-	        	this.$http.put('/api/users/' + player.facebook_user_id + '/score', player, () => {
-
-	        		console.log('Player score updated');
-
-	        		resolve(player);
-
-	        	}).error((data, status, request) => {
-
-	        		console.log(data, status, request);
-
-	        		reject('Error during Player score update');
 
 	        	});
 	        });

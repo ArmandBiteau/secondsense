@@ -93,6 +93,7 @@ $app->put('/users/:id/score', function($id) use($user, $app) {
   $vo = json_decode($body);
   $vo->facebook_user_id = $id;
   $user->updateScore($vo);
+  $user->updatePlayerRewards($id, $vo->game_score, $vo->score);
 
 });
 
