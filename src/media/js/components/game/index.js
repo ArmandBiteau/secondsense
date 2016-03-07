@@ -111,6 +111,8 @@ export default Vue.extend({
 
 			_scoreContainer: null,
 
+			shareInterval: null,
+
 			opponents: [{
 				id: '',
 				name: '',
@@ -170,6 +172,8 @@ export default Vue.extend({
 	},
 
 	ready: function() {
+
+		this.isGameComplete = false;
 
 		this.device = Detectizr.device.type;
 
@@ -355,7 +359,11 @@ export default Vue.extend({
 
 			this._raf = window.requestAnimationFrame(this.run);
 
-			this.update();
+			if (!this.isGameComplete) {
+
+				this.update();
+
+			}
 
 			this.render();
 		},
@@ -560,6 +568,25 @@ export default Vue.extend({
 
 			this.isGameComplete = true;
 
+            clearInterval(this.shareInterval);
+
+			if (this.device === 'desktop') {
+
+				document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock || document.webkitExitPointerLock;
+				document.exitPointerLock();
+
+			}
+
+		},
+
+		clearScene: function() {
+
+			this.opponents = [];
+
+			this.removeSoundEmitter();
+
+			this._scene = null;
+
 		},
 
 		/*
@@ -581,6 +608,8 @@ export default Vue.extend({
 			this.removeEventListener();
 
 			this.cancelAnimationFrame();
+
+			this.clearScene();
 
 		},
 

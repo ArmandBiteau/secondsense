@@ -10,6 +10,8 @@ class Room {
 
 		this.name = roomName;
 
+		this.available = true;
+
 		this.maxPlayers = maxPlayers;
 
 		this.players = [];
@@ -36,19 +38,7 @@ class Room {
 
 	}
 
-	addMessage(player, txt) {
-
-		let message = {
-			player: player,
-			content: txt
-		};
-
-		this.messages.push(message);
-	}
-
 	removePlayer(socket, player) {
-
-		socket.leave(this.name);
 
 		let playerToDelete = this.players.indexOf(player);
 
@@ -58,6 +48,24 @@ class Room {
 
 	    }
 
+		if (player.id === this.host && this.players.length > 0) {
+
+			this.host = this.players[0].id;
+
+		}
+
+		socket.leave(this.name);
+
+	}
+
+	addMessage(player, txt) {
+
+		let message = {
+			player: player,
+			content: txt
+		};
+
+		this.messages.push(message);
 	}
 
 	updatePlayerPosition(data) {
@@ -96,6 +104,18 @@ class Room {
 	    return false;
 
     }
+
+	lock() {
+
+		this.available = false;
+
+	}
+
+	unlock() {
+
+		this.available = true;
+
+	}
 
 }
 
