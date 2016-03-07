@@ -28,12 +28,6 @@ class Room {
 
 		console.log(player.name+' a rejoint : '+this.name);
 
-		if (this.players.length === this.maxPlayers) {
-
-			this.lock();
-
-		}
-
 		socket.broadcast.to(this.name).emit('new player', {name: player});
 
 		for (var i = 0; i < this.players.length; i++) {
@@ -55,12 +49,6 @@ class Room {
 	    	this.players.splice(playerToDelete, 1);
 
 	    }
-
-		if (this.players.length < this.maxPlayers) {
-
-			this.unlock();
-
-		}
 
 	}
 

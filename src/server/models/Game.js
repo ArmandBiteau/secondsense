@@ -18,6 +18,8 @@ class Game {
 
     removeRoom(room) {
 
+		console.log('Delete '+room.name);
+
         let roomToDelete = this.rooms.indexOf(room);
 
         if (roomToDelete !== -1) {
@@ -29,6 +31,28 @@ class Game {
     }
 
     updateRooms(socket) {
+
+		for (var i = 0; i < this.rooms.length; i++) {
+
+			if (this.rooms[i].players.length < this.rooms[i].maxPlayers && this.rooms[i].players.length !== 0) {
+
+				this.rooms[i].unlock();
+
+			}
+
+			if (this.rooms[i].players.length === this.rooms[i].maxPlayers) {
+
+				this.rooms[i].lock();
+
+			}
+
+			if (this.rooms[i].players.length === 0) {
+
+				this.removeRoom(this.rooms[i]);
+
+			}
+
+    	}
 
 		socket.broadcast.emit('update rooms', this.rooms);
 
