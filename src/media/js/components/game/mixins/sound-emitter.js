@@ -132,6 +132,16 @@ export default {
 
                 return this.soundEmitterAvailablePositions[n];
 
+        },
+
+        removeSoundEmitter: function() {
+
+            this._sound = null;
+
+            this.soundEmitter = null;
+
+            this._scene.remove(this.soundEmitter);
+
         }
 
 	}

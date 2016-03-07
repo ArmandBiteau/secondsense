@@ -579,6 +579,16 @@ export default Vue.extend({
 
 		},
 
+		clearScene: function() {
+
+			this.opponents = [];
+
+			this.removeSoundEmitter();
+
+			this._scene = null;
+
+		},
+
 		/*
 		 * Start & stop
 		*/
@@ -598,6 +608,8 @@ export default Vue.extend({
 			this.removeEventListener();
 
 			this.cancelAnimationFrame();
+
+			this.clearScene();
 
 		},
 

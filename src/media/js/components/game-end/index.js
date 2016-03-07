@@ -2,6 +2,8 @@
 
 import Vue from 'vue';
 
+import Emitter from '../../core/emitter';
+
 export default Vue.component('game-end-component', {
 
 	template: require('./template.html'),
@@ -77,7 +79,7 @@ export default Vue.component('game-end-component', {
 
 		exitRoom: function() {
 
-			this.socket.emit('exit room');
+			Emitter.emit('EXIT_PARTY_REQUEST');
 
 		},
 

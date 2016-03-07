@@ -37,7 +37,7 @@
 
                 <div id="rooms-list-iscroll-inner" class="rooms-list-iscroll-inner">
 
-                    <div v-for="room in rooms" class="rooms-list-item" v-on:click="onSwitchRoom(room)" v-if="room.players.length < room.maxPlayers">
+                    <div v-for="room in rooms" class="rooms-list-item" v-on:click="onSwitchRoom(room)" v-if="room.available === true">
 
                         <div class="rooms-list-item-corner"></div>
 

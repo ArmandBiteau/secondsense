@@ -242,6 +242,8 @@ export default Vue.extend({
 
 			}
 
+			console.log(this.rooms);
+
 			this.IscrollRefresh();
 
 		},

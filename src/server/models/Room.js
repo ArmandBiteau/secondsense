@@ -10,6 +10,8 @@ class Room {
 
 		this.name = roomName;
 
+		this.available = true;
+
 		this.maxPlayers = maxPlayers;
 
 		this.players = [];
@@ -25,6 +27,12 @@ class Room {
 	    this.players.push(player);
 
 		console.log(player.name+' a rejoint : '+this.name);
+
+		if (this.players.length === this.maxPlayers) {
+
+			this.lock();
+
+		}
 
 		socket.broadcast.to(this.name).emit('new player', {name: player});
 
@@ -57,6 +65,12 @@ class Room {
 	    	this.players.splice(playerToDelete, 1);
 
 	    }
+
+		if (this.players.length < this.maxPlayers) {
+
+			this.unlock();
+
+		}
 
 	}
 
@@ -96,6 +110,18 @@ class Room {
 	    return false;
 
     }
+
+	lock() {
+
+		this.available = false;
+
+	}
+
+	unlock() {
+
+		this.available = true;
+
+	}
 
 }
 
