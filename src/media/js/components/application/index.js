@@ -14,7 +14,7 @@ import Emitter from '../../core/emitter';
 
 import Detectizr from '../../utils/detectizr';
 
-import SoundManager from '../../core/soundManager';
+// import SoundManager from '../../core/soundManager';
 
 // import {
 //     ROOT_URL
@@ -104,7 +104,9 @@ export default {
 
         addEventListener: function() {
 
-            Emitter.on('NEW_GAME_REQUEST', this.newGame);
+            var _this = this;
+
+            Emitter.on('NEW_GAME_REQUEST', _this.newGame);
 
             Emitter.on('EXIT_PARTY_REQUEST', () => {
 
@@ -237,6 +239,8 @@ export default {
 
         newGame: function(room) {
 
+            console.log('new game launched');
+
             this.isGameRunning = true;
 
             this.socket.emit('new game', room);
@@ -246,6 +250,8 @@ export default {
         },
 
         onNewGameAsGuest: function(room) {
+
+            Emitter.emit('NEW_GAME_AS_GUEST_REQUEST');
 
             this.isGameRunning = true;
 
@@ -261,9 +267,9 @@ export default {
 
             this.socket.emit('exit room');
 
-            SoundManager.start();
+            // SoundManager.start();
 
-            this.initSounds();
+            // this.initSounds();
 
         }
 
