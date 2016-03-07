@@ -99,7 +99,6 @@ export default Vue.component('game-end-component', {
 
 	        	this.$http.get('/api/users/' + this.me.id + '/score', (data) => {
 
-	        		console.log('DEBUG : ', data);
 	        		this.me.score = data;
 
 	        		resolve();
