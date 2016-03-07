@@ -469,7 +469,7 @@ export default Vue.extend({
 
 		onGemCatch: function(id) {
 
-			if (this.isGameComplete === false) {
+			if (!this.isGameComplete) {
 
 				let player = this.playerById(id);
 				player.gems++;
@@ -569,6 +569,13 @@ export default Vue.extend({
 			this.isGameComplete = true;
 
             clearInterval(this.shareInterval);
+
+			if (this.device === 'desktop') {
+
+				document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock || document.webkitExitPointerLock;
+				document.exitPointerLock();
+
+			}
 
 		},
 
