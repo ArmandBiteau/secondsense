@@ -254,11 +254,11 @@ export default Vue.extend({
 
 			this._scene = new THREE.Scene();
 
-			// this._scene.fog = new THREE.Fog(0x181d21, 0, 10);
+			//  this._scene.fog = new THREE.FogExp2(0x181d21, 0.0025);
 
 			// Camera
 
-			this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
+			this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 5);
 
 			this._camera.position.set(0, 0.25, 0);
 
@@ -270,7 +270,7 @@ export default Vue.extend({
 
 			this._scoreContainer = new THREE.CSS3DObject(document.getElementById('game-score-wrapper'));
 
-			this._scoreContainer.rotation.x = 0.8;
+			//this._scoreContainer.rotation.x = 0.8;
 
 			this._scene.add(this._scoreContainer);
 

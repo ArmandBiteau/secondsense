@@ -128,28 +128,13 @@ export default {
 
             // Obstacles
             this._obstaclesGeo = new THREE.Geometry();
-            // this._obstaclesMat = new THREE.MeshPhongMaterial({
-            //     color: 0xffffff,
-            //     shininess: 10,
-            //     shading: THREE.SmoothShading
-            // });
             this._obstaclesMat = new THREE.ShaderMaterial({
                 uniforms: {
-                    time: { type: 'f', value: 1.0 },
                     resolution: { type: 'v2', value: new THREE.Vector2() }
                 },
                 vertexShader: glslify('../../../../glsl/game/obstacle-vs.glsl'),
                 fragmentShader: glslify('../../../../glsl/game/obstacle-fs.glsl')
             });
-
-            // for (let i = 0; i < 15; i++) {
-            //     let obstacleGeo = new THREE.BoxGeometry(Math.random()*3, Math.random()*3, Math.random()*6);
-            //     let obstacleMesh = new THREE.Mesh(obstacleGeo);
-            //     obstacleMesh.position.set((Math.random() * 2 - 1) * this._terrainSize / 2, (Math.random() * 2 - 1) * this._terrainSize / 2, 0.5);
-            //     obstacleMesh.rotation.set(Math.floor(Math.random() * 90), Math.floor(Math.random() * 90), Math.floor(Math.random() * 90));
-            //     obstacleMesh.updateMatrix();
-            //     obstaclesGeo.merge(obstacleMesh.geometry, obstacleMesh.matrix);
-            // }
 
             // Obstacles
             this.createObstacle(-19, -19);
@@ -245,8 +230,6 @@ export default {
             this._grid.material.uniforms.time.value = this._frame/100;
 
             this._frame++;
-
-            this._obstacles.material.uniforms.time.value += 0.1;
 
 		}
 	}
