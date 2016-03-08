@@ -40,7 +40,7 @@ class Opponent {
 
     createMaterial() {
 
-        this.material = new THREE.MeshLambertMaterial({color: this.color});
+        this.material = new THREE.MeshBasicMaterial({color: this.color});
 
     }
 
