@@ -259,8 +259,8 @@ export default Vue.component('connection-component', {
 
 	        	this.$http.get('/api/users/' + player.facebook_user_id + '/score', (data) => {
 
-	        		this.me.score = data;
-	        		player.score = data;
+	        		this.me.score = data[0];
+	        		player.score = data[0];
 
 	        		resolve(player);
 
