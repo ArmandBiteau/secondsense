@@ -20,7 +20,7 @@ export default {
 
         this._cityMaterial = null;
 
-        this._cubeInstances = 608;
+        this._cubeInstances = 36*12;
 
         this._cubeMaxHeight = 10;
 
@@ -127,8 +127,8 @@ export default {
 
             for (var i = 0, ul = this._cubeOffsets.count; i < ul; i++) {
 
-                var x = -48 + (i % 48) * 2;
-                var y = -16 + Math.floor(i / 48) * 2;
+                var x = -36 + (i % 36) * 2;
+                var y = -16 + Math.floor(i / 36) * 2;
                 var z = 0;
 
                 this._cubeOffsets.setXYZ(i, x, y, z);
@@ -141,7 +141,9 @@ export default {
             this._cityGeometry.addAttribute('instanceID', this._cubeInstanceIDs); // per mesh instance
 
             this._cityMaterial = new THREE.RawShaderMaterial({
-                uniforms: {},
+                uniforms: {
+                    time: {type: 'f', value: 0}
+                },
                 vertexShader: glslify('./../../../../glsl/background/city-vs.glsl'),
                 fragmentShader: glslify('./../../../../glsl/background/city-fs.glsl'),
                 side: THREE.DoubleSide,
@@ -151,15 +153,15 @@ export default {
 
             this._city = new THREE.Mesh(this._cityGeometry, this._cityMaterial);
 
-            let scaleAmount = 200;
+            let scaleAmount = 300;
 
 			this._city.scale.set(scaleAmount, scaleAmount, scaleAmount);
 
             this._city.rotateX(-Math.PI/2);
 
             this._city.position.setX(0); // CENTER SCREEN
-            this._city.position.setY(-600);
-            this._city.position.setZ(-3500);
+            this._city.position.setY(-700);
+            this._city.position.setZ(-3700);
 
 			this._scene.add(this._city);
 
@@ -173,6 +175,8 @@ export default {
                 this._cubeTransforms.setXYZ(i, 1, 1, displacement);
 
             }
+
+            this._city.material.uniforms.time.value = this._clockElapsedTime * 0.5;
 
             this._cubeTransforms.needsUpdate = true;
             this._cubeOffsets.needsUpdate = true;

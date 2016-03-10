@@ -170,7 +170,7 @@ export default Vue.component('connection-component', {
 
 		 		};
 
-		 		this.$http.get('/api/users/' + player.facebook_user_id, () => {
+		 		this.$http.get('/api/users/' + player.facebook_user_id, (data) => {
 
 		 			if (!data) {
 
@@ -219,7 +219,7 @@ export default Vue.component('connection-component', {
 
         	return new Promise((resolve, reject) => {
 
-	        	this.$http.put('/api/users/' + player.facebook_user_id, player, (data) => {
+	        	this.$http.put('/api/users/' + player.facebook_user_id, player, () => {
 
 	        		// console.log('Player info updated  :', data.facebook_user_name);
 

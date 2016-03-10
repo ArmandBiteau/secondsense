@@ -3,6 +3,8 @@ precision highp float;
 uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
 
+uniform float time;
+
 attribute vec3 position;
 attribute vec3 offset;
 attribute vec3 transform;
@@ -17,7 +19,7 @@ void main() {
 
 	vUv = uv;
 
-	vec3 vPosition = vec3( position.x, position.y, (position.z * transform.z) * pow(offset.x/25.0, 2.0) );
+	vec3 vPosition = vec3( position.x, position.y, (position.z * transform.z) * pow(offset.x/20.0, 1.5) );
 
 	vec3 newPosition = vec3(vPosition.x + offset.x, vPosition.y + offset.y, vPosition.z);
 
