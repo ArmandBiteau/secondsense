@@ -73,7 +73,7 @@ export default Vue.component('game-score-component', {
 
 			var timeLeft = 3*60 + 51;
 
-			// var timeLeft = 1;
+			// var timeLeft = 5;
 
 			var r = document.getElementById('timer');
 

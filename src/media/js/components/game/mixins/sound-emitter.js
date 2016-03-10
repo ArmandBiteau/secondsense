@@ -26,7 +26,7 @@ export default {
 
             let geometry = new THREE.OctahedronGeometry(0.2, 0);
 
-            let material = new THREE.MeshPhongMaterial({ color: 0xFF0000, shininess: 30, shading: THREE.FlatShading });
+            let material = new THREE.MeshLambertMaterial({ color: 0xFF0000});
 
             this.soundEmitter = new THREE.Mesh(geometry, material);
 
@@ -47,6 +47,8 @@ export default {
             this._sound.load('/media/sounds/lazerkut.mp3');
 
             this._sound.setRefDistance(10);
+
+            // this._sound.setVolume(0.1);
 
             this._sound.autoplay = true;
 

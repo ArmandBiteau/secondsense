@@ -151,9 +151,9 @@ class User
 
   public function getRewards($id)
   {
-    $sql = "SELECT rewards.* FROM secondsense_rewards AS rewards 
-            INNER JOIN secondsense_has_reward ON secondsense_has_reward.reward_id = rewards.reward_id 
-            INNER JOIN secondsense_users AS me ON secondsense_has_reward.facebook_user_id = me.facebook_user_id 
+    $sql = "SELECT rewards.* FROM secondsense_rewards AS rewards
+            INNER JOIN secondsense_has_reward ON secondsense_has_reward.reward_id = rewards.reward_id
+            INNER JOIN secondsense_users AS me ON secondsense_has_reward.facebook_user_id = me.facebook_user_id
             WHERE me.facebook_user_id = :facebook_id";
 
     try {
@@ -193,7 +193,7 @@ class User
     $rewards_to_add = array();
 
     foreach ($all_rewards as $reward) {
-      
+
       if ( !$this->hasReward($id, $reward->reward_id) ) {
 
         if ( (!is_null($reward->game_count_condition) and $player_scores->game_count >= $reward->game_count_condition) or
@@ -252,7 +252,8 @@ class User
       $stmt->bindParam("facebook_id", $id);
       $stmt->execute();
       $result = $stmt->fetchAll(PDO::FETCH_OBJ);
-      echo json_encode($result[0]);
+
+      echo json_encode($result);
 
     } catch(PDOException $e) {
       echo '{"error":{"text":'. $e->getMessage() .'}}';
@@ -279,7 +280,7 @@ class User
     $sql = "UPDATE secondsense_scores SET ";
     $params = array(':game_count' => $vo->score->game_count, ':sum_score' => $vo->score->sum_score + $vo->game_score, ':score_id' => $vo->score->score_id);
 
-    if ($vo->score->high_score < $vo->game_score) 
+    if ($vo->score->high_score < $vo->game_score)
     {
       $sql = $sql . "high_score = :highscore, ";
       $params[':highscore'] = $vo->game_score;

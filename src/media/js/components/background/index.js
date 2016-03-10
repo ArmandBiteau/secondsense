@@ -156,7 +156,7 @@ export default Vue.extend({
 
 			// Camera
 
-			this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 15000);
+			this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 7000);
 
 			this._camera.position.set(0, 0, 500);
 

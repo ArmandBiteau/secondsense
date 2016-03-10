@@ -32,16 +32,6 @@ export default {
 
             var _this = this;
 
-            // SHARE MY POSITION 12fps
-            this.shareInterval = setInterval(() => {
-
-                var position = this._controls.getObject().position;
-                var data = {id: this.me.id, x: position.x, y:position.y, z:position.z};
-
-                this.socket.emit('update player position', data);
-
-            }, 80);
-
             // GET OPPONENTS POSITION
             this.socket.on('update player position', _this.onUpdateOpponentPosition);
             this.socket.on('add player gem', _this.onAddOpponentGem);
@@ -50,13 +40,26 @@ export default {
 
 		opponentsUpdate: function() {
 
+            if (this.device === 'desktop') {
+
+                // SHARE MY POSITION each frame
+                var position = this._controls.getObject().position;
+                var data = {id: this.me.id, x: position.x, y:position.y, z:position.z};
+                this.socket.emit('update player position', data);
+
+            }
+
 		},
 
         onUpdateOpponentPosition: function(opponent) {
 
-            let opp = this.opponentById(opponent.id);
+            if (this.opponents) {
 
-            opp.updateMeshPosition(opponent.x, opponent.y, opponent.z);
+                let opp = this.opponentById(opponent.id);
+
+                opp.updateMeshPosition(opponent.x, opponent.y, opponent.z);
+
+            }
 
         },
 

@@ -239,8 +239,6 @@ export default {
 
         newGame: function(room) {
 
-            console.log('new game launched');
-
             this.isGameRunning = true;
 
             this.socket.emit('new game', room);
