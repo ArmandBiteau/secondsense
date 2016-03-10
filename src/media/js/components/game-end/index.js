@@ -101,7 +101,7 @@ export default Vue.component('game-end-component', {
 
 	        	this.$http.get('/api/users/' + this.me.id + '/score', (data) => {
 
-	        		this.me.score = data;
+	        		this.me.score = data[0];
 
 	        		resolve();
 

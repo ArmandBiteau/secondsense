@@ -121,7 +121,9 @@ export default Vue.extend({
 				x: 0,
 				y: 0,
 				z: 0
-			}]
+			}],
+
+			GameReady: false
 
 		};
 
@@ -258,7 +260,7 @@ export default Vue.extend({
 
 			// Camera
 
-			this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 5);
+			this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 6);
 
 			this._camera.position.set(0, 0.25, 0);
 
@@ -609,7 +611,7 @@ export default Vue.extend({
 
 			this.cancelAnimationFrame();
 
-			this.clearScene();
+			// this.clearScene();
 
 		},
 
