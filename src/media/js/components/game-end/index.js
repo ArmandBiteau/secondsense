@@ -78,9 +78,9 @@ export default Vue.component('game-end-component', {
 
 			return new Promise((resolve, reject) => {
 
-	        	this.$http.put('/api/users/' + this.me.id + '/score', this.me, (data) => {
+	        	this.$http.put('/api/users/' + this.me.id + '/score', this.me, () => {
 
-	        		console.log('Player score updated : ', data);
+	        		// console.log('Player score updated : ', data);
 
 	        		resolve();
 
@@ -175,7 +175,9 @@ export default Vue.component('game-end-component', {
 				var myRoomProfile = this.GameRoom.players.filter((obj) => {	return obj.id === this.me.id; })[0];
 
 				this.updateScores(myRoomProfile.gems).then(this.getPlayerScore).then(this.getPlayerRewards).then(() => {
-					console.log('All data updated !! : ', this.me);
+
+					console.log('Scores updated : ', this.me.score);
+
 				});
 
 			},

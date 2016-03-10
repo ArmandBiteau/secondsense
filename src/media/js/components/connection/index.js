@@ -143,9 +143,11 @@ export default Vue.component('connection-component', {
 
 		 	// Access to player infos
 		 	this.getPlayerInfos().catch(this.setPlayerInfos).then(this.updatePlayerInfos).then(this.updatePlayerFriends).then(this.getPlayerFriends).then(this.getPlayerScore).then(this.getPlayerRewards).then((player) => {
-				console.log('All done !! : ', player);
+
+				console.log(player);
 
 				this.connected = true;
+
 	 		});
 
 		 },
@@ -168,17 +170,17 @@ export default Vue.component('connection-component', {
 
 		 		};
 
-		 		this.$http.get('/api/users/' + player.facebook_user_id, (data) => {
+		 		this.$http.get('/api/users/' + player.facebook_user_id, () => {
 
 		 			if (!data) {
 
-		 				console.log('This player doesn\'t exit yet');
+						// 	console.log('This player doesn\'t exit yet');
 
 		 				reject(player);
 
 		 			} else {
 
-		 				console.log('This player already exists');
+						// 	console.log('This player already exists');
 
 		 				resolve(player);
 
@@ -219,7 +221,7 @@ export default Vue.component('connection-component', {
 
 	        	this.$http.put('/api/users/' + player.facebook_user_id, player, (data) => {
 
-	        		console.log('Player info updated  :', data.facebook_user_name);
+	        		// console.log('Player info updated  :', data.facebook_user_name);
 
 	        		resolve(player);
 
@@ -239,7 +241,7 @@ export default Vue.component('connection-component', {
 
 	        	this.$http.put('/api/users/' + player.facebook_user_id + '/friends', player, () => {
 
-	        		console.log('Player friends updated');
+	        		// console.log('Player friends updated');
 
 	        		resolve(player);
 
