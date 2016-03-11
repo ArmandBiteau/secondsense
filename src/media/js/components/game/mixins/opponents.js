@@ -40,11 +40,20 @@ export default {
 
 		opponentsUpdate: function() {
 
+            var position;
+            var data;
+
             if (this.device === 'desktop') {
 
                 // SHARE MY POSITION each frame
-                var position = this._controls.getObject().position;
-                var data = {id: this.me.id, x: position.x, y:position.y, z:position.z};
+                position = this._controls.getObject().position;
+                data = {id: this.me.id, x: position.x, y:position.y, z:position.z};
+                this.socket.emit('update player position', data);
+
+            } else {
+
+                position = this._camera.position;
+                data = {id: this.me.id, x: position.x, y:position.y, z:position.z};
                 this.socket.emit('update player position', data);
 
             }
