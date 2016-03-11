@@ -15,7 +15,7 @@ module.exports = function(camera, onError) {
     _this.pitchObject.add(camera);
 
     _this.yawObject = new THREE.Object3D();
-    _this.yawObject.position.y = 0.5;
+    _this.yawObject.position.y = 0.4;
     _this.yawObject.add(_this.pitchObject);
 
     var moveForward = false;
@@ -169,9 +169,9 @@ module.exports = function(camera, onError) {
 		// camera.translateY(velocity.y);
 		camera.translateZ(velocity.z);
 
-		if (camera.position.y !== 0.5) {
+		if (camera.position.y !== 0.4) {
 
-			camera.position.y = 0.5;
+			camera.position.y = 0.4;
 
 		}
 

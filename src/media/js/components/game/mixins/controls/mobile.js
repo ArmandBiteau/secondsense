@@ -18,6 +18,8 @@ export default {
 
 		this._controls = null;
 
+        this.isEnableCollisionDiamond = true;
+
 	},
 
     ready: function() {
@@ -90,7 +92,7 @@ export default {
 
                     var distance2 = intersectionDiamond[0].distance;
 
-                    if (distance2 > 0 && distance2 < 0.5) {
+                    if (distance2 > 0 && distance2 < 1) {
 
                         // console.log('collide diamond');
 
