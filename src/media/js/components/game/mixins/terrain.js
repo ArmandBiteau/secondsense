@@ -26,6 +26,8 @@ export default {
 
         this._terrainSize = 40;
 
+        this._shaderId = 1;
+
 	},
 
 	methods: {
@@ -85,7 +87,8 @@ export default {
             this._obstaclesMat = new THREE.ShaderMaterial({
                 uniforms: {
                     time: { type: 'f', value: 1.0 },
-                    resolution: { type: 'v2', value: new THREE.Vector2() }
+                    resolution: { type: 'v2', value: new THREE.Vector2() },
+                    type: { type: 'i', value: this._shaderId}
                 },
                 vertexShader: glslify('../../../../glsl/terrain-vs.glsl'),
                 fragmentShader: glslify('../../../../glsl/terrain-fs.glsl')
@@ -193,6 +196,7 @@ export default {
 		terrainUpdate: function() {
 
             this._obstacles.material.uniforms.time.value += 0.1;
+            this._obstacles.material.uniforms.type.value = this._shaderId;
 
 		}
 	}

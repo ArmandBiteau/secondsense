@@ -21,9 +21,11 @@ module.exports = function(camera) {
 	var isOnObject = false;
 	var canJump = false;
 
-	var velocity = new THREE.Vector3();
+	this.velocity = new THREE.Vector3();
+	this.speed = 0.0025;
 
-	var speedUp = false;
+	var bonusPickedUp = false;
+	var bonusEnd = false;
 
 	var PI_2 = Math.PI / 2;
 
@@ -66,7 +68,7 @@ module.exports = function(camera) {
 			//
 			case 32: // space
 				moveForward = true;
-				// if (canJump === true) velocity.y += 1;
+				// if (canJump === true) this.this.velocity.y += 1;
 				// canJump = false;
 				break;
 
@@ -125,11 +127,6 @@ module.exports = function(camera) {
 
 	};
 
-	this.bonusPickedUp = function(boolean) {
-
-		speedUp = true;
-
-	};
 
 	this.update = function(delta) {
 
@@ -137,38 +134,28 @@ module.exports = function(camera) {
 
 		delta *= 0.1;
 
-		velocity.x += (-velocity.x) * 0.08 * delta;
-		velocity.z += (-velocity.z) * 0.08 * delta;
+		this.velocity.z += (-this.velocity.z) * 0.08 * delta;
 
-		velocity.y -= 0.5 * delta;
+		this.velocity.y -= 0.5 * delta;
 
 		if (moveForward) {
-			velocity.z -= 0.0025 * delta;
-			console.log(velocity.z);
-			if (speedUp && velocity.z > -0.0625) {
-				velocity.z *= 2;
-				console.log(velocity.z);
-			}
+			this.velocity.z -= this.speed * delta;
 		}
-		if (moveBackward) velocity.z += 0.0025 * delta;
-
-		if (moveLeft) velocity.x -= 0.0025 * delta;
-		if (moveRight) velocity.x += 0.0025 * delta;
 
 		if (isOnObject === true) {
 
-			velocity.x = 0;
-			velocity.z = 0;
+			this.velocity.x = 0;
+			this.velocity.z = 0;
 
 		}
 
-		_this.yawObject.translateX(velocity.x);
-		_this.yawObject.translateY(velocity.y);
-		_this.yawObject.translateZ(velocity.z);
+		_this.yawObject.translateX(this.velocity.x);
+		_this.yawObject.translateY(this.velocity.y);
+		_this.yawObject.translateZ(this.velocity.z);
 
 		if (_this.yawObject.position.y < 0.5) {
 
-			velocity.y = 0;
+			this.velocity.y = 0;
 			_this.yawObject.position.y = 0.5;
 
 			canJump = true;

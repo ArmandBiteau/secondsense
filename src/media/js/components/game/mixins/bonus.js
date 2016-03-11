@@ -6,7 +6,7 @@ export default {
 
     created: function() {
 
-		// Sound Emitter
+		// Bonus
 
 		this.bonus = null;
 
@@ -32,7 +32,7 @@ export default {
 
             this.bonus.position.set(this._bonusPositionInitial.x, this._bonusPositionInitial.y + dimensions.max.y + 0.5, this._bonusPositionInitial.z);
 
-            this.bonus.rotation.set(45, 45, 45)
+            this.bonus.rotation.set(45, 45, 45);
 
             this._collidableMeshBonus.push(this.bonus);
 
@@ -61,6 +61,7 @@ export default {
             this.bonus.rotation.y -= 0.02;
 
 		},
+
 
         bonusInitPositions: function() {
 

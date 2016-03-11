@@ -149,13 +149,9 @@ export default {
 
                 if (distance2 > 0 && distance2 < 0.5) {
 
-                    console.log('collide bonus');
+                    // console.log('collide bonus');
 
-                    this._controls.bonusPickedUp(true);
-
-                    this._controls.isOnObject(true);
-
-                    this._collidableMeshBonus = [];
+                    Emitter.emit('BONUS_PICKED_UP');
 
                 }
 
