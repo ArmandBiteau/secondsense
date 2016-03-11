@@ -14,7 +14,8 @@
 		"FB": true,
 		"WebVRManager": true,
 		"__DEVELOPMENT__": true,
-		"__PRODUCTION__": true
+		"__PRODUCTION__": true,
+		"PositionSensorVRDevice": true
 	},
 	"esnext": true,
 	"eqeqeq": true,

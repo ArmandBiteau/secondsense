@@ -5,9 +5,7 @@
  * @author mrdoob / http://mrdoob.com
  */
 
-module.exports = function (camera, onError) {
-
-	var scope = this;
+module.exports = function(camera, onError) {
 
 	var vrInputs = [];
 
@@ -21,9 +19,6 @@ module.exports = function (camera, onError) {
     _this.yawObject.add(_this.pitchObject);
 
     var moveForward = false;
-    var moveBackward = false;
-    var moveLeft = false;
-    var moveRight = false;
 
     var isOnObject = false;
     var canJump = false;
@@ -32,21 +27,21 @@ module.exports = function (camera, onError) {
 
     // var PI_2 = Math.PI / 2;
 
-	function filterInvalidDevices( devices ) {
+	function filterInvalidDevices(devices) {
 
 		// Exclude Cardboard position sensor if Oculus exists.
 
-		var oculusDevices = devices.filter( function (device) {
+		var oculusDevices = devices.filter(function(device) {
 
-			return device.deviceName.toLowerCase().indexOf('oculus') !== - 1;
+			return device.deviceName.toLowerCase().indexOf('oculus') !== -1;
 
-		} );
+		});
 
 		if (oculusDevices.length >= 1) {
 
-			return devices.filter(function (device) {
+			return devices.filter(function(device) {
 
-				return device.deviceName.toLowerCase().indexOf('cardboard') === - 1;
+				return device.deviceName.toLowerCase().indexOf('cardboard') === -1;
 
 			});
 
@@ -62,7 +57,7 @@ module.exports = function (camera, onError) {
 
 		devices = filterInvalidDevices(devices);
 
-		for (var i = 0; i < devices.length; i ++) {
+		for (var i = 0; i < devices.length; i++) {
 
 			if (devices[i] instanceof PositionSensorVRDevice) {
 
@@ -82,36 +77,43 @@ module.exports = function (camera, onError) {
 
 	}
 
-    var onDocumentMouseUp = function() {
+	function onDocumentTouchEnd(event) {
 
-        console.log('mouse up');
+		event.preventDefault();
 
-        moveForward = true;
+		moveForward = false;
 
-        document.addEventListener('mouseout', onDocumentMouseOut, false);
+	}
 
-    };
+	function onDocumentTouchStart(event) {
 
-    var onDocumentMouseOut = function() {
+		if (event.touches.length === 1) {
 
-        console.log('mouse out');
+			event.preventDefault();
 
-        moveForward = false;
+			moveForward = true;
 
-    };
+			document.querySelector('canvas').addEventListener('touchend', onDocumentTouchEnd, false);
 
-    var onDocumentMouseDown = function(event) {
+		}
 
-        event.preventDefault();
+	}
 
-        document.addEventListener('mouseup', onDocumentMouseUp, false);
-        document.addEventListener('mouseout', onDocumentMouseOut, false);
+	function onDocumentTouchMove(event) {
 
-        console.log('mouse down');
+		if (event.touches.length === 1) {
 
-    };
+			event.preventDefault();
 
-    document.addEventListener('mousedown', onDocumentMouseDown, false);
+			moveForward = true;
+
+		}
+
+	}
+
+	document.querySelector('canvas').addEventListener('touchstart', onDocumentTouchStart, false);
+	document.querySelector('canvas').addEventListener('touchend', onDocumentTouchEnd, false);
+	document.querySelector('canvas').addEventListener('touchmove', onDocumentTouchMove, false);
 
 	this.scale = 1;
 
@@ -130,7 +132,20 @@ module.exports = function (camera, onError) {
 
 	this.update = function(delta) {
 
-		for (var i = 0; i < vrInputs.length; i ++) {
+		delta *= 0.1;
+		velocity.x += (-velocity.x) * 0.08 * delta;
+		velocity.z += (-velocity.z) * 0.08 * delta;
+
+		velocity.y -= 0.5 * delta;
+
+		if (moveForward) velocity.z -= 0.0025 * delta;
+
+		if (isOnObject === true) {
+			velocity.x = 0;
+			velocity.z = 0;
+		}
+
+		for (var i = 0; i < vrInputs.length; i++) {
 
 			var vrInput = vrInputs[i];
 
@@ -144,50 +159,27 @@ module.exports = function (camera, onError) {
 
 			if (state.position !== null) {
 
-				camera.position.copy(state.position).multiplyScalar(scope.scale);
+				camera.position.copy(state.position).multiplyScalar(_this.scale);
 
 			}
 
 		}
 
-		delta *= 0.1;
+		// camera.translateX(velocity.x);
+		// camera.translateY(velocity.y);
+		camera.translateZ(velocity.z);
 
-		velocity.x += (-velocity.x) * 0.08 * delta;
-		velocity.z += (-velocity.z) * 0.08 * delta;
+		if (camera.position.y !== 0.5) {
 
-		velocity.y -= 0.5 * delta;
-
-		if (moveForward) velocity.z -= 0.0025 * delta;
-		if (moveBackward) velocity.z += 0.0025 * delta;
-
-		if (moveLeft) velocity.x -= 0.0025 * delta;
-		if (moveRight) velocity.x += 0.0025 * delta;
-
-		if (isOnObject === true) {
-
-			velocity.x = 0;
-			velocity.z = 0;
-
-		}
-
-		_this.yawObject.translateX(velocity.x);
-		_this.yawObject.translateY(velocity.y);
-		_this.yawObject.translateZ(velocity.z);
-
-		if (_this.yawObject.position.y < 0.5) {
-
-			velocity.y = 0;
-			_this.yawObject.position.y = 0.5;
-
-			canJump = false;
+			camera.position.y = 0.5;
 
 		}
 
 	};
 
-	this.resetSensor = function () {
+	this.resetSensor = function() {
 
-		for (var i = 0; i < vrInputs.length; i ++) {
+		for (var i = 0; i < vrInputs.length; i++) {
 
 			var vrInput = vrInputs[i];
 
@@ -205,14 +197,14 @@ module.exports = function (camera, onError) {
 
 	};
 
-	this.zeroSensor = function () {
+	this.zeroSensor = function() {
 
-		console.warn( 'THREE.VRControls: .zeroSensor() is now .resetSensor().' );
+		console.warn('THREE.VRControls: .zeroSensor() is now .resetSensor().');
 		this.resetSensor();
 
 	};
 
-	this.dispose = function () {
+	this.dispose = function() {
 
 		vrInputs = [];
 

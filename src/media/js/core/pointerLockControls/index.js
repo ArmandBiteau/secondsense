@@ -33,8 +33,8 @@ module.exports = function(camera) {
 		var movementY = event.movementY || event.mozMovementY || 0;
 
 		_this.yawObject.rotation.y -= movementX * 0.002;
-		_this.pitchObject.rotation.x -= movementY * 0.002;
 
+		_this.pitchObject.rotation.x -= movementY * 0.002;
 		_this.pitchObject.rotation.x = Math.max(-PI_2, Math.min(PI_2, _this.pitchObject.rotation.x));
 
 	};
@@ -45,27 +45,8 @@ module.exports = function(camera) {
 
 			case 38: // up
 			case 90: // z
-				moveForward = true;
-				break;
-
-			// case 37: // left
-			// case 81: // q
-			// 	moveLeft = true; break;
-			//
-			// case 40: // down
-			// case 83: // s
-			// 	moveBackward = true;
-			// 	break;
-			//
-			// case 39: // right
-			// case 68: // d
-			// 	moveRight = true;
-			// 	break;
-			//
 			case 32: // space
 				moveForward = true;
-				// if (canJump === true) velocity.y += 1;
-				// canJump = false;
 				break;
 
 		}
@@ -78,24 +59,6 @@ module.exports = function(camera) {
 
 			case 38: // up
 			case 90: // z
-				moveForward = false;
-				break;
-
-			// case 37: // left
-			// case 81: // q
-			// 	moveLeft = false;
-			// 	break;
-			//
-			// case 40: // down
-			// case 83: // a
-			// 	moveBackward = false;
-			// 	break;
-			//
-			// case 39: // right
-			// case 68: // d
-			// 	moveRight = false;
-			// 	break;
-
 			case 32: // space
 				moveForward = false;
 				break;

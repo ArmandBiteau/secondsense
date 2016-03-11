@@ -28,6 +28,9 @@ export default {
 
 		controlsInitialize: function() {
 
+            var axisHelper = new THREE.AxisHelper(5);
+            this._scene.add(axisHelper);
+
             this._controlsTime = Date.now();
 
             this._controls = new VRControls(this._camera);
@@ -50,11 +53,11 @@ export default {
             point.applyMatrix4(this._camera.matrixWorld);
 
             var point2 = new THREE.Vector3(0, 0, 0);
-            point2.copy(this._controls.getObject().position);
+            point2.copy(this._camera.position);
 
             var lookAt = new THREE.Vector3(point.x - point2.x, point.y - point2.y, point.z - point2.z);
 
-            this._ray.ray.origin.copy(this._controls.getObject().position);
+            this._ray.ray.origin.copy(this._camera.position);
             this._ray.ray.direction = lookAt;
             this._ray.ray.direction.normalize();
             this._ray.ray.direction.y = 0.5;

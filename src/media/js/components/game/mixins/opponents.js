@@ -30,11 +30,11 @@ export default {
 
             }
 
-            var _this = this;
+            // var _this = this;
 
             // GET OPPONENTS POSITION
-            this.socket.on('update player position', _this.onUpdateOpponentPosition);
-            this.socket.on('add player gem', _this.onAddOpponentGem);
+            // this.socket.on('update player position', _this.onUpdateOpponentPosition);
+            // this.socket.on('add player gem', _this.onAddOpponentGem);
 
 		},
 
