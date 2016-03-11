@@ -133,41 +133,41 @@ export default Vue.extend({
 
 		this._clock = new THREE.Clock(true);
 
-		this.me = {
-			id: '1234',
-			name: 'Armand Bto'
-		};
-
-		this.GameRoom = {
-			id: 'testroom',
-			name: 'My room',
-			maxPlayers: 5,
-			players: [{
-				id: '1234',
-				name: 'Armand Bto',
-				score: {
-					sum_score: 12
-				},
-				gems: 1,
-				picture: 'https://pbs.twimg.com/profile_images/606867814025162752/Q3_J5qKH.jpg'
-			},{
-				id: '1234',
-				name: 'Denis Tribouillois',
-				score: {
-					sum_score: 20
-				},
-				gems: 3,
-				picture: 'https://pbs.twimg.com/profile_images/606867814025162752/Q3_J5qKH.jpg'
-			},{
-				id: '1234',
-				name: 'Jordi Bastide',
-				score: {
-					sum_score: 14
-				},
-				gems: 0,
-				picture: 'https://pbs.twimg.com/profile_images/606867814025162752/Q3_J5qKH.jpg'
-			}]
-		};
+		// this.me = {
+		// 	id: '1234',
+		// 	name: 'Armand Bto'
+		// };
+		//
+		// this.GameRoom = {
+		// 	id: 'testroom',
+		// 	name: 'My room',
+		// 	maxPlayers: 5,
+		// 	players: [{
+		// 		id: '1234',
+		// 		name: 'Armand Bto',
+		// 		score: {
+		// 			sum_score: 12
+		// 		},
+		// 		gems: 1,
+		// 		picture: 'https://pbs.twimg.com/profile_images/606867814025162752/Q3_J5qKH.jpg'
+		// 	},{
+		// 		id: '1234',
+		// 		name: 'Denis Tribouillois',
+		// 		score: {
+		// 			sum_score: 20
+		// 		},
+		// 		gems: 3,
+		// 		picture: 'https://pbs.twimg.com/profile_images/606867814025162752/Q3_J5qKH.jpg'
+		// 	},{
+		// 		id: '1234',
+		// 		name: 'Jordi Bastide',
+		// 		score: {
+		// 			sum_score: 14
+		// 		},
+		// 		gems: 0,
+		// 		picture: 'https://pbs.twimg.com/profile_images/606867814025162752/Q3_J5qKH.jpg'
+		// 	}]
+		// };
 
 		this.bind();
 
