@@ -48,13 +48,13 @@ export default {
                 // SHARE MY POSITION each frame
                 position = this._controls.getObject().position;
                 data = {id: this.me.id, x: position.x, y:position.y, z:position.z};
-                //this.socket.emit('update player position', data);
+                this.socket.emit('update player position', data);
 
             } else {
 
                 position = this._camera.position;
                 data = {id: this.me.id, x: position.x, y:position.y, z:position.z};
-                //this.socket.emit('update player position', data);
+                this.socket.emit('update player position', data);
 
             }
 
