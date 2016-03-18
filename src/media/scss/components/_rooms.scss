@@ -105,10 +105,12 @@
     cursor: pointer;
     margin-bottom: 1.5em;
     transition: transform 0.3s;
+    transform-style: preserve-3d;
     &:nth-child(2n+1){
         margin-right: 6%;
     }
     &:hover{
+        color: $color-white;
         transform: translateZ(10px);
         transition: transform 0.3s;
         & .rooms-list-item-corner{

@@ -28,6 +28,8 @@ export default {
 
         this._frame = 0;
 
+        this._shaderId = 1;
+
 	},
 
 	methods: {
@@ -130,7 +132,9 @@ export default {
             this._obstaclesGeo = new THREE.Geometry();
             this._obstaclesMat = new THREE.ShaderMaterial({
                 uniforms: {
-                    resolution: { type: 'v2', value: new THREE.Vector2() }
+                    time: { type: 'f', value: 1.0 },
+                    resolution: { type: 'v2', value: new THREE.Vector2() },
+                    type: { type: 'i', value: this._shaderId}
                 },
                 vertexShader: glslify('../../../../glsl/game/obstacle-vs.glsl'),
                 fragmentShader: glslify('../../../../glsl/game/obstacle-fs.glsl')
@@ -230,6 +234,10 @@ export default {
             this._grid.material.uniforms.time.value = this._frame/100;
 
             this._frame++;
+
+            this._obstacles.material.uniforms.time.value += 0.1;
+
+            this._obstacles.material.uniforms.type.value = this._shaderId;
 
 		}
 	}

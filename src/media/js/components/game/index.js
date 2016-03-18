@@ -22,6 +22,8 @@ import gameEndComponent from '../game-end';
 
 import SoundEmitterMixin from './mixins/sound-emitter';
 
+import BonusMixin from './mixins/bonus';
+
 import ControlsDesktopMixin from './mixins/controls/desktop';
 
 import ControlsMobileMixin from './mixins/controls/mobile';
@@ -236,6 +238,8 @@ export default Vue.extend({
 
 			Emitter.on('GET_GEM', this.onGemCatch);
 
+			Emitter.on('BONUS_PICKED_UP', this.onBonusPickedUp);
+
 			this.socket.on('update gem position', this.onUpdateGemPosition);
 
 		},
@@ -251,6 +255,8 @@ export default Vue.extend({
 			this._collidableMeshList = [];
 
 			this._collidableMeshDiamond = [];
+
+			this._collidableMeshBonus = [];
 
 			// Scene
 
@@ -318,6 +324,8 @@ export default Vue.extend({
 			this.controlsInitialize();
 
 			this.soundEmitterInitialize();
+
+			this.bonusInitialize();
 
 			this.terrainInitialize();
 
@@ -487,6 +495,43 @@ export default Vue.extend({
 
 		},
 
+		onBonusPickedUp: function() {
+
+			let rand = Math.floor((Math.random() * 3) + 1);
+			switch (rand) {
+
+			    case 1:
+							console.log('speed');
+							this._controls.speed *= 2;
+
+							setTimeout(() => {
+								this._controls.speed /= 2;
+							}, 5000);
+			        break;
+
+			    case 2:
+							console.log('slow');
+							this._controls.speed /= 2;
+
+							setTimeout(() => {
+								this._controls.speed *= 2;
+							}, 5000);
+							break;
+				case 3:
+							console.log('change shader');
+						this._shaderId = 2;
+
+						setTimeout(() => {
+							this._shaderId = 1;
+						}, 5000);
+						break;
+			}
+
+			this._collidableMeshBonus = [];
+			this._scene.remove(this.bonus);
+
+		},
+
 		changeGemPosition: function() {
 
 			Emitter.emit('SOUND_MANAGER_REQUEST_SOUND_GETGEM');
@@ -634,7 +679,8 @@ export default Vue.extend({
 		CubeMixin,
 		OpponentsMixin,
 		LightsMixin,
-		SoundEmitterMixin
+		SoundEmitterMixin,
+		BonusMixin
 
 	],
 

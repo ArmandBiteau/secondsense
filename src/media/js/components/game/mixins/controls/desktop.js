@@ -139,6 +139,24 @@ export default {
 
             }
 
+            // Collision Bonus
+
+            var intersectionBonus = this._ray.intersectObjects(this._collidableMeshBonus);
+
+            if (intersectionBonus.length > 0) {
+
+                var distance2 = intersectionBonus[0].distance;
+
+                if (distance2 > 0 && distance2 < 0.5) {
+
+                    // console.log('collide bonus');
+
+                    Emitter.emit('BONUS_PICKED_UP');
+
+                }
+
+            }
+
             // Collision diamand
 
             if (this.isEnableCollisionDiamond) {
@@ -147,9 +165,9 @@ export default {
 
                 if (intersectionDiamond.length > 0) {
 
-                    var distance2 = intersectionDiamond[0].distance;
+                    var distance3 = intersectionDiamond[0].distance;
 
-                    if (distance2 > 0 && distance2 < 0.5) {
+                    if (distance3 > 0 && distance3 < 0.5) {
 
                         // console.log('collide diamond');
 
