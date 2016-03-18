@@ -537,7 +537,7 @@ export default Vue.extend({
 
 			this.removeBonus(data.id);
 
-			this.addNewBonus();
+			this.addNewBonus(data.id);
 
 		},
 
@@ -547,9 +547,9 @@ export default Vue.extend({
 
 		},
 
-		addNewBonus: function() {
+		addNewBonus: function(id) {
 
-			this.mixinAddNewBonus();
+			this.mixinAddNewBonus(id);
 
 		},
 

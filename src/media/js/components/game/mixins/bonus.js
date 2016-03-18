@@ -100,15 +100,9 @@ export default {
 
         },
 
-        getRandombonusPosition: function(exceptElement) {
+        getRandomBonusPosition: function() {
 
                 var n = Math.floor(Math.random() * this.bonusAvailablePositions.length);
-
-                if (this.bonusAvailablePositions[n] === exceptElement) {
-
-                    n = (n + Math.floor(Math.random() * this.bonusAvailablePositions.length)) % this.bonusAvailablePositions.length;
-
-                }
 
                 return this.bonusAvailablePositions[n];
 
@@ -156,14 +150,30 @@ export default {
 
 		},
 
-		mixinAddNewBonus: function() {
+		mixinAddNewBonus: function(id) {
+
+            var options = id.split('--');
+
+			var type = options[0];
+			var action = options[1];
 
             console.log('add bonus');
 
-			// create new bonus
-			// broadcast new bonus
+            var newPosition = this.getRandomBonusPosition();
 
-			// this.socket.emit('add bonus', newBonuses);
+            this.socket.emit('add bonus', {type: type, action: action, position: newPosition});
+
+            var newBonus = new Bonus(type, action, newPosition.x, newPosition.y, newPosition.z);
+
+            // console.log(type, action);
+
+            // var newBonus = new Bonus(type, action, 0, 0.5, 0);
+
+            this.bonuses.push(newBonus);
+
+            this._collidableMeshBonus.push(newBonus.mesh);
+
+            this._scene.add(newBonus.mesh);
 
 		}
 

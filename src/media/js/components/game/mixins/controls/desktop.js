@@ -157,6 +157,8 @@ export default {
 
                         // console.log('collide bonus');
 
+                        // console.log(intersectionBonus[0].object.name);
+
                         Emitter.emit('BONUS_PICKED_UP', {id: intersectionBonus[0].object.name});
 
                         this._controls.isOnObject(true);
