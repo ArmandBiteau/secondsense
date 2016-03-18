@@ -61,6 +61,12 @@ class Manager {
 
 			client.on('update gem position', _this.onUpdateGemPosition);
 
+			client.on('bonus', _this.onBonus);
+
+			client.on('add bonus', _this.onAddBonus);
+
+			client.on('remove bonus', _this.onRemoveBonus);
+
 		});
 
     }
@@ -194,6 +200,24 @@ class Manager {
 	onUpdateGemPosition(data) {
 
 		this.broadcast.to(this.room.name).emit('update gem position', data);
+
+	}
+
+	onBonus(data) {
+
+		this.broadcast.to(this.room.name).emit('bonus', data);
+
+	}
+
+	onAddBonus(data) {
+
+		this.broadcast.to(this.room.name).emit('add bonus', data);
+
+	}
+
+	onRemoveBonus(data) {
+
+		this.broadcast.to(this.room.name).emit('remove bonus', data);
 
 	}
 

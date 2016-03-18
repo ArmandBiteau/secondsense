@@ -20,9 +20,9 @@ export default {
 
             this.bonuses = [];
 
-            this.bonuses.push(new Bonus('me', 'speedup', -1, 0.5, -1));
+            this.bonuses.push(new Bonus('idtest', 'me', 'speedup', -1, 0.5, -1));
 
-            this.bonuses.push(new Bonus('opponents', 'shader', -2, 0.5, -2));
+            this.bonuses.push(new Bonus('idtest2', 'opponents', 'shader', -2, 0.5, -2));
 
             this._collidableMeshBonus.push(this.bonuses[0].mesh);
 
@@ -31,6 +31,10 @@ export default {
             this._scene.add(this.bonuses[0].mesh);
 
             this._scene.add(this.bonuses[1].mesh);
+
+            this.bonuses[0].enter();
+
+            this.bonuses[1].enter();
 
 		},
 
@@ -124,11 +128,31 @@ export default {
 
         },
 
-        mixinRemoveBonus: function(id) {
+        bonusByName: function(name) {
+
+            for (let i = 0; i < this.bonuses.length; i++) {
+
+                if (this.bonuses[i].mesh.name === name) {
+
+                    return this.bonuses[i];
+
+                }
+
+            }
+
+            return false;
+
+        },
+
+        mixinRemoveBonus: function(name) {
 
             console.log('remove bonus');
 
-            let selectedObject = this._scene.getObjectByName(id);
+            let selectedObject = this._scene.getObjectByName(name);
+
+            let bonus = this.bonusByName(name);
+
+            bonus.leave();
 
             this._scene.remove(selectedObject);
 
@@ -140,7 +164,39 @@ export default {
 
     	    }
 
-			this.socket.emit('remove bonus', {id: id});
+			this.socket.emit('remove bonus', {name: name});
+
+			setTimeout(() => {
+
+				this.isEnableCollisionBonus = true;
+
+			}, 2000);
+
+		},
+
+        onMixinRemoveBonus: function(data) {
+
+            console.log(data);
+
+            console.log('remove bonus');
+
+            // CREER UN ID COMMUN A TOUS LES JOUEURS
+
+            let selectedObject = this._scene.getObjectByName(data.name);
+
+            let bonus = this.bonusByName(data.name);
+
+            bonus.leave();
+
+            this._scene.remove(selectedObject);
+
+            let objectToDelete = this._collidableMeshBonus.indexOf(selectedObject);
+
+    	    if (objectToDelete !== -1) {
+
+    	    	this._collidableMeshBonus.splice(objectToDelete, 1);
+
+    	    }
 
 			setTimeout(() => {
 
@@ -161,19 +217,41 @@ export default {
 
             var newPosition = this.getRandomBonusPosition();
 
-            this.socket.emit('add bonus', {type: type, action: action, position: newPosition});
+            // var newPosition = {
+            //     x: -1,
+            //     y: 0.5,
+            //     z: 0
+            // };
 
-            var newBonus = new Bonus(type, action, newPosition.x, newPosition.y, newPosition.z);
+            let newid = (0|Math.random()*9e6).toString(36);
 
-            // console.log(type, action);
+            this.socket.emit('add bonus', {id: newid, type: type, action: action, position: newPosition});
 
-            // var newBonus = new Bonus(type, action, 0, 0.5, 0);
+            var newBonus = new Bonus(newid, type, action, newPosition.x, newPosition.y, newPosition.z);
 
             this.bonuses.push(newBonus);
 
             this._collidableMeshBonus.push(newBonus.mesh);
 
             this._scene.add(newBonus.mesh);
+
+            newBonus.enter();
+
+		},
+
+        onMixinAddNewBonus: function(data) {
+
+            console.log('add bonus');
+
+            var newBonus = new Bonus(data.id, data.type, data.action, data.position.x, data.position.y, data.position.z);
+
+            this.bonuses.push(newBonus);
+
+            this._collidableMeshBonus.push(newBonus.mesh);
+
+            this._scene.add(newBonus.mesh);
+
+            newBonus.enter();
 
 		}
 

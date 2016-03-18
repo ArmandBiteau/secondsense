@@ -4,7 +4,9 @@ import THREE from 'three';
 
 class Bonus {
 
-	constructor(type, action, x, y, z) {
+	constructor(id, type, action, x, y, z) {
+
+		this.id = id;
 
 		this.type = type;
 
@@ -56,7 +58,9 @@ class Bonus {
 
         this.mesh = new THREE.Mesh(this.geometry, this.material);
 
-		this.mesh.name = this.type + '--' + this.action + '--' + this.mesh.uuid;
+		this.mesh.scale.set(0.001, 0.001, 0.001);
+
+		this.mesh.name = this.type + '--' + this.action + '--' + this.id;
 
     }
 
@@ -67,6 +71,28 @@ class Bonus {
 		this.mesh.rotation.set(45, 45, 45);
 
     }
+
+	enter() {
+
+		TweenMax.to(this.mesh.scale, 0.5, {
+			x: 1,
+			y: 1,
+			z: 1,
+			ease: Power2.easeOut
+		});
+
+	}
+
+	leave() {
+
+		TweenMax.to(this.mesh.scale, 0.5, {
+			x: 0.001,
+			y: 0.001,
+			z: 0.001,
+			ease: Power2.easeIn
+		});
+
+	}
 
 }
 

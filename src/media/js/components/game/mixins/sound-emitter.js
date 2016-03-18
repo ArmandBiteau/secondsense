@@ -144,6 +144,40 @@ export default {
 
             this._scene.remove(this.soundEmitter);
 
+        },
+
+        mixinChangeSoundEmitterPosition: function(newPosition) {
+
+            TweenMax.to(this.soundEmitter.scale, 0.1, {
+				x: 0.001,
+				y: 0.001,
+				z: 0.001,
+				ease: Power2.easeIn,
+				onComplete: () => {
+
+					// Change position
+					this.soundEmitter.position.x = newPosition.x;
+					this.soundEmitter.position.y = newPosition.y;
+					this.soundEmitter.position.z = newPosition.z;
+
+					// Give back its scale
+					TweenMax.to(this.soundEmitter.scale, 0.3, {
+						x: 1,
+						y: 1,
+						z: 1,
+						ease: Power2.easeOut
+					});
+
+				}
+
+			});
+
+            setTimeout(() => {
+
+				this.isEnableCollisionDiamond = true;
+
+			}, 1000);
+
         }
 
 	}
