@@ -325,13 +325,13 @@ export default Vue.extend({
 
 			this.soundEmitterInitialize();
 
-			this.bonusInitialize();
-
 			this.terrainInitialize();
 
 			this.lightInitialize();
 
 			this.opponentsInitialize();
+
+			this.bonusInitialize();
 
 			if (this.device === 'desktop') {
 
@@ -391,6 +391,8 @@ export default Vue.extend({
 			this.lightsUpdate();
 
 			this.opponentsUpdate();
+
+			this.bonusUpdate();
 
 		},
 
@@ -477,6 +479,83 @@ export default Vue.extend({
 
 		},
 
+		onBonusPickedUp: function(id) {
+
+			var options = id.split('--');
+
+			console.log(options[0]);
+			console.log(options[1]);
+
+			if (!this.isGameComplete) {
+
+				// let rand = Math.floor((Math.random() * 3) + 1);
+				let rand = 3;
+
+				switch (rand) {
+
+				    case 1:
+
+						this._controls.speed *= 2;
+						setTimeout(() => {
+
+							this._controls.speed /= 2;
+
+						}, 5000);
+				        break;
+
+				    case 2:
+
+						this._controls.speed /= 2;
+						setTimeout(() => {
+
+							this._controls.speed *= 2;
+
+						}, 5000);
+						break;
+
+					case 3:
+
+						this._shaderId = 2;
+						setTimeout(() => {
+
+							this._shaderId = 1;
+
+						}, 5000);
+						break;
+
+				}
+
+				// si c'est pour les autres : broadcast
+				//this.socket.emit('add player gem', {id: this.me.id});
+
+			}
+
+			this.updateNewBonus();
+
+			// this._collidableMeshBonus = [];
+			// this._scene.remove(this.bonus);
+
+		},
+
+		updateNewBonus: function() {
+
+			Emitter.emit('SOUND_MANAGER_REQUEST_SOUND_GETGEM');
+
+			// remove from scene
+			// broadcast remove bonus
+			// create new bonus
+			// broadcast new bonus
+
+			// animation bonus
+
+			setTimeout(() => {
+
+				this.isEnableCollisionBonus = true;
+
+			}, 2000);
+
+		},
+
 		onGemCatch: function(id) {
 
 			if (!this.isGameComplete) {
@@ -492,50 +571,6 @@ export default Vue.extend({
 				this.changeGemPosition();
 
 			}
-
-		},
-
-		onBonusPickedUp: function() {
-
-			// let rand = Math.floor((Math.random() * 3) + 1);
-			let rand = 3;
-
-			switch (rand) {
-
-			    case 1:
-
-					this._controls.speed *= 2;
-					setTimeout(() => {
-
-						this._controls.speed /= 2;
-
-					}, 5000);
-			        break;
-
-			    case 2:
-
-					this._controls.speed /= 2;
-					setTimeout(() => {
-
-						this._controls.speed *= 2;
-
-					}, 5000);
-					break;
-
-				case 3:
-
-					this._shaderId = 2;
-					setTimeout(() => {
-
-						this._shaderId = 1;
-
-					}, 5000);
-					break;
-
-			}
-
-			this._collidableMeshBonus = [];
-			this._scene.remove(this.bonus);
 
 		},
 

@@ -2,15 +2,11 @@
 
 import THREE from 'three';
 
-class Opponent {
+class Bonus {
 
-	constructor(id, name, color, x, y, z) {
+	constructor(type, x, y, z) {
 
-		this.id = id;
-
-		this.name = name;
-
-        this.color = color;
+		this.type = type;
 
 		this.x = x;
 
@@ -18,7 +14,7 @@ class Opponent {
 
 		this.z = z;
 
-		this.gems = 0;
+		this.color = null;
 
         this.createGeometry();
 
@@ -26,21 +22,31 @@ class Opponent {
 
         this.createMesh();
 
-        // this.updateMeshXYZ(x, y, z);
-
         this.updateMeshPosition(x, y, z);
 
 	}
 
     createGeometry() {
 
-        this.geometry = new THREE.SphereGeometry(0.1, 16, 16);
+        this.geometry = new THREE.BoxGeometry(0.3, 0.3, 0.3);
 
     }
 
     createMaterial() {
 
-        this.material = new THREE.MeshBasicMaterial({color: this.color});
+		let color;
+
+		if (this.type === 'own') {
+
+			color = new THREE.Color(0x00FF00);
+
+		} else {
+
+			color = new THREE.Color(0xFF0000);
+
+		}
+
+        this.material = new THREE.MeshLambertMaterial({color: color});
 
     }
 
@@ -48,15 +54,7 @@ class Opponent {
 
         this.mesh = new THREE.Mesh(this.geometry, this.material);
 
-    }
-
-    updateMeshXYZ(x, y, z) {
-
-        this.x = x;
-
-		this.y = y;
-
-		this.z = z;
+		this.mesh.name = this.type + '--' + this.mesh.uuid;
 
     }
 
@@ -64,14 +62,10 @@ class Opponent {
 
         this.mesh.position.set(x, y, z);
 
+		this.mesh.rotation.set(45, 45, 45);
+
     }
-
-	addGem() {
-
-		this.gems++;
-
-	}
 
 }
 
-export default Opponent;
+export default Bonus;

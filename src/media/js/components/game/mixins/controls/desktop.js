@@ -22,6 +22,8 @@ export default {
 
         this.isEnableCollisionDiamond = true;
 
+        this.isEnableCollisionBonus = true;
+
 	},
 
     ready: function() {
@@ -141,17 +143,25 @@ export default {
 
             // Collision Bonus
 
-            var intersectionBonus = this._ray.intersectObjects(this._collidableMeshBonus);
+            if (this.isEnableCollisionBonus) {
 
-            if (intersectionBonus.length > 0) {
+                var intersectionBonus = this._ray.intersectObjects(this._collidableMeshBonus);
 
-                var distance2 = intersectionBonus[0].distance;
+                if (intersectionBonus.length > 0) {
 
-                if (distance2 > 0 && distance2 < 0.5) {
+                    var distance2 = intersectionBonus[0].distance;
 
-                    // console.log('collide bonus');
+                    if (distance2 > 0 && distance2 < 0.5) {
 
-                    Emitter.emit('BONUS_PICKED_UP');
+                        this.isEnableCollisionBonus = false;
+
+                        // console.log('collide bonus');
+
+                        Emitter.emit('BONUS_PICKED_UP', {id: intersectionBonus[0].object.name});
+
+                        this._controls.isOnObject(true);
+
+                    }
 
                 }
 

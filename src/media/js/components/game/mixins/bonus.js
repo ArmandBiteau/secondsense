@@ -1,6 +1,8 @@
 'use strict';
 
-import THREE from 'three';
+// import THREE from 'three';
+
+import Bonus from '../models/bonus';
 
 export default {
 
@@ -8,57 +10,33 @@ export default {
 
 		// Bonus
 
-		this.bonus = null;
-
-		this._bonusColor = '#FFFFFF';
-
-		this._bonusPositionInitial = new THREE.Vector3(-1, 0, -1);
-
 	},
 
 	methods: {
 
 		bonusInitialize: function() {
 
-            //this.bonusInitPositions();
+            this.bonusInitPositions();
 
-            let geometry = new THREE.BoxGeometry(0.3, 0.3, 0.3);
+            this.bonuses = [];
 
-            let material = new THREE.MeshPhongMaterial({ color: 0x0066FF, shininess: 30, shading: THREE.FlatShading });
+            this.bonuses.push(new Bonus('own', -1, 0.5, -1));
 
-            this.bonus = new THREE.Mesh(geometry, material);
+            this.bonuses.push(new Bonus('own', -2, 0.5, -2));
 
-            let dimensions = new THREE.Box3().setFromObject(this.bonus);
+            this._collidableMeshBonus.push(this.bonuses[0].mesh);
 
-            this.bonus.position.set(this._bonusPositionInitial.x, this._bonusPositionInitial.y + dimensions.max.y + 0.5, this._bonusPositionInitial.z);
+            this._collidableMeshBonus.push(this.bonuses[1].mesh);
 
-            this.bonus.rotation.set(45, 45, 45);
+            this._scene.add(this.bonuses[0].mesh);
 
-            this._collidableMeshBonus.push(this.bonus);
-
-            this._scene.add(this.bonus);
-
-            // this._sound = new THREE.Audio(this._listener);
-
-            // let randomSound = Math.floor(Math.random() * 3) + 1;
-
-            // this._sound.load('/media/sounds/'+randomSound+'.ogg');
-
-            // this._sound.load('/media/sounds/lazerkut.mp3');
-
-            // this._sound.setRefDistance(10);
-
-            // this._sound.autoplay = true;
-
-            // this._sound.loop = true;
-
-			// this.bonus.add(this._sound);
+            this._scene.add(this.bonuses[1].mesh);
 
 		},
 
 		bonusUpdate: function() {
 
-            this.bonus.rotation.y -= 0.02;
+            this.bonuses[0].mesh.rotation.y -= 0.02;
 
 		},
 
