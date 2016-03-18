@@ -38,6 +38,8 @@ export default {
 
             this.bonuses[0].mesh.rotation.y -= 0.02;
 
+            this.bonuses[1].mesh.rotation.y -= 0.02;
+
 		},
 
         bonusInitPositions: function() {
@@ -132,11 +134,17 @@ export default {
 
             console.log('remove bonus');
 
-			// remove from scene
-			// broadcast remove bonus
+            let selectedObject = this._scene.getObjectByName(id);
 
-			// this._collidableMeshBonus = [];
-			// this._scene.remove(this.bonus);
+            this._scene.remove(selectedObject);
+
+            let objectToDelete = this._collidableMeshBonus.indexOf(selectedObject);
+
+    	    if (objectToDelete !== -1) {
+
+    	    	this._collidableMeshBonus.splice(objectToDelete, 1);
+
+    	    }
 
 			this.socket.emit('remove bonus', {id: id});
 

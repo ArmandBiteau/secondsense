@@ -529,7 +529,7 @@ export default Vue.extend({
 
 				} else {
 
-					this.socket.emit('bonus', {id: data});
+					this.socket.emit('bonus', {id: data.id});
 
 				}
 
