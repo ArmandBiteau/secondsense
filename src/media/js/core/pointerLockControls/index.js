@@ -48,8 +48,6 @@ module.exports = function(camera) {
 			case 90: // z
 			case 32: // space
 				moveForward = true;
-				// if (canJump === true) this.this.velocity.y += 1;
-				// canJump = false;
 				break;
 
 		}
@@ -88,7 +86,6 @@ module.exports = function(camera) {
 		canJump = boolean;
 
 	};
-
 
 	this.update = function(delta) {
 

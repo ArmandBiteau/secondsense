@@ -497,34 +497,41 @@ export default Vue.extend({
 
 		onBonusPickedUp: function() {
 
-			let rand = Math.floor((Math.random() * 3) + 1);
+			// let rand = Math.floor((Math.random() * 3) + 1);
+			let rand = 3;
+
 			switch (rand) {
 
 			    case 1:
-							console.log('speed');
-							this._controls.speed *= 2;
 
-							setTimeout(() => {
-								this._controls.speed /= 2;
-							}, 5000);
+					this._controls.speed *= 2;
+					setTimeout(() => {
+
+						this._controls.speed /= 2;
+
+					}, 5000);
 			        break;
 
 			    case 2:
-							console.log('slow');
-							this._controls.speed /= 2;
 
-							setTimeout(() => {
-								this._controls.speed *= 2;
-							}, 5000);
-							break;
+					this._controls.speed /= 2;
+					setTimeout(() => {
+
+						this._controls.speed *= 2;
+
+					}, 5000);
+					break;
+
 				case 3:
-							console.log('change shader');
-						this._shaderId = 2;
 
-						setTimeout(() => {
-							this._shaderId = 1;
-						}, 5000);
-						break;
+					this._shaderId = 2;
+					setTimeout(() => {
+
+						this._shaderId = 1;
+
+					}, 5000);
+					break;
+
 			}
 
 			this._collidableMeshBonus = [];

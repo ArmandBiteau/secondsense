@@ -62,7 +62,6 @@ export default {
 
 		},
 
-
         bonusInitPositions: function() {
 
             this.bonusAvailablePositions = [{

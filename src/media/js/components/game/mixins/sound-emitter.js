@@ -48,7 +48,7 @@ export default {
 
             this._sound.setRefDistance(10);
 
-            this._sound.setVolume(0.03);
+            this._sound.setVolume(0);
 
             this._sound.autoplay = true;
 
@@ -63,7 +63,6 @@ export default {
             this.soundEmitter.rotation.y -= 0.02;
 
 		},
-
 
         soundEmitterInitPositions: function() {
 
