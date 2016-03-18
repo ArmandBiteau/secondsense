@@ -4,9 +4,11 @@ import THREE from 'three';
 
 class Bonus {
 
-	constructor(type, x, y, z) {
+	constructor(type, action, x, y, z) {
 
 		this.type = type;
+
+		this.action = action;
 
 		this.x = x;
 
@@ -36,7 +38,7 @@ class Bonus {
 
 		let color;
 
-		if (this.type === 'own') {
+		if (this.type === 'me') {
 
 			color = new THREE.Color(0x00FF00);
 
@@ -54,7 +56,7 @@ class Bonus {
 
         this.mesh = new THREE.Mesh(this.geometry, this.material);
 
-		this.mesh.name = this.type + '--' + this.mesh.uuid;
+		this.mesh.name = this.type + '--' + this.action + '--' + this.mesh.uuid;
 
     }
 

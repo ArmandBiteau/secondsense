@@ -20,9 +20,9 @@ export default {
 
             this.bonuses = [];
 
-            this.bonuses.push(new Bonus('own', -1, 0.5, -1));
+            this.bonuses.push(new Bonus('me', 'speedup', -1, 0.5, -1));
 
-            this.bonuses.push(new Bonus('own', -2, 0.5, -2));
+            this.bonuses.push(new Bonus('opponents', 'shader', -2, 0.5, -2));
 
             this._collidableMeshBonus.push(this.bonuses[0].mesh);
 
@@ -110,7 +110,54 @@ export default {
 
                 return this.bonusAvailablePositions[n];
 
-        }
+        },
+
+        bonusById: function(id) {
+
+            for (let i = 0; i < this.bonuses.length; i++) {
+
+                if (this.bonuses[i].id === id) {
+
+                    return this.bonuses[i];
+
+                }
+
+            }
+
+            return false;
+
+        },
+
+        mixinRemoveBonus: function(id) {
+
+            console.log('remove bonus');
+
+			// remove from scene
+			// broadcast remove bonus
+
+			// this._collidableMeshBonus = [];
+			// this._scene.remove(this.bonus);
+
+			this.socket.emit('remove bonus', {id: id});
+
+			setTimeout(() => {
+
+				this.isEnableCollisionBonus = true;
+
+			}, 2000);
+
+		},
+
+		mixinAddNewBonus: function() {
+
+            console.log('add bonus');
+
+			// create new bonus
+			// broadcast new bonus
+
+			// this.socket.emit('add bonus', newBonuses);
+
+		}
 
 	}
 };

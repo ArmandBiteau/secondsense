@@ -479,80 +479,77 @@ export default Vue.extend({
 
 		},
 
-		onBonusPickedUp: function(id) {
-
-			var options = id.split('--');
-
-			console.log(options[0]);
-			console.log(options[1]);
-
-			if (!this.isGameComplete) {
-
-				// let rand = Math.floor((Math.random() * 3) + 1);
-				let rand = 3;
-
-				switch (rand) {
-
-				    case 1:
-
-						this._controls.speed *= 2;
-						setTimeout(() => {
-
-							this._controls.speed /= 2;
-
-						}, 5000);
-				        break;
-
-				    case 2:
-
-						this._controls.speed /= 2;
-						setTimeout(() => {
-
-							this._controls.speed *= 2;
-
-						}, 5000);
-						break;
-
-					case 3:
-
-						this._shaderId = 2;
-						setTimeout(() => {
-
-							this._shaderId = 1;
-
-						}, 5000);
-						break;
-
-				}
-
-				// si c'est pour les autres : broadcast
-				//this.socket.emit('add player gem', {id: this.me.id});
-
-			}
-
-			this.updateNewBonus();
-
-			// this._collidableMeshBonus = [];
-			// this._scene.remove(this.bonus);
-
-		},
-
-		updateNewBonus: function() {
+		onBonusPickedUp: function(data) {
 
 			Emitter.emit('SOUND_MANAGER_REQUEST_SOUND_GETGEM');
 
-			// remove from scene
-			// broadcast remove bonus
-			// create new bonus
-			// broadcast new bonus
+			var options = data.id.split('--');
 
-			// animation bonus
+			// var meshName = data.id;
+			var type = options[0];
+			var action = options[1];
 
-			setTimeout(() => {
+			if (!this.isGameComplete) {
 
-				this.isEnableCollisionBonus = true;
+				if (type === 'me') {
 
-			}, 2000);
+					switch (action) {
+
+					    case 'speedup':
+
+							this._controls.speed *= 2;
+							setTimeout(() => {
+
+								this._controls.speed /= 2;
+
+							}, 5000);
+					        break;
+
+					    case 'speeddown':
+
+							this._controls.speed /= 2;
+							setTimeout(() => {
+
+								this._controls.speed *= 2;
+
+							}, 5000);
+							break;
+
+						case 'shader':
+
+							this._shaderId = 2;
+							setTimeout(() => {
+
+								this._shaderId = 1;
+
+							}, 5000);
+							break;
+
+					}
+
+				} else {
+
+					this.socket.emit('bonus', {id: data});
+
+				}
+
+			}
+
+			this.removeBonus(data.id);
+
+			this.addNewBonus();
+
+		},
+
+		removeBonus: function(id) {
+
+			this.mixinRemoveBonus(id);
+
+		},
+
+		addNewBonus: function() {
+
+			this.mixinAddNewBonus();
 
 		},
 
