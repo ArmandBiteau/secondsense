@@ -72,7 +72,7 @@ export default {
 
                 var distance = intersectionWalls[0].distance;
 
-                if (distance > 0 && distance < 0.5) {
+                if (distance > 0 && distance < 0.75) {
 
                     // console.log('collide wall');
 

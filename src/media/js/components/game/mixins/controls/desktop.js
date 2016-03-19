@@ -131,7 +131,7 @@ export default {
 
                 var distance = intersectionWalls[0].distance;
 
-                if (distance > 0 && distance < 0.5) {
+                if (distance > 0 && distance < 0.75) {
 
                     // console.log('collide wall');
 
@@ -151,7 +151,7 @@ export default {
 
                     var distance2 = intersectionBonus[0].distance;
 
-                    if (distance2 > 0 && distance2 < 0.5) {
+                    if (distance2 > 0 && distance2 < 0.75) {
 
                         this.isEnableCollisionBonus = false;
 
@@ -179,7 +179,7 @@ export default {
 
                     var distance3 = intersectionDiamond[0].distance;
 
-                    if (distance3 > 0 && distance3 < 0.5) {
+                    if (distance3 > 0 && distance3 < 0.75) {
 
                         // console.log('collide diamond');
 

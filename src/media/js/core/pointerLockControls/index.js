@@ -112,7 +112,7 @@ module.exports = function(camera) {
 		_this.yawObject.translateY(this.velocity.y);
 		_this.yawObject.translateZ(this.velocity.z);
 
-		if (_this.yawObject.position.y < 0.5) {
+		if (_this.yawObject.position.y !== 0.5) {
 
 			this.velocity.y = 0;
 			_this.yawObject.position.y = 0.5;

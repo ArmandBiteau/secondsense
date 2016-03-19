@@ -32,7 +32,7 @@ class Bonus {
 
     createGeometry() {
 
-        this.geometry = new THREE.BoxGeometry(0.3, 0.3, 0.3);
+        this.geometry = new THREE.BoxGeometry(0.15, 0.15, 0.15);
 
     }
 
@@ -74,7 +74,7 @@ class Bonus {
 
 	enter() {
 
-		TweenMax.to(this.mesh.scale, 0.5, {
+		TweenMax.to(this.mesh.scale, 0.3, {
 			x: 1,
 			y: 1,
 			z: 1,
@@ -85,7 +85,7 @@ class Bonus {
 
 	leave() {
 
-		TweenMax.to(this.mesh.scale, 0.5, {
+		TweenMax.to(this.mesh.scale, 0.3, {
 			x: 0.001,
 			y: 0.001,
 			z: 0.001,
