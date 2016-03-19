@@ -62,7 +62,7 @@ export default {
 
             this.bonuses.forEach((object) => {
 
-              object.mesh.rotation.y -= 0.02;
+              object.update();
 
             });
 

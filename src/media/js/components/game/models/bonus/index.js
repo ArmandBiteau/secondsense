@@ -38,19 +38,17 @@ class Bonus {
 
     createMaterial() {
 
-		let color;
-
 		if (this.type === 'me') {
 
-			color = new THREE.Color(0x00FF00);
+			this.color = new THREE.Color(0x00FF00);
 
 		} else {
 
-			color = new THREE.Color(0xFF0000);
+			this.color = new THREE.Color(0xFF0000);
 
 		}
 
-        this.material = new THREE.MeshLambertMaterial({color: color});
+        this.material = new THREE.MeshBasicMaterial({color: 0xFFFFFF, wireframe: true});
 
     }
 
@@ -62,15 +60,38 @@ class Bonus {
 
 		this.mesh.name = this.type + '--' + this.action + '--' + this.id;
 
+		this.createHeart();
+
     }
+
+	createHeart() {
+
+		let geometry = new THREE.BoxGeometry(0.08, 0.08, 0.08);
+		let material = new THREE.MeshBasicMaterial({color: this.color});
+
+		this.heart = new THREE.Mesh(geometry, material);
+
+		this.mesh.add(this.heart);
+
+	}
 
     updateMeshPosition(x, y, z) {
 
         this.mesh.position.set(x, y, z);
-
 		this.mesh.rotation.set(45, 45, 45);
 
+		this.heart.rotation.set(60, 60, 60);
+
     }
+
+	update() {
+
+		this.mesh.rotation.x -= 0.02;
+		this.mesh.rotation.y -= 0.02;
+
+		this.heart.rotation.set(45, 45, 45);
+
+	}
 
 	enter() {
 

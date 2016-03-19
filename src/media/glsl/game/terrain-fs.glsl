@@ -1,4 +1,4 @@
-#define FOG_DENSITY 0.0
+#define FOG_DENSITY 0.43
 #pragma glslify: fog_exp2 = require(glsl-fog/exp2)
 #define POLES 4
 
