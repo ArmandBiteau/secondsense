@@ -366,7 +366,7 @@ export default Vue.extend({
 
 			this._fxaaPass = new WAGNER.FXAAPass();
 
-			this._chromaticAberrationPass = new WAGNER.ChromaticAberrationPass();
+			// this._chromaticAberrationPass = new WAGNER.ChromaticAberrationPass();
 
 			this._noisePass = new WAGNER.NoisePass();
 			this._noisePass.params.amount = 0.05;
