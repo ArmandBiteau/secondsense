@@ -511,6 +511,8 @@ export default Vue.extend({
 
 					    case 'speedup':
 
+							// responsiveVoice.speak('Speed up !', 'UK English Male');
+
 							this._controls.speed *= 2;
 							setTimeout(() => {
 
@@ -520,6 +522,8 @@ export default Vue.extend({
 					        break;
 
 					    case 'speeddown':
+
+							// responsiveVoice.speak('Speed down !', 'UK English Male');
 
 							this._controls.speed /= 2;
 							setTimeout(() => {
@@ -571,6 +575,8 @@ export default Vue.extend({
 
 				    case 'speedup':
 
+						// responsiveVoice.speak('Speed up !', 'UK English Male');
+
 						this._controls.speed *= 2;
 						setTimeout(() => {
 
@@ -580,6 +586,8 @@ export default Vue.extend({
 				        break;
 
 				    case 'speeddown':
+
+						// responsiveVoice.speak('Speed down !', 'UK English Male');
 
 						this._controls.speed /= 2;
 						setTimeout(() => {
