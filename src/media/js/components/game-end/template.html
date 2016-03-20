@@ -36,6 +36,8 @@
 
                 <div v-for="player in GameRoom.players | orderBy 'gems' -1" v-bind:class=" { 'game-end-list-player': true, 'game-end-winner': $index === 0 }">
 
+                    <div class="color" v-bind:style="{ backgroundColor: player.color }"></div>
+
                     <div class="game-end-list-player-picture" v-bind:style="{ backgroundImage: 'url(' +player.picture+ ')' }"></div>
 
                     <div class="game-end-list-player-infos">

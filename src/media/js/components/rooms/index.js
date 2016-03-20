@@ -163,9 +163,9 @@ export default Vue.extend({
 
 		},
 
-		onNewPlayer: function(data) {
+		onNewPlayer: function() {
 
-			console.log(data.name + ' => ' + data.room);
+			// console.log(data.name + ' => ' + data.room);
 
 		},
 
@@ -243,6 +243,8 @@ export default Vue.extend({
 			}
 
 			this.IscrollRefresh();
+
+			// console.log(this.rooms);
 
 		},
 

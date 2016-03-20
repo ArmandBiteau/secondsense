@@ -20,7 +20,7 @@ export default {
 
             for (let i = 0; i < this.GameRoom.players.length; i++) {
 
-                this.opponents[i] = new Opponent(this.GameRoom.players[i].id, this.GameRoom.players[i].name, 0x9966CC, 0, 0.5, 0);
+                this.opponents[i] = new Opponent(this.GameRoom.players[i].id, this.GameRoom.players[i].name, this.GameRoom.players[i].color, 0, 0.5, 0);
 
                 if (this.GameRoom.players[i].id !== this.me.id) {
 
