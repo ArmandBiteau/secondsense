@@ -10,7 +10,7 @@ class Opponent {
 
 		this.name = name;
 
-        this.color = color;
+        this.color = parseInt('0x'+color.substr(1));
 
 		this.x = x;
 
@@ -34,13 +34,17 @@ class Opponent {
 
     createGeometry() {
 
-        this.geometry = new THREE.SphereGeometry(0.1, 16, 16);
+        this.geometry = new THREE.SphereGeometry(0.1, 8, 8);
 
     }
 
     createMaterial() {
 
-        this.material = new THREE.MeshBasicMaterial({color: this.color});
+		this.material = new THREE.MeshPhongMaterial({
+			color: this.color,
+			shading: THREE.FlatShading,
+			fog: true
+		});
 
     }
 

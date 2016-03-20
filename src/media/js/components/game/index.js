@@ -22,6 +22,8 @@ import gameEndComponent from '../game-end';
 
 import SoundEmitterMixin from './mixins/sound-emitter';
 
+import BonusMixin from './mixins/bonus';
+
 import ControlsDesktopMixin from './mixins/controls/desktop';
 
 import ControlsMobileMixin from './mixins/controls/mobile';
@@ -236,7 +238,15 @@ export default Vue.extend({
 
 			Emitter.on('GET_GEM', this.onGemCatch);
 
+			Emitter.on('BONUS_PICKED_UP', this.bonusPickedUp);
+
 			this.socket.on('update gem position', this.onUpdateGemPosition);
+
+			this.socket.on('bonus', this.onBonusPickedUp);
+
+			this.socket.on('remove bonus', this.onRemoveBonus);
+
+			this.socket.on('add bonus', this.onAddNewBonus);
 
 		},
 
@@ -252,17 +262,27 @@ export default Vue.extend({
 
 			this._collidableMeshDiamond = [];
 
+			this._collidableMeshBonus = [];
+
 			// Scene
 
 			this._scene = new THREE.Scene();
 
-			//  this._scene.fog = new THREE.FogExp2(0x181d21, 0.0025);
+			// this._scene.fog = new THREE.Fog(0x181d21, 0.015, 3.0);
 
 			// Camera
 
 			this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 6);
 
-			this._camera.position.set(0, 0.25, 0);
+			if (this.device === 'desktop') {
+
+				this._camera.position.set(0, 0.1, 0);
+
+			} else {
+
+				this._camera.position.set(0, 0.5, 0);
+
+			}
 
 			this._listener = new THREE.AudioListener();
 
@@ -325,6 +345,8 @@ export default Vue.extend({
 
 			this.opponentsInitialize();
 
+			this.bonusInitialize();
+
 			if (this.device === 'desktop') {
 
 				this.effectsInitialize();
@@ -383,6 +405,8 @@ export default Vue.extend({
 			this.lightsUpdate();
 
 			this.opponentsUpdate();
+
+			this.bonusUpdate();
 
 		},
 
@@ -469,6 +493,150 @@ export default Vue.extend({
 
 		},
 
+		bonusPickedUp: function(data) {
+
+			Emitter.emit('SOUND_MANAGER_REQUEST_SOUND_GETGEM');
+
+			var options = data.id.split('--');
+
+			// var meshName = data.id;
+			var type = options[0];
+			var action = options[1];
+
+			if (!this.isGameComplete) {
+
+				if (type === 'me') {
+
+					switch (action) {
+
+					    case 'speedup':
+
+							// responsiveVoice.speak('Speed up !', 'UK English Male');
+
+							this._controls.speed *= 2;
+							setTimeout(() => {
+
+								this._controls.speed /= 2;
+
+							}, 5000);
+					        break;
+
+					    case 'speeddown':
+
+							// responsiveVoice.speak('Speed down !', 'UK English Male');
+
+							this._controls.speed /= 2;
+							setTimeout(() => {
+
+								this._controls.speed *= 2;
+
+							}, 5000);
+							break;
+
+						case 'shader':
+
+							this._shaderId = 2;
+							setTimeout(() => {
+
+								this._shaderId = 1;
+
+							}, 5000);
+							break;
+
+					}
+
+				} else {
+
+					this.socket.emit('bonus', {id: data.id});
+
+				}
+
+			}
+
+			this.removeBonus(data.id);
+
+			this.addNewBonus(data.id);
+
+		},
+
+		onBonusPickedUp: function(data) {
+
+			// ON TRIG L'EFFET DU BONUS
+
+			// Emitter.emit('SOUND_MANAGER_REQUEST_SOUND_GETGEM');
+
+			var options = data.id.split('--');
+
+			var action = options[1];
+
+			if (!this.isGameComplete) {
+
+				switch (action) {
+
+				    case 'speedup':
+
+						// responsiveVoice.speak('Speed up !', 'UK English Male');
+
+						this._controls.speed *= 2;
+						setTimeout(() => {
+
+							this._controls.speed /= 2;
+
+						}, 5000);
+				        break;
+
+				    case 'speeddown':
+
+						// responsiveVoice.speak('Speed down !', 'UK English Male');
+
+						this._controls.speed /= 2;
+						setTimeout(() => {
+
+							this._controls.speed *= 2;
+
+						}, 5000);
+						break;
+
+					case 'shader':
+
+						this._shaderId = 2;
+						setTimeout(() => {
+
+							this._shaderId = 1;
+
+						}, 5000);
+						break;
+
+				}
+
+			}
+
+		},
+
+		removeBonus: function(id) {
+
+			this.mixinRemoveBonus(id);
+
+		},
+
+		addNewBonus: function(id) {
+
+			this.mixinAddNewBonus(id);
+
+		},
+
+		onRemoveBonus: function(data) {
+
+			this.onMixinRemoveBonus(data);
+
+		},
+
+		onAddNewBonus: function(data) {
+
+			this.onMixinAddNewBonus(data);
+
+		},
+
 		onGemCatch: function(id) {
 
 			if (!this.isGameComplete) {
@@ -495,35 +663,7 @@ export default Vue.extend({
 
 			this.socket.emit('update gem position', newPosition);
 
-			TweenMax.to(this.soundEmitter.scale, 0.1, {
-				x: 0.001,
-				y: 0.001,
-				z: 0.001,
-				ease: Power2.easeIn,
-				onComplete: () => {
-
-					// Change position
-					this.soundEmitter.position.x = newPosition.x;
-					this.soundEmitter.position.y = newPosition.y;
-					this.soundEmitter.position.z = newPosition.z;
-
-					// Give back its scale
-					TweenMax.to(this.soundEmitter.scale, 0.3, {
-						x: 1,
-						y: 1,
-						z: 1,
-						ease: Power2.easeOut
-					});
-
-				}
-
-			});
-
-			setTimeout(() => {
-
-				this.isEnableCollisionDiamond = true;
-
-			}, 1000);
+			this.mixinChangeSoundEmitterPosition(newPosition);
 
 		},
 
@@ -531,34 +671,7 @@ export default Vue.extend({
 
 			Emitter.emit('SOUND_MANAGER_REQUEST_SOUND_GETGEM');
 
-			TweenMax.to(this.soundEmitter.scale, 0.1, {
-				x: 0.001,
-				y: 0.001,
-				z: 0.001,
-				ease: Power2.easeIn,
-				onComplete: () => {
-
-					// Change position
-					this.soundEmitter.position.x = data.x;
-					this.soundEmitter.position.y = data.y;
-					this.soundEmitter.position.z = data.z;
-
-					// Give back its scale
-					TweenMax.to(this.soundEmitter.scale, 0.3, {
-						x: 1,
-						y: 1,
-						z: 1,
-						ease: Power2.easeOut
-					});
-
-				}
-			});
-
-			setTimeout(() => {
-
-				this.isEnableCollisionDiamond = true;
-
-			}, 1000);
+			this.mixinChangeSoundEmitterPosition(data);
 
 		},
 
@@ -634,7 +747,8 @@ export default Vue.extend({
 		CubeMixin,
 		OpponentsMixin,
 		LightsMixin,
-		SoundEmitterMixin
+		SoundEmitterMixin,
+		BonusMixin
 
 	],
 

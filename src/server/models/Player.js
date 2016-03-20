@@ -10,6 +10,8 @@ class Player {
 
 		this.score = score;
 
+		this.color = this.getRandomColor();
+
 		this.picture = picture;
 
 		this.x = 0;
@@ -25,6 +27,12 @@ class Player {
 	addGem() {
 
 		this.gems++;
+
+	}
+
+	getRandomColor() {
+
+	    return '#'+Math.floor(Math.random()*16777215).toString(16);
 
 	}
 

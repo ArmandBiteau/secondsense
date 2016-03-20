@@ -10,6 +10,8 @@
         <div class="game-score-players">
             <div v-for="player in GameRoom.players | orderBy 'gems' -1" class="game-score-player">
 
+                <div class="color" v-bind:style="{ backgroundColor: player.color }"></div>
+
                 <div class="game-score-player-name">
                     <h5>{{ player.name }}</h5>
                 </div>

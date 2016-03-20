@@ -58,6 +58,8 @@
 
                 <div v-for="player in room.players" v-bind:class="{ 'rooms-wait-list-player': true, 'host': room.host == player.id }">
 
+                    <div class="color" v-bind:style="{ backgroundColor: player.color }"></div>
+
                     <div class="rooms-wait-list-player-picture" v-bind:style="{ backgroundImage: 'url(' +player.picture+ ')' }"></div>
 
                     <div class="rooms-wait-list-player-infos">

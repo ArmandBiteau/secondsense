@@ -22,6 +22,8 @@ export default {
 
         this.isEnableCollisionDiamond = true;
 
+        this.isEnableCollisionBonus = true;
+
 	},
 
     ready: function() {
@@ -129,11 +131,39 @@ export default {
 
                 var distance = intersectionWalls[0].distance;
 
-                if (distance > 0 && distance < 0.5) {
+                if (distance > 0 && distance < 0.75) {
 
                     // console.log('collide wall');
 
                     this._controls.isOnObject(true);
+
+                }
+
+            }
+
+            // Collision Bonus
+
+            if (this.isEnableCollisionBonus) {
+
+                var intersectionBonus = this._ray.intersectObjects(this._collidableMeshBonus);
+
+                if (intersectionBonus.length > 0) {
+
+                    var distance2 = intersectionBonus[0].distance;
+
+                    if (distance2 > 0 && distance2 < 0.75) {
+
+                        this.isEnableCollisionBonus = false;
+
+                        // console.log('collide bonus');
+
+                        // console.log(intersectionBonus[0].object.name);
+
+                        Emitter.emit('BONUS_PICKED_UP', {id: intersectionBonus[0].object.name});
+
+                        this._controls.isOnObject(true);
+
+                    }
 
                 }
 
@@ -147,9 +177,9 @@ export default {
 
                 if (intersectionDiamond.length > 0) {
 
-                    var distance2 = intersectionDiamond[0].distance;
+                    var distance3 = intersectionDiamond[0].distance;
 
-                    if (distance2 > 0 && distance2 < 0.5) {
+                    if (distance3 > 0 && distance3 < 0.75) {
 
                         // console.log('collide diamond');
 

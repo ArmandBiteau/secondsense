@@ -193,6 +193,7 @@
     align-items: center;
     &.host{
         &:before{
+            z-index: 2;
             content: "HOST";
             color: $color-white;
             position: absolute;
@@ -203,10 +204,21 @@
             font-size: 0.8em;
             padding-left: 1em;
             padding-right: 1em;
-            background: $color-primary;
             transform: translateZ(0px);
         }
     }
+}
+
+.rooms-wait-list-player .color{
+    position: absolute;
+    right: 0em;
+    margin-top: 0.5em;
+    height: 2em;
+    line-height: 2.2em;
+    font-size: 0.8em;
+    width: 6.2em;
+    // background-color: $color-primary;
+    transform: translateZ(0px);
 }
 
 .rooms-wait-list-player-picture{

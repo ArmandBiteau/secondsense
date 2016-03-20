@@ -22,13 +22,11 @@ export default {
 
 		lightInitialize: function() {
 
-            // this._scene.add(new THREE.AmbientLight(0xf9f9f9));
+            this._scene.add(new THREE.AmbientLight(0xf9f9f9));
 
             this._dirLight = new THREE.DirectionalLight(0xffffff, 1);
 
-			this._dirLight.position.set(100, 200, 200);
-
-            // this._dirLight.castShadow = true;
+			this._dirLight.position.set(0, 200, 0);
 
 			this._scene.add(this._dirLight);
 

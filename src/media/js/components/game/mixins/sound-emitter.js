@@ -14,7 +14,7 @@ export default {
 
 		this._soundEmitterColor = '#FFFFFF';
 
-		this._soundEmitterPositionInitial = new THREE.Vector3(2, 0, 0);
+		this._soundEmitterPositionInitial = new THREE.Vector3(2, 0.5, 0);
 
 	},
 
@@ -24,15 +24,18 @@ export default {
 
             this.soundEmitterInitPositions();
 
-            let geometry = new THREE.OctahedronGeometry(0.2, 0);
+            let geometry = new THREE.OctahedronGeometry(0.17, 0);
 
-            let material = new THREE.MeshLambertMaterial({ color: 0xFF0000});
+            let material = new THREE.MeshPhongMaterial({
+                color: 0x4249d6,
+                shading: THREE.FlatShading,
+                specular: 0x4249d6,
+                fog: true
+            });
 
             this.soundEmitter = new THREE.Mesh(geometry, material);
 
-            let dimensions = new THREE.Box3().setFromObject(this.soundEmitter);
-
-            this.soundEmitter.position.set(this._soundEmitterPositionInitial.x, this._soundEmitterPositionInitial.y + dimensions.max.y + 0.5, this._soundEmitterPositionInitial.z);
+            this.soundEmitter.position.set(this._soundEmitterPositionInitial.x, this._soundEmitterPositionInitial.y, this._soundEmitterPositionInitial.z);
 
             this._collidableMeshDiamond.push(this.soundEmitter);
 
@@ -48,7 +51,7 @@ export default {
 
             this._sound.setRefDistance(10);
 
-            // this._sound.setVolume(0.1);
+            // this._sound.setVolume(0);
 
             this._sound.autoplay = true;
 
@@ -143,6 +146,40 @@ export default {
             this.soundEmitter = null;
 
             this._scene.remove(this.soundEmitter);
+
+        },
+
+        mixinChangeSoundEmitterPosition: function(newPosition) {
+
+            TweenMax.to(this.soundEmitter.scale, 0.1, {
+				x: 0.001,
+				y: 0.001,
+				z: 0.001,
+				ease: Power2.easeIn,
+				onComplete: () => {
+
+					// Change position
+					this.soundEmitter.position.x = newPosition.x;
+					this.soundEmitter.position.y = newPosition.y;
+					this.soundEmitter.position.z = newPosition.z;
+
+					// Give back its scale
+					TweenMax.to(this.soundEmitter.scale, 0.3, {
+						x: 1,
+						y: 1,
+						z: 1,
+						ease: Power2.easeOut
+					});
+
+				}
+
+			});
+
+            setTimeout(() => {
+
+				this.isEnableCollisionDiamond = true;
+
+			}, 500);
 
         }
 
