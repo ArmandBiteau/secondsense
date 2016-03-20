@@ -2,6 +2,8 @@
 
 import Vue from 'vue';
 
+import Detectizr from '../../utils/detectizr';
+
 import THREE from 'three';
 
 import Stats from 'stats';
@@ -63,6 +65,8 @@ export default Vue.extend({
 	},
 
 	ready: function() {
+
+		this.device = Detectizr.device.type;
 
 		this.sceneInitialize();
 
@@ -206,15 +210,21 @@ export default Vue.extend({
 
 			this._composer = new WAGNER.Composer(this._renderer, {useRGBA: true});
 
-			// this._multiBloomPass = new WAGNER.MultiPassBloomPass();
+			if (this.device === 'desktop') {
 
-			// this._chromePass = new WAGNER.ChromaticAberrationPass();
+				this._fxaaPass = new WAGNER.FXAAPass();
 
-			// this._fxaaPass = new WAGNER.FXAAPass();
+				// this._chromaticAberrationPass = new WAGNER.ChromaticAberrationPass();
 
-			// this._vignettePass = new WAGNER.VignettePass();
+				this._noisePass = new WAGNER.NoisePass();
+				this._noisePass.params.amount = 0.05;
+				this._noisePass.params.speed = 0.2;
 
-			// this._multiBloomPass.params.blurAmount = 2;
+				this._vignettePass = new WAGNER.VignettePass();
+				this._vignettePass.params.amount = 0.7;
+				this._vignettePass.params.falloff = 0.1;
+
+			}
 
 			this._composer.setSize(window.innerWidth, window.innerHeight);
 
@@ -282,13 +292,17 @@ export default Vue.extend({
 
 			this._composer.render(this._scene, this._camera);
 
-			// this._composer.pass(this._fxaaPass);
+			if (this.device === 'desktop') {
 
-			// this._composer.pass(this._chromePass);
+				this._composer.pass(this._fxaaPass);
 
-			// this._composer.pass(this._multiBloomPass);
+				// this._composer.pass(this._chromaticAberrationPass);
 
-			// this._composer.pass(this._vignettePass);
+				this._composer.pass(this._noisePass);
+
+				this._composer.pass(this._vignettePass);
+
+			}
 
 			this._composer.toScreen();
 

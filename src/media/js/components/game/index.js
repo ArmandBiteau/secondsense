@@ -274,16 +274,6 @@ export default Vue.extend({
 
 			this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 6);
 
-			if (this.device === 'desktop') {
-
-				this._camera.position.set(0, 0.1, 0);
-
-			} else {
-
-				this._camera.position.set(0, 0.5, 0);
-
-			}
-
 			this._listener = new THREE.AudioListener();
 
 			this._camera.add(this._listener);
@@ -359,9 +349,6 @@ export default Vue.extend({
 
 			this._composer = new WAGNER.Composer(this._renderer, {useRGBA: true});
 
-			this._ssaoPass = new WAGNER.SSAOPass();
-			this._ssaoPass.params.onlyOcclusion = true;
-
 			this._composer.setSize(window.innerWidth, window.innerHeight);
 
 			this._depthMaterial = new THREE.MeshBasicMaterial();
@@ -376,6 +363,18 @@ export default Vue.extend({
 			});
 
 			this._depthTexture = WAGNER.Pass.prototype.getOfflineTexture(window.innerWidth, window.innerHeight, true);
+
+			this._fxaaPass = new WAGNER.FXAAPass();
+
+			// this._chromaticAberrationPass = new WAGNER.ChromaticAberrationPass();
+
+			this._noisePass = new WAGNER.NoisePass();
+			this._noisePass.params.amount = 0.05;
+			this._noisePass.params.speed = 0.2;
+
+			this._vignettePass = new WAGNER.VignettePass();
+			this._vignettePass.params.amount = 0.7;
+			this._vignettePass.params.falloff = 0.1;
 
 		},
 
@@ -432,7 +431,13 @@ export default Vue.extend({
 
 				this._composer.render(this._scene, this._camera);
 
-				// this._composer.pass(this._ssaoPass);
+				this._composer.pass(this._fxaaPass);
+
+				// this._composer.pass(this._chromaticAberrationPass);
+
+				this._composer.pass(this._noisePass);
+
+				this._composer.pass(this._vignettePass);
 
 				this._composer.toScreen();
 

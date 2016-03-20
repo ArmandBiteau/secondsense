@@ -86,6 +86,8 @@ export default {
 
 		controlsInitialize: function() {
 
+            this._camera.position.set(0, 0.1, 0);
+
             document.querySelector('canvas').addEventListener('mousedown', () => {
 
                 document.body.requestPointerLock();

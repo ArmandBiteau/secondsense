@@ -14,11 +14,15 @@ export default {
 
     created: function() {
 
-		// Controls
+        // Controls
 
 		this._controls = null;
 
+        this._controlsEnabled = true;
+
         this.isEnableCollisionDiamond = true;
+
+        this.isEnableCollisionBonus = true;
 
 	},
 
@@ -30,8 +34,10 @@ export default {
 
 		controlsInitialize: function() {
 
-            var axisHelper = new THREE.AxisHelper(5);
-            this._scene.add(axisHelper);
+            // var axisHelper = new THREE.AxisHelper(5);
+            // this._scene.add(axisHelper);
+
+            this._camera.position.set(0, 0.5, 0);
 
             this._controlsTime = Date.now();
 
@@ -72,7 +78,7 @@ export default {
 
                 var distance = intersectionWalls[0].distance;
 
-                if (distance > 0 && distance < 0.75) {
+                if (distance > 0 && distance < 1) {
 
                     // console.log('collide wall');
 

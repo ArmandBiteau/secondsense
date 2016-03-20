@@ -109,7 +109,9 @@ export default Vue.extend({
 			this.IScroll = new IScroll(wrapper, {
 				mouseWheel: true,
 				scrollbars: true,
-				keyBindings: false
+				keyBindings: false,
+				click: true,
+				tap: true
 			});
 
 			setTimeout(this.IscrollRefresh, 500);
