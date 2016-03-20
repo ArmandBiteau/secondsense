@@ -274,16 +274,6 @@ export default Vue.extend({
 
 			this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 6);
 
-			if (this.device === 'desktop') {
-
-				this._camera.position.set(0, 0.1, 0);
-
-			} else {
-
-				this._camera.position.set(0, 0.5, 0);
-
-			}
-
 			this._listener = new THREE.AudioListener();
 
 			this._camera.add(this._listener);
