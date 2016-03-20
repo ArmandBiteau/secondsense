@@ -36,8 +36,6 @@
 
                 <div v-for="player in GameRoom.players | orderBy 'gems' -1" v-bind:class=" { 'game-end-list-player': true, 'game-end-winner': $index === 0 }">
 
-                    <div class="color" v-bind:style="{ backgroundColor: player.color }"></div>
-
                     <div class="game-end-list-player-picture" v-bind:style="{ backgroundImage: 'url(' +player.picture+ ')' }"></div>
 
                     <div class="game-end-list-player-infos">
@@ -45,7 +43,7 @@
                         <span class="rooms-wait-list-player-score">{{ player.score.sum_score }}</span>
                     </div>
 
-                    <div class="game-end-list-player-addscore">
+                    <div class="game-end-list-player-addscore" v-bind:style="{ backgroundColor: player.color }">
                         <span v-if="$index === 0">Win</span>
                         <h5>+{{ player.gems }} pts</h5>
                     </div>

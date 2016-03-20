@@ -51,7 +51,7 @@ export default {
 
             this._sound.setRefDistance(10);
 
-            this._sound.setVolume(0);
+            // this._sound.setVolume(0);
 
             this._sound.autoplay = true;
 
@@ -179,7 +179,7 @@ export default {
 
 				this.isEnableCollisionDiamond = true;
 
-			}, 1000);
+			}, 500);
 
         }
 

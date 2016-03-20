@@ -98,7 +98,7 @@ export default {
 
 				this.isEnableCollisionBonus = true;
 
-			}, 2000);
+			}, 500);
 
 		},
 
@@ -130,7 +130,7 @@ export default {
 
 				this.isEnableCollisionBonus = true;
 
-			}, 2000);
+			}, 500);
 
 		},
 
