@@ -24,9 +24,14 @@ export default {
 
             this.soundEmitterInitPositions();
 
-            let geometry = new THREE.OctahedronGeometry(0.2, 0);
+            let geometry = new THREE.OctahedronGeometry(0.17, 0);
 
-            let material = new THREE.MeshLambertMaterial({ color: 0xFF0000});
+            let material = new THREE.MeshPhongMaterial({
+                color: 0x4249d6,
+                shading: THREE.FlatShading,
+                specular: 0x4249d6,
+                fog: true
+            });
 
             this.soundEmitter = new THREE.Mesh(geometry, material);
 

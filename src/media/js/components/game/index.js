@@ -268,7 +268,7 @@ export default Vue.extend({
 
 			this._scene = new THREE.Scene();
 
-			//  this._scene.fog = new THREE.FogExp2(0x181d21, 0.0025);
+			// this._scene.fog = new THREE.Fog(0x181d21, 0.015, 3.0);
 
 			// Camera
 
