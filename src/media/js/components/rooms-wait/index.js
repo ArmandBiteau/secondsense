@@ -152,6 +152,52 @@ export default Vue.extend({
 		outPartial: require('../../partials/out-partial/index.html'),
 		inPartial: require('../../partials/in-partial/index.html')
 
+	},
+
+	transitions: {
+
+		'roomsWait': {
+
+			enter: function(el, done) {
+
+				this.roomsWaitEnter = new TimelineMax({paused: true, onComplete:() => {
+
+					done();
+
+				}});
+
+				this.roomsWaitEnter
+					.fromTo('.rooms-wait-wrapper', 1, {
+						opacity: 0
+					}, {
+						opacity: 1
+					}, '+=0');
+
+				this.roomsWaitEnter.play();
+
+			},
+
+			leave: function(el, done) {
+
+				this.roomsWaitLeave = new TimelineMax({paused: true, onComplete:() => {
+
+					done();
+
+				}});
+
+				this.roomsWaitLeave
+					.fromTo('.rooms-wait-wrapper', 1, {
+						opacity: 1
+					}, {
+						opacity: 0
+					}, '+=0');
+
+				this.roomsWaitLeave.play();
+
+			}
+
+		}
+
 	}
 
 });

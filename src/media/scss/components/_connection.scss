@@ -1,4 +1,21 @@
 .connection-wrapper {
+    @include fullpage-absolute;
+    // background: url('../img/backgrounds/home.png') center center no-repeat;
+    background-size: cover;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    perspective: 1000;
+    transform-style: preserve-3d;
+    transform: translateZ(0);
+    opacity: 0;
+}
+
+.connection-wrapper *{
+    transform-style: preserve-3d;
+}
+
+.connection-wrapper {
     user-select: none;
     perspective: 1000;
     transform-style: preserve-3d;

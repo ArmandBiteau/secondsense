@@ -318,6 +318,52 @@ export default Vue.extend({
 
 		roomsWaitComponent
 
+	},
+
+	transitions: {
+
+		'rooms': {
+
+			enter: function(el, done) {
+
+				this.roomsEnter = new TimelineMax({paused: true, onComplete:() => {
+
+					done();
+
+				}});
+
+				this.roomsEnter
+					.fromTo('.rooms-wrapper', 5, {
+						opacity: 0
+					}, {
+						opacity: 1
+					}, '+=5');
+
+				this.roomsEnter.play();
+
+			},
+
+			leave: function(el, done) {
+
+				this.roomsLeave = new TimelineMax({paused: true, onComplete:() => {
+
+					done();
+
+				}});
+
+				this.roomsLeave
+					.fromTo('.rooms-wrapper', 5, {
+						opacity: 1
+					}, {
+						opacity: 0
+					}, '+=0');
+
+				this.roomsLeave.play();
+
+			}
+
+		}
+
 	}
 
 });

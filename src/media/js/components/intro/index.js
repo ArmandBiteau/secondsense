@@ -33,7 +33,22 @@ export default Vue.extend({
 
 	ready: function() {
 
-        this.addEventListener();
+		this.enter = new TimelineMax({paused: true, onComplete:() => {}});
+
+		this.enter
+			.to('.intro-wrapper', 3, {
+				opacity: 1
+			}, '+=0')
+
+			.fromTo('.background-wrapper', 2, {
+				opacity: 0
+			}, {
+				opacity: 1
+			}, '-=2');
+
+		this.enter.play();
+
+		this.addEventListener();
 
 	},
 
@@ -78,6 +93,75 @@ export default Vue.extend({
 
 	components: {
 		connectionComponent
+	},
+
+	transitions: {
+
+		'intro': {
+
+			leave: function(el, done) {
+
+				this.leave = new TimelineMax({paused: true, onComplete:() => {
+
+					done();
+
+				}});
+
+				this.leave
+					.fromTo('.intro-wrapper', 1, {
+						opacity: 1
+					}, {
+						opacity: 0
+					}, '+=0');
+
+				this.leave.play();
+
+			}
+
+		},
+
+		'connection': {
+
+			enter: function(el, done) {
+
+				this.connectionEnter = new TimelineMax({paused: true, onComplete:() => {
+
+					done();
+
+				}});
+
+				this.connectionEnter
+					.fromTo('.connection-wrapper', 1, {
+						opacity: 0
+					}, {
+						opacity: 1
+					}, '+=1');
+
+				this.connectionEnter.play();
+
+			},
+
+			leave: function(el, done) {
+
+				this.connectionLeave = new TimelineMax({paused: true, onComplete:() => {
+
+					done();
+
+				}});
+
+				this.connectionLeave
+					.fromTo('.connection-wrapper', 1, {
+						opacity: 1
+					}, {
+						opacity: 0
+					}, '+=0');
+
+				this.connectionLeave.play();
+
+			}
+
+		}
+
 	}
 
 });
