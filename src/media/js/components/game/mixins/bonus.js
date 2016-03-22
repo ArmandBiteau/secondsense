@@ -36,9 +36,10 @@ export default {
             this.bonuses.push(new Bonus('idtest1', bonusType[0], bonusAction[0], -5, 0.5, -1));
             this.bonuses.push(new Bonus('idtest2', bonusType[0], bonusAction[1], 7, 0.5, -3));
             this.bonuses.push(new Bonus('idtest3', bonusType[0], bonusAction[2], -13, 0.5, -11));
-            this.bonuses.push(new Bonus('idtest4', bonusType[1], bonusAction[0], -1, 0.5, -1));
+
+            this.bonuses.push(new Bonus('idtest4', bonusType[1], bonusAction[2], -1, 0.5, -1));
             this.bonuses.push(new Bonus('idtest5', bonusType[1], bonusAction[1], 15, 0.5, 9));
-            this.bonuses.push(new Bonus('idtest6', bonusType[1], bonusAction[2], -7, 0.5, 15));
+            this.bonuses.push(new Bonus('idtest6', bonusType[1], bonusAction[0], -7, 0.5, 15));
 
             // TWICE
             this.bonuses.push(new Bonus('idtest7', bonusType[0], bonusAction[0], -13, 0.5, -7));
