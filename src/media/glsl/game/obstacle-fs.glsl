@@ -19,12 +19,12 @@ float ripple(float dist, float shift)
 void main()
 {
 
+	float fogDistance = gl_FragCoord.z / gl_FragCoord.w;
+	float fogAmount = fog_exp2(fogDistance, FOG_DENSITY);
+
+	vec4 fogColor = vec4(24.0/255.0, 29.0/255.0, 36.0/255.0, 0.0);
+
 	if (type == 1){
-
-		float fogDistance = gl_FragCoord.z / gl_FragCoord.w;
-		float fogAmount = fog_exp2(fogDistance, FOG_DENSITY);
-
-		vec4 fogColor = vec4(24.0/255.0, 29.0/255.0, 36.0/255.0, 0.0);
 
 		vec2 position = -1.0 + 2.0 * vUv;
 
@@ -55,7 +55,9 @@ void main()
 		}
 
 		lum = 3.0*lum*lum - 2.0*lum*lum*lum;
-		gl_FragColor = vec4(lum, lum, lum, 1.0);
+		vec4 vertexColor = vec4(lum, lum, lum, 1.0);
+
+		gl_FragColor = mix(vertexColor, fogColor, fogAmount);
 
 	}
 }

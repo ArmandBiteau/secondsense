@@ -64,6 +64,17 @@ export default Vue.extend({
 
 		this.openRoomSession();
 
+		this.roomsEnter = new TimelineMax({paused: true, onComplete:() => {}});
+
+		this.roomsEnter
+			.fromTo('.rooms-wrapper', 2.5, {
+				opacity: 0
+			}, {
+				opacity: 1
+			}, '+=0');
+
+		this.roomsEnter.play();
+
 		// this.createFakeActiveRoom();
 
 	},
@@ -317,6 +328,10 @@ export default Vue.extend({
 	components: {
 
 		roomsWaitComponent
+
+	},
+
+	transitions: {
 
 	}
 

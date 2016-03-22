@@ -68,6 +68,9 @@ export default Vue.extend({
 
 		this.device = Detectizr.device.type;
 
+		this._mouseX = 0;
+		this._mouseY = 0;
+
 		this.sceneInitialize();
 
         this.addEventListener();
@@ -147,10 +150,6 @@ export default Vue.extend({
 		sceneInitialize: function() {
 
 			// Parameters
-
-			this._mouseX = window.innerWidth/2;
-
-			this._mouseY = window.innerHeight/2;
 
 			// Scene
 

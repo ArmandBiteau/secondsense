@@ -325,7 +325,7 @@ export default Vue.component('connection-component', {
 
         		this.$parent.$parent.switchView('rooms');
 
-			}, 500);
+			}, 2000);
 
 		}
 

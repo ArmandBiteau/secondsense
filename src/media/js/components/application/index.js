@@ -281,6 +281,52 @@ export default {
         game,
         background
 
-	}
+	},
+
+    transitions: {
+
+        'fade': {
+
+			enter: function(el, done) {
+
+				this.enter = new TimelineMax({paused: true, onComplete:() => {
+
+					done();
+
+				}});
+
+				this.enter
+					.fromTo(el, 1, {
+						opacity: 1
+					}, {
+						opacity: 0
+					}, '+=0');
+
+				this.enter.play();
+
+			},
+
+            leave: function(el, done) {
+
+				this.leave = new TimelineMax({paused: true, onComplete:() => {
+
+					done();
+
+				}});
+
+				this.leave
+					.fromTo(el, 1, {
+						opacity: 1
+					}, {
+						opacity: 0
+					}, '+=0');
+
+				this.leave.play();
+
+			}
+
+		}
+
+    }
 
 };

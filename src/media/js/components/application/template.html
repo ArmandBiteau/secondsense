@@ -2,7 +2,7 @@
 
     <div class="application-container">
 
-        <component :is="currentView" :socket="socket" :me="me" v-if="!isGameRunning"></component>
+        <component :is="currentView" :socket="socket" :me="me" v-if="!isGameRunning" transition-mode="out-in"></component>
 
         <background v-if="!isGameRunning"></background>
 

@@ -1,4 +1,4 @@
-<div id="rooms-wrapper" class="rooms-wrapper" v-show="!isanActiveRoom">
+<div id="rooms-wrapper" class="rooms-wrapper" v-show="!isanActiveRoom" transtion="rooms">
 
     <div v-el:container class="rooms-container">
 
@@ -110,4 +110,4 @@
 </div>
 
 
-<rooms-wait-component :socket="socket" :me="me" :room="activeRoom" v-if="isanActiveRoom"></rooms-wait-component>
+<rooms-wait-component :socket="socket" :me="me" :room="activeRoom" v-if="isanActiveRoom" transition="roomsWait"></rooms-wait-component>
