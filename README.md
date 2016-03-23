@@ -21,6 +21,86 @@ Beta 0.0.1
 * [Slim](http://www.slimframework.com/) - Php microframework for users api
 * [Vagrant](https://www.vagrantup.com/) - Local server php/nodejs
 
+### Partial structure
+```
+|-- SecondSense
+    |-- Berksfile
+    |-- Berksfile.lock
+    |-- Vagrantfile
+    |-- bower.json
+    |-- gulpfile.js
+    |-- package.json
+    |-- cookbook
+    |-- exports
+    |   |-- db
+    |-- gulp
+    |-- public
+    |-- src
+        |-- .htaccess
+        |-- humans.txt
+        |-- index.php
+        |-- robots.txt
+        |-- api
+        |   |-- .htaccess
+        |   |-- index.php
+        |   |-- Slim
+        |   |-- models
+        |       |-- Db.php
+        |       |-- User.php
+        |-- media
+        |   |-- fonts
+        |   |-- glsl
+        |   |-- icons
+        |   |-- img
+        |   |-- js
+        |   |   |-- main.js
+        |   |   |-- components
+        |   |   |   |-- application
+        |   |   |   |-- background
+        |   |   |   |-- connection
+        |   |   |   |-- game
+        |   |   |   |   |-- index.js
+        |   |   |   |   |-- template.html
+        |   |   |   |   |-- mixins
+        |   |   |   |   |   |-- bonus.js
+        |   |   |   |   |   |-- cube.js
+        |   |   |   |   |   |-- lights.js
+        |   |   |   |   |   |-- opponents.js
+        |   |   |   |   |   |-- sound-emitter.js
+        |   |   |   |   |   |-- terrain.js
+        |   |   |   |   |-- models
+        |   |   |   |       |-- bonus
+        |   |   |   |       |-- opponent
+        |   |   |   |-- game-end
+        |   |   |   |-- game-score
+        |   |   |   |-- intro
+        |   |   |   |-- loading
+        |   |   |   |-- rooms
+        |   |   |   |-- rooms-wait
+        |   |   |-- core
+        |   |   |   |-- config
+        |   |   |   |-- emitter
+        |   |   |   |-- fpsControls
+        |   |   |   |-- i18n
+        |   |   |   |-- pointerLockControls
+        |   |   |   |-- soundManager
+        |   |   |   |-- vrControls
+        |   |   |-- partials
+        |   |   |-- utils
+        |   |-- scss
+        |   |-- sounds
+        |   |-- vendors
+        |-- server
+            |-- index.js
+            |-- models
+                |-- Game.js
+                |-- Manager.js
+                |-- Player.js
+                |-- Room.js
+                |-- Server.js
+                |-- Socket.js
+````
+
 ### Installation
 
 Before diving into the VR game, please install the latest version of [Vagrant](https://www.vagrantup.com/). And because we'll be using [VirtualBox](https://www.virtualbox.org) as our provider, please install that as well.
