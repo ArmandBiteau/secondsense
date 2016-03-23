@@ -22,7 +22,7 @@ Beta 0.0.1
 * [Vagrant](https://www.vagrantup.com/) - Local server php/nodejs
 
 ### Partial structure
-
+```
 |-- SecondSense
     |-- Berksfile
     |-- Berksfile.lock
@@ -99,6 +99,7 @@ Beta 0.0.1
                 |-- Room.js
                 |-- Server.js
                 |-- Socket.js
+````
 
 ### Installation
 
