@@ -110,7 +110,7 @@ Please ensure [Node.js](https://nodejs.org/en) is installed on your laptop, then
 $ npm i -g gulp
 ```
 
-Now it's time to have some folks :
+Now it's time to have some fun :
 ```sh
 $ git clone https://github.com/ArmandBiteau/secondsense secondsense
 $ cd secondsense
@@ -120,7 +120,7 @@ $ npm install
 $ gulp
 ```
 
-If it's not, install last version of [ChefDK](https://downloads.chef.io/chef-dk/mac/).
+If it's not, install the last version of [ChefDK](https://downloads.chef.io/chef-dk/mac/).
 
 Open a new terminal view and run vagrant :
 ```sh
@@ -132,7 +132,7 @@ $ vagrant ssh
 
 > Normally there is no password
 
-Unfortunatly I didn't share my database, that's why you'll need to create yours (into the ssh):
+Unfortunatly we can't share our database, that's why you will need to create yours (into the ssh):
 ```sh
 $ sudo apt-get install mysql-server
 ```
@@ -157,9 +157,9 @@ With that, our phpMyAdmin installation is now operational. To access the interfa
 http://secondsense.local/phpmyadmin/index.php
 ```
 
-Create a "secondsense" database, and import the sql export from : **/exports/secondsense_V2.sql**
+Create a "secondsense" database, and import the sql export from : **/exports/secondsense_V3.sql**
 
-Now you're ready to start server. Simply run :
+Now you're ready to start the server. Simply run :
 ```sh
 $ vagrant ssh
 $ node /vagrant/server/index.js
